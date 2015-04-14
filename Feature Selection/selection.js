@@ -70,7 +70,7 @@ function report(id, attribute) {
 
 function removeAttribute(name){
 	var dropdown = document.getElementById(name);
-  	dropdown.style.display='inline';
+  	dropdown.style.display='inline-block';
   	dropdown.selectedIndex = 0;
 
   	document.getElementById(name+"holder").remove();
