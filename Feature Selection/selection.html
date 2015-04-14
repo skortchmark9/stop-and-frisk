@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="selection.css">
+	<script src="selection.js"></script>
+</head>
+<body onload="init()">
+
+	<h2>NY Stop & Frisk</h2>
+	<h3>Selection Demo</h3>
+
+	<div id="identity">
+		I am... <span id="list"/>
+	</div>
+	<div id="to-select">
+		<form action="#">
+
+			<fieldset>
+				<select name="sex" id="sex" onchange="report(this.id, this.value)" class="button_style">
+					<option selected="selected" value="">+ sex</option>
+					<option value="Female">Female</option>
+					<option value="Male">Male</option>
+				</select>
+
+				<select name="age" id="age" onchange="report(this.id, this.value)" class="button_style">
+					<option selected="selected" value="">+ age</option>
+				</select>
+
+				<select name="race" id="race" onchange="report(this.id, this.value)" class="button_style">
+					<option selected="selected" value="">+ race</option>
+					<option value="American Indian">American Indian</option>
+					<option value="Asian/Pacific Islander">Asian/Pacific Islander</option>
+					<option value="Black">Black</option>
+					<option value="White">White</option>
+					<option value="Hispanic">Hispanic</option>
+					<option value="Other Race">Other Race</option>
+				</select>
+
+				<select name="height" id="height" onchange="report(this.id, this.value)" class="button_style">
+					<option selected="selected" value="">+ height</option>
+				</select>
+
+				<select name="weight" id="weight" onchange="report(this.id, this.value)" class="button_style">
+					<option selected="selected" value="">+ weight</option>
+				</select>
+
+
+			</fieldset>
+
+		</form>
+	</div>
+
+	<div>
+		<button type="button" class="button_style" onclick="getSelected()">Get Selected</button>
+	</div>
+
+</body>
+</html>
