@@ -1,9 +1,11 @@
 function init(){
+  //populate dropdowns
 	createAge();
   createHeight();
   createWeight();
 }
 
+//Populates the age dropdown
 function createAge(){
   var age = document.getElementById("age");
   for(i=1;i<=100;i++){
@@ -14,6 +16,8 @@ function createAge(){
   }
 }
 
+
+//Populates the height dropdown
 function createHeight(){
   var height = document.getElementById("height");
   for(i=30;i<=120;i++){
@@ -25,6 +29,7 @@ function createHeight(){
   }
 }
 
+//Populates the weight dropdown
 function createWeight(){
   var weight = document.getElementById("weight");
   for(i=1;i<=500;i++){
@@ -36,14 +41,19 @@ function createWeight(){
   }
 }
 
+//Called when dropdown option is selected
+//id - the id of the dropdown that was selected
+//attribute - the option that was selected
 function report(id, attribute) {
   if (attribute=="") return; 
 
+  //create the holder to go after 'I am...'
   var holder = document.createElement("span");
   holder.setAttribute("class", "selection button_style");
   holder.setAttribute("name", id);
   holder.setAttribute("id", id+"holder");
 
+  //create the x button
   var cancel = document.createElement("button");
   cancel.setAttribute("class", "cancel");
   cancel.setAttribute("type", "button");
@@ -54,17 +64,19 @@ function report(id, attribute) {
 
   var attributetext = document.createTextNode(attribute);
   
+  //the current list of features
   var list = document.getElementById("list");
 
+  //the dropdown that was selected
   var dropdown = document.getElementById(id);
 
   holder.appendChild(attributetext);
   holder.appendChild(cancel);
 
-  dropdown.style.left = parseFloat(getComputedStyle(dropdown).left) + 42 + 'px';
-
+  //add the new feature to the list of features
   list.appendChild(holder);
 
+  //remove the dropdown from the available selections
   dropdown.style.display='none';
 } 
 

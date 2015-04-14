@@ -18,10 +18,6 @@ button.cancel{
   color:red;
 }
 
-.overflow {
-  height: 200px;
-}
-
 .button_style{
   padding:5px;
   margin: 2px;
@@ -42,6 +38,13 @@ button.cancel{
   cursor:pointer;
 }
 
+select.button_style {
+  padding:3px;
+  margin: 1px;
+
+  position: relative;
+}
+
 #identity{
   margin-bottom: 100px;
 }
@@ -49,12 +52,4 @@ button.cancel{
 #to-select{
   border-top: 1px dotted #888;
   border-bottom: 1px dotted #888;
-}
-
-
-select.button_style {
-  padding:3px;
-  margin: 1px;
-
-  position: relative;
 }
