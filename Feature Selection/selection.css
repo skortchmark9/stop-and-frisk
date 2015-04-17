@@ -1,0 +1,55 @@
+html{
+  font-family: sans-serif;
+}
+
+fieldset {
+  border: 0;
+}
+
+label {
+  margin: 30px 0 0 0;
+}
+
+button.cancel{
+  background:none;
+  border:none;
+  margin-left:5px;
+  padding:0;
+  color:red;
+}
+
+.button_style{
+  padding:5px;
+  margin: 2px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+  -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+  box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+  background: #f8f8f8;
+  color:#555;
+  border:none;
+  outline:none;
+  display: inline-block;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  cursor:pointer;
+}
+
+select.button_style {
+  padding:3px;
+  margin: 1px;
+
+  position: relative;
+}
+
+#identity{
+  margin-bottom: 100px;
+}
+
+#to-select{
+  border-top: 1px dotted #888;
+  border-bottom: 1px dotted #888;
+}
