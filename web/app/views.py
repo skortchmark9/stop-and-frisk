@@ -3,6 +3,9 @@ from app import app
 
 
 @app.route('/')
-@app.route('/index')
+def hello_world():
+    return 'Hello World'
+
+@app.route('/selection')
 def index():
-    return render_template("index.html")
+    return render_template("selection.html")
