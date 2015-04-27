@@ -1,11 +1,14 @@
 from flask import render_template
 from app import app
 
-
 @app.route('/')
-def hello_world():
-    return 'Hello World'
+def main():
+    return render_template('pages.html')
 
 @app.route('/selection')
-def index():
-    return render_template("selection.html")
+def selection():
+    return render_template("selection.html" )
+
+@app.route('/heatmap')
+def heatmap():
+    return render_template('heatmap.html')
