@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.tract {
+  fill: #ffffff;
+}
+
+.tract:hover {
+  fill: orange;
+}
+
+.tract-border {
+  fill: none;
+  stroke: #333;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 0;
+}
+
+.tract.active {
+  fill: blue;
+}
+
+.background {
+  fill: red;
+  pointer-events: all;
+}
+
+.missing {fill:rgb(172, 147, 53);}
+.q0-10 { fill:rgb(205, 205, 205); }
+.q1-10 { fill:rgb(222,235,247); }
+.q2-10 { fill:rgb(198,219,239); }
+.q3-10 { fill:rgb(158,202,225); }
+.q4-10 { fill:rgb(107,174,214); }
+.q5-10 { fill:rgb(66,146,198); }
+.q6-10 { fill:rgb(33,113,181); }
+.q7-10 { fill:rgb(8,81,156); }
+.q8-10 { fill:rgb(8,48,107); }
+.q9-10 {fill:rgb(0, 3, 6);}
+
+
+
+</style>
+<div class="heatmap">
+</div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script>
+
+console.log("it's happening");
+var width = 960;
+var height = 700;
+var active = d3.select(null);
+
+//Focus around NYC
+var initialScale = 6.062866266041589;
+var initialTranslate = [-3816.2949087116212, -3586.0526348606345];
+
+/*
+If projection is null, the path uses the identity transformation, where the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of already-projected geometry, or for fast rendering of the equirectangular projection.
+*/
+var path = d3.geo.path()
+    .projection(null);
+
+var svg = d3.select(".heatmap").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .on('click', stopped, true);
+
+svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", reset);
+
+var g = svg.append('g');
+
+var zoom = d3.behavior.zoom()
+    .translate(initialTranslate)
+    .scale(initialScale)
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
+
+svg
+  .call(zoom) // delete this line to disable free zooming
+  .call(zoom.event);
+
+var nyShapefile = '../static/data/ny.json';
+var nyIncomeFile = "../static/data/ACS_13_5YR_B19013_with_ann.csv";
+var incomeByBlock = d3.map();
+
+var quantize = d3.scale.quantize()
+    .domain([0, 220000])
+    .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
+
+queue()
+    .defer(d3.json, nyShapefile)
+    .defer(d3.csv, nyIncomeFile, function(d) {
+      var census_block = d['GEO.id'].slice(-6);
+      var year_median_income = d['HD01_VD01'];
+      incomeByBlock.set(census_block, year_median_income);
+    })
+    .await(ready);
+
+function ready(error, ny) {
+  var tracts = ny.objects.tracts;
+
+  // strip water counties
+  tracts.geometries = tracts.geometries
+    .filter(function(d) { return (d.id / 10000 | 0) !== 99; });
+
+
+
+  g.selectAll("path")
+      .data(topojson.feature(ny, tracts).features)
+    .enter().append("path")
+      .attr("class", function(d) {
+        var income = incomeByBlock.get(d.id);
+        if (income == 'N' || income == '(X)' || income == '-' ) {
+          return 'tract missing'
+        } else {
+          return 'tract ' + quantize(income);
+        }
+      })
+      .attr("d", path)
+      .on("click", clicked)
+      .append("title")
+      .text(function(d, i) { return d.id + " - " + incomeByBlock.get(d.id); });
+
+  g.append("path")
+      .attr("class", "tract-border")
+      .datum(topojson.mesh(ny, tracts, function(a, b) { return a !== b; }))
+      .attr("d", path);
+}
+
+function clicked(d) {
+  if (active.node() === this) return reset();
+  active.classed("active", false);
+  active = d3.select(this).classed("active", true);
+
+  var bounds = path.bounds(d),
+      dx = bounds[1][0] - bounds[0][0],
+      dy = bounds[1][1] - bounds[0][1],
+      x = (bounds[0][0] + bounds[1][0]) / 2,
+      y = (bounds[0][1] + bounds[1][1]) / 2,
+      scale = .9 / Math.max(dx / width, dy / height),
+      translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+  svg.transition()
+      .duration(750)
+      .call(zoom.translate(translate).scale(scale).event);
+}
+
+function reset() {
+  active.classed("active", false);
+  active = d3.select(null);
+
+  svg.transition()
+      .duration(750)
+      .call(zoom.translate([0, 0]).scale(1).event);
+}
+
+function zoomed() {
+  g.style("stroke-width", 1.5 / d3.event.scale + "px");
+  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+// If the drag behavior prevents the default click,
+// also stop propagation so we don’t click-to-zoom.
+function stopped() {
+  if (d3.event.defaultPrevented) d3.event.stopPropagation();
+}
+
+</script>
