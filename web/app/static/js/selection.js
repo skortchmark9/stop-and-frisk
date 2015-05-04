@@ -10,7 +10,7 @@ function createAge(){
   var age = document.getElementById("age");
   for(i=1;i<=100;i++){
     var as = document.createElement("option");
-    as.setAttribute("value", i+" years old");
+    as.setAttribute("value", i+" year old");
     as.appendChild(document.createTextNode(i));
     age.appendChild(as);
   }
