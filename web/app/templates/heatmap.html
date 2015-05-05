@@ -6,6 +6,22 @@
   fill: #ffffff;
 }
 
+.W {
+  fill: #ffffff;
+}
+
+.B {
+  fill: #000000;
+}
+
+.P {
+  fill: #990099;
+}
+
+.Q {
+  fill: #00ff00;
+}
+
 .tract:hover {
   fill: orange;
 }
@@ -39,8 +55,6 @@
 .q8-10 { fill:rgb(8,48,107); }
 .q9-10 {fill:rgb(0, 3, 6);}
 
-
-
 </style>
 <div class="heatmap">
 </div>
@@ -49,12 +63,11 @@
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
+var data = {{ data|safe }};
 
 function point_in_polygon(point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-    console.log(point);
-    console.log(vs);
 
     var x = point[0], y = point[1];
 
@@ -160,6 +173,17 @@ function ready(error, ny) {
       .attr("class", "tract-border")
       .datum(topojson.mesh(ny, tracts, function(a, b) { return a !== b; }))
       .attr("d", path);
+
+  g.selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('class', function(d) {
+      return 'dot ' + d.race;
+    })
+    .attr('cx', function(d) {var proj =  projection([d.lng, d.lat]); return proj[0];})
+    .attr('cy', function(d) {var proj = projection([d.lng, d.lat]); return proj[1];})
+    .attr('r', .4);
 }
 
 function getMouseCoords() {
@@ -168,8 +192,6 @@ function getMouseCoords() {
 }
 
 function clicked(d) {
-  console.log(point_in_polygon(getMouseCoords(), _.map(d.geometry.coordinates[0], projection.invert)));
-
   if (active.node() === this) return reset();
   active.classed("active", false);
   active = d3.select(this).classed("active", true);
