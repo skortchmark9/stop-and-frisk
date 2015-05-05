@@ -192,6 +192,8 @@ function getMouseCoords() {
 }
 
 function clicked(d) {
+  console.log(getMouseCoords());
+
   if (active.node() === this) return reset();
   active.classed("active", false);
   active = d3.select(this).classed("active", true);
