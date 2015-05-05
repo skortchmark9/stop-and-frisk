@@ -47,9 +47,32 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 
-console.log("it's happening");
+function point_in_polygon(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+    console.log(point);
+    console.log(vs);
+
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+
+    return inside;
+}
+
+var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
+
 var width = 960;
 var height = 700;
 var active = d3.select(null);
@@ -57,6 +80,10 @@ var active = d3.select(null);
 //Focus around NYC
 var initialScale = 6.062866266041589;
 var initialTranslate = [-3816.2949087116212, -3586.0526348606345];
+
+//Maintain Scale & Translate for mouse
+var currentScale = initialScale;
+var currentTranslate = initialTranslate;
 
 /*
 If projection is null, the path uses the identity transformation, where the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of already-projected geometry, or for fast rendering of the equirectangular projection.
@@ -80,7 +107,7 @@ var g = svg.append('g');
 var zoom = d3.behavior.zoom()
     .translate(initialTranslate)
     .scale(initialScale)
-    .scaleExtent([1, 10])
+    .scaleExtent([1, 20])
     .on("zoom", zoomed);
 
 svg
@@ -135,7 +162,14 @@ function ready(error, ny) {
       .attr("d", path);
 }
 
+function getMouseCoords() {
+  var relative_mouse = d3.mouse(g.node());
+  return projection.invert(relative_mouse);
+}
+
 function clicked(d) {
+  console.log(point_in_polygon(getMouseCoords(), _.map(d.geometry.coordinates[0], projection.invert)));
+
   if (active.node() === this) return reset();
   active.classed("active", false);
   active = d3.select(this).classed("active", true);
@@ -148,23 +182,29 @@ function clicked(d) {
       scale = .9 / Math.max(dx / width, dy / height),
       translate = [width / 2 - scale * x, height / 2 - scale * y];
 
+
   svg.transition()
       .duration(750)
       .call(zoom.translate(translate).scale(scale).event);
+
 }
 
 function reset() {
+  getMouseCoords();
+
   active.classed("active", false);
   active = d3.select(null);
 
   svg.transition()
       .duration(750)
-      .call(zoom.translate([0, 0]).scale(1).event);
+      .call(zoom.translate(initialTranslate).scale(initialScale).event);
 }
 
 function zoomed() {
-  g.style("stroke-width", 1.5 / d3.event.scale + "px");
-  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  currentScale = d3.event.scale;
+  currentTranslate = d3.event.translate;
+  g.style("stroke-width", 1.5 / currentScale + "px");
+  g.attr("transform", "translate(" + currentTranslate + ") scale(" + currentScale + ")");
 }
 
 // If the drag behavior prevents the default click,
