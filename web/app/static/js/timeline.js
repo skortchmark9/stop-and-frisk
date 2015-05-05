@@ -268,3 +268,26 @@ function timestamp(str){
 function changeDate(newDate){
 	document.getElementById("dateDisplayer").innerHTML=formatDate(new Date(+newDate));
 }
+
+/*
+Returns the currently selected date as ddmmyyyy
+*/
+function getCurrentlySelectedDate(){
+	var datePicker = document.getElementById("datePicker");
+	var currentDateObject = new Date(+datePicker.value);
+	var date = currentDateObject.getDate();
+	var currentDate = "";
+	if(date < 10){
+		currentDate += "0";
+	}
+	currentDate += date;
+	var month = currentDateObject.getMonth();
+	month++;
+	if(month < 10){
+		currentDate+= "0";
+	}
+	currentDate += month; 
+	currentDate += currentDateObject.getFullYear();
+	alert(currentDate);
+	return currentDate;
+}
