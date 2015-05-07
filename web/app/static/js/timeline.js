@@ -2,7 +2,7 @@ var min = timestamp('January 2006');
 var max = timestamp('2015');
 var alternate = 0;
 
-function init(){
+function timeline_init(){
 	datePicker = document.getElementById("datePicker");
 	datePicker.setAttribute("max", max);
 	datePicker.setAttribute("min", min);
