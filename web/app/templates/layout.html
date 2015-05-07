@@ -1,0 +1,34 @@
+<!--
+DEMO
+
+This is what I believe Sam was talking about when he was mentioning how he wanted the layout to look like.
+
+This is me trying to fool around with that and build something.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stop and Frisk</title>
+	<!--<script src="../static/js/layout.js"></script>-->
+  <script type="text/javascript" src="{{ url_for('static', filename='layout.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='selection.js') }}"></script>
+	<link rel="stylesheet" href="../static/css/layout.css">
+</head>
+<body>
+
+  <div id="selection_div" class="page_div">
+     {% include 'selection.html' %}
+  </div>
+  <div id="timeline_div" class="page_div">
+    {% include 'timeline.html' %}
+  </div>
+  <div id="timeline-graph_div">
+    {% include 'timeline-graph.html' %}
+  </div>
+  <div id="heatmap_div">
+    {% include 'heatmap.html' %}
+  </div>
+</div>
+</body>
+</html>

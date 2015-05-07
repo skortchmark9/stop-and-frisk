@@ -8,7 +8,7 @@ from conversion import state_2_lat_lng
 
 @app.route('/')
 def main():
-    return render_template('pages.html')
+    return render_template('layout.html')
 
 @app.route('/selection')
 def selection():

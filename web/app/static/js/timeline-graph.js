@@ -1,3 +1,3 @@
-function init(){
+function timeline_graph_init(){
 
 }
