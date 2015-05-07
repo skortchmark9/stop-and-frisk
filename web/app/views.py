@@ -8,7 +8,7 @@ from conversion import state_2_lat_lng
 
 @app.route('/')
 def main():
-    return render_template('layout.html')
+    return render_template('layout.html', data=getSampleData())
 
 @app.route('/selection')
 def selection():
@@ -16,7 +16,11 @@ def selection():
 
 @app.route('/heatmap')
 def heatmap():
-    sample = open('Data/2014.csv')
+    return render_template('heatmap.html', data=getSampleData())
+
+
+def getSampleData():
+    sample = open('web/app/static/data/2014_sample.csv')
     reader = csv.DictReader(sample)
     data = []
     for row in reader:
@@ -28,4 +32,4 @@ def heatmap():
         except ValueError as e:
             print('ERROR: ', row['xcoord'], row['ycoord'], row['race'])
 
-    return render_template('heatmap.html', data=json.dumps(data))
+    return json.dumps(data)
