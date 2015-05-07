@@ -196,27 +196,6 @@ function addTimepiece(title, text, link, date){
 		tooltip.style.top = "65px";
 	}
 	alternate = (alternate + 1)%4;
-	//tooltip.style.top = Math.random()*20 + 'px';
-	//alert(tooltip.style.top);
-
-	/*if(activate)
-		$("#input-wrapper").addClass("active");
-	
-	//because of the step param the slider will return values in multiple of 0.05 so we have to round it up
-	rfigure = Math.round(figure);
-	//displaying the static output
-	$("#static-output").html(rfigure);
-	
-	//positioning #static-output and #reel
-	//horizontal positioning first
-	h = figure/max*($("#input-wrapper").width()-$("#reel").width()) + 'px';
-	//vertical positioning of #rn
-	v = rfigure*$("#reel").height()*-1 + 'px';
-	
-	//applying the positions
-	$("#static-output, #reel").css({left: h});
-	//#rn will be moved using transform+transitions for better animation performance. The false translateZ triggers GPU acceleration for better performance.
-	$("#rn").css({transform: 'translateY('+v+') translateZ(0)'});*/
 }
 
 // Create a list of day and monthnames.
