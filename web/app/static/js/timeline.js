@@ -185,17 +185,23 @@ function addTimepiece(title, text, link, date){
 
 	//alert(loc)
 
+	var middle = "65px"
+	var top = "50px"
+	var bottom = "150px"
+
 	tooltip.style.left = loc;
 	if(alternate == 0){
-		tooltip.style.top = "80px";
+		tooltip.style.top = bottom;
 	}else if (alternate == 1){
-		tooltip.style.top = "65px";
+		tooltip.style.top = middle;
 	}else if (alternate == 2){
-		tooltip.style.top = "50px";
+		tooltip.style.top = top;
 	}else{
-		tooltip.style.top = "65px";
+		tooltip.style.top = middle;
 	}
 	alternate = (alternate + 1)%4;
+
+	tooltip.style.top = Math.random()*110 + 65 + "px";
 }
 
 // Create a list of day and monthnames.
