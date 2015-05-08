@@ -1,19 +1,34 @@
-from flask import render_template
+from flask import render_template, jsonify, request
 from app import app
 import csv
 import json
 from conversion import state_2_lat_lng
 from collections import Counter
-
+import sys
+sys.path.append('/gpfs/main/home/skortchm/course/cs1951-A/stop-and-frisk/web/app/Classifier')
+from classify import get_probs_all_tracts
 
 @app.route('/')
 def main():
+    test_dict = {'time': '01012013', 'sex': 'M', 'race': 'B', 'age': '17'}
+    print(get_probs_all_tracts(test_dict))
+
     data = getSampleData(True, True)
     return render_template('layout.html', heatmap_data=json.dumps(data['heatmap_data']), timeline_graph_data=json.dumps(data['timeline_graph_data']))
 
 @app.route('/selection')
 def selection():
     return render_template("selection.html" )
+
+@app.route('/alexa', methods=['POST'])
+def alexa():
+    print('HIT')
+    print(request.form['age'])
+    return jsonify(success=True)
+    # {'time' : 'MMDDYYYY', 'sex' : 'F/M', 'race' : 'W/H/B/O'. 'age' : '++'}
+    # return [{'tract' : 22}]
+
+
 
 @app.route('/heatmap')
 def heatmap():
