@@ -9,7 +9,7 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
 
 def main():
-	
+
 	test_dict = {'time': '01012013', 'sex': 'M', 'race': 'B', 'age': '17'}
 	get_probs_all_tracts(test_dict)
 
@@ -17,7 +17,7 @@ def main():
 def get_probs_all_tracts(feature_dict):
  	with open('web/app/Classifier/saved_classifier.pkl', 'rb') as fid:
 		classifier = cPickle.load(fid)
-	
+
 	with open('web/app/Classifier/saved_vectorizer.pkl', 'rb') as fid:
 		vectorizer = cPickle.load(fid)
 
@@ -34,6 +34,8 @@ def get_probs_all_tracts(feature_dict):
 	prob_dict = {}
 
 	for tract in tracts:
+		if len(tract) == 7:
+			tract = '0' + tract
 
 		tract_dict = feature_dict
 		tract_dict['tract'] = str('{0:09d}'.format(int(tract)))
@@ -47,7 +49,7 @@ def get_probs_all_tracts(feature_dict):
 
 def str_to_time(s):
 	""" Converts stop and frisk style date strings to time vector in [0, 1]"""
-	if '-' in s: # format: 'yyyy-mm-dd' 
+	if '-' in s: # format: 'yyyy-mm-dd'
 		year = int(s[:4])
 		month = int(s[5:7])
 		date = int(s[8:10])

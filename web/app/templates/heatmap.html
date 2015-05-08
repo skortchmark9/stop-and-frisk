@@ -39,13 +39,12 @@
 }
 
 .background {
-  /*fill: red;*/
   fill: gray;
   pointer-events: all;
 }
 
 .missing {fill:gray;}
-.q0-10 { fill:rgb(205, 205, 205); } 
+.q0-10 { fill:rgb(205, 205, 205); }
 .q1-10 { fill:rgb(222,235,247); } /* DEEBF7 */
 .q2-10 { fill:rgb(198,219,239); } /* C6DBEF */
 .q3-10 { fill:rgb(158,202,225); } /* #9ECAE1 */
@@ -203,7 +202,7 @@ function ready(error, ny) {
 
   // strip water counties
   tracts.geometries = tracts.geometries
-    .filter(function(d) { return (d.id / 10000 | 0) !== 99; });
+    .filter(function(d) { return (d.id.slice(-6) / 10000 | 0) !== 99; });
 
 
 

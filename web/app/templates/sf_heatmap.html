@@ -39,11 +39,11 @@
 }
 
 .background {
-  fill: red;
+  fill: grey;
   pointer-events: all;
 }
 
-.missing {fill:rgb(172, 147, 53);}
+.missing {fill:rgb(43, 62, 87);}
 .q0-10 { fill:rgb(205, 205, 205); }
 .q1-10 { fill:rgb(222,235,247); }
 .q2-10 { fill:rgb(198,219,239); }
@@ -55,7 +55,41 @@
 .q8-10 { fill:rgb(8,48,107); }
 .q9-10 {fill:rgb(0, 3, 6);}
 
+.q0-10-key { border-color:rgb(205, 205, 205); }
+.q1-10-key { border-color:rgb(222,235,247); }
+.q2-10-key { border-color:rgb(198,219,239); }
+.q3-10-key { border-color:rgb(158,202,225); }
+.q4-10-key { border-color:rgb(107,174,214); }
+.q5-10-key { border-color:rgb(66,146,198); }
+.q6-10-key { border-color:rgb(33,113,181); }
+.q7-10-key { border-color:rgb(8,81,156); }
+.q8-10-key { border-color:rgb(8,48,107); }
+.q9-10-key { border-color:rgb(0, 3, 6);}
+
+li.key {
+    list-style-type: none;
+    display: inline-block;
+    border-top-width: 15px;
+    border-top-style: solid;
+    font-size: .75em;
+    width: 10%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    color: white;
+}
+
+.list-inline{
+-webkit-padding-start: 0px !important;
+width: 960px;
+}
+
+body {
+  background: black;
+}
 </style>
+<div id="legend">
+</div>
 <div class="heatmap">
 </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -116,16 +150,40 @@ var quantize = d3.scale.quantize()
     .domain([0, 5])
     .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
 
+//Legend
+var legend = d3.select('#legend')
+  .append('ul')
+    .attr('class', 'list-inline');
+
+var keys = legend.selectAll('li.key')
+    .data(quantize.range());
+
+keys.enter().append('li')
+    .attr('class', function(d){
+      return d + "-key key";
+    })
+    .style('border-top-color', String)
+    .text(function(d) {
+        var r = quantize.invertExtent(d);
+        return r[0];
+    });
+
+
+
 queue()
     .defer(d3.json, nyShapefile)
     .await(ready);
+
+function getID(d) {
+  return d.id.slice(-8);
+}
 
 function ready(error, ny) {
   var tracts = ny.objects.tracts;
 
   // strip water counties
   tracts.geometries = tracts.geometries
-    .filter(function(d) { return (d.id / 10000 | 0) !== 99; });
+    .filter(function(d) { return (d.id.slice(-6) / 10000 | 0) !== 99; });
 
 
 
@@ -133,7 +191,7 @@ function ready(error, ny) {
       .data(topojson.feature(ny, tracts).features)
     .enter().append("path")
       .attr("class", function(d) {
-        var probability = heatmap_data[d.id] || 'N';
+        var probability = heatmap_data[getID(d)] || 'N';
         if (probability == 'N' || probability == '(X)' || probability == '-' ) {
           return 'tract missing'
         } else {
@@ -143,7 +201,7 @@ function ready(error, ny) {
       .attr("d", path)
       .on("click", clicked)
       .append("title")
-      .text(function(d, i) { return d.id + " - " + heatmap_data[d.id]; });
+      .text(function(d, i) { return d.id + " - " + heatmap_data[getID(d)]; });
 
   g.append("path")
       .attr("class", "tract-border")
