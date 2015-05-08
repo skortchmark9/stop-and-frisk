@@ -15,17 +15,16 @@ def main():
 
 
 def get_probs_all_tracts(feature_dict):
-
- 	with open('saved_classifier.pkl', 'rb') as fid:
+ 	with open('web/app/Classifier/saved_classifier.pkl', 'rb') as fid:
 		classifier = cPickle.load(fid)
 	
-	with open('saved_vectorizer.pkl', 'rb') as fid:
+	with open('web/app/Classifier/saved_vectorizer.pkl', 'rb') as fid:
 		vectorizer = cPickle.load(fid)
 
-	with open('saved_average.pkl', 'rb') as fid:
+	with open('web/app/Classifier/saved_average.pkl', 'rb') as fid:
 		average = cPickle.load(fid)
 
-	with open('tracts.pkl', 'rb') as fid:
+	with open('web/app/Classifier/tracts.pkl', 'rb') as fid:
 		tracts = cPickle.load(fid)
 
 	feature_dict['time'] = str_to_time(feature_dict['time'])

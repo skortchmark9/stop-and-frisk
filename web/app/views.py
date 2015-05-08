@@ -4,10 +4,15 @@ import csv
 import json
 from conversion import state_2_lat_lng
 from collections import Counter
-
+import sys
+sys.path.append('/gpfs/main/home/skortchm/course/cs1951-A/stop-and-frisk/web/app/Classifier')
+from classify import get_probs_all_tracts
 
 @app.route('/')
 def main():
+    test_dict = {'time': '01012013', 'sex': 'M', 'race': 'B', 'age': '17'}
+    print(get_probs_all_tracts(test_dict))
+
     data = getSampleData(True, True)
     return render_template('layout.html', heatmap_data=json.dumps(data['heatmap_data']), timeline_graph_data=json.dumps(data['timeline_graph_data']))
 
