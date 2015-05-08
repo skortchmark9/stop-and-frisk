@@ -9,22 +9,17 @@ from classify import get_probs_all_tracts
 
 @app.route('/')
 def main():
-    data = getSampleData(True, True)
-    return render_template('layout.html', heatmap_data=json.dumps(data['heatmap_data']), timeline_graph_data=json.dumps(data['timeline_graph_data']))
+    data = getSampleData(False, True)['timeline_graph_data']
+    return render_template('layout.html', timeline_data=data)
 
 @app.route('/selection')
 def selection():
     return render_template("selection.html" )
 
-
-@app.route('/alexa', methods=['POST'])
-def alexa():
-    print('HIT')
-    print(request.form['age'])
-
+@app.route('/update_heatmap', methods=['POST'])
+def update_heatmap():
     d = dict([(k, v[0]) for k,v in request.form.iteritems()])
     d['time'] = '01012013'
-    print d
     return jsonify(success=True, results=get_probs_all_tracts(d))
 
 @app.route('/sf_heatmap')
@@ -33,12 +28,6 @@ def sf_heatmap():
     tracts = get_probs_all_tracts(test_dict)
 
     return render_template('sf_heatmap.html', sf_data=tracts)
-
-@app.route('/heatmap')
-def heatmap():
-    data = getSampleData(True, False)
-
-    return render_template('heatmap.html', heatmap_data=json.dumps(data['heatmap_data']))
 
 @app.route('/help')
 def help():

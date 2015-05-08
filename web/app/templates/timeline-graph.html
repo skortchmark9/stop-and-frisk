@@ -22,7 +22,7 @@
 }
 
 .x.axis path {
- 
+
 }
 
 .line {
@@ -32,47 +32,45 @@
 }
 
 </style>
-	
+
 </head>
 
 <body onload="timeline_graph_init()">
-	<div id="graph_content">
+	<div id="graph_content"></div>
 
 	<script>
-	var timeline_graph_data = {{ timeline_graph_data|safe }};
+	var timeline_graph_data = {{timeline_data | safe}};
 
-	var margin = {top: 20, right: 80, bottom: 30, left: 50},
-	width = 1120 - margin.left - margin.right,
-	height = 200 - margin.top - margin.bottom;
+	var margin = {top: 20, right: 80, bottom: 30, left: 50};
+	var width = 1120 - margin.left - margin.right;
+	var height = 200 - margin.top - margin.bottom;
 
 	var parseDate = d3.time.format("%m%d%Y").parse;
 
-	var x = d3.time.scale()
-	.range([0, width]);
+	var x = d3.time.scale().range([0, width]);
 
-	var y = d3.scale.linear()
-	.range([height, 0]);
+	var y = d3.scale.linear().range([height, 0]);
 
 	var color = d3.scale.category10();
 
 	var xAxis = d3.svg.axis()
-	.scale(x)
-	.orient("bottom");
+		.scale(x)
+		.orient("bottom");
 
 	var yAxis = d3.svg.axis()
-	.scale(y)
-	.orient("left");
+		.scale(y)
+		.orient("left");
 
 	var line = d3.svg.line()
-	.interpolate("basis")
-	.x(function(d) { return x(d.date); })
-	.y(function(d) { return y(d.chance); });
+		.interpolate("basis")
+		.x(function(d) { return x(d.date); })
+		.y(function(d) { return y(d.chance); });
 
 	var svg = d3.select("#graph_content").append("svg")
-	.attr("width", width + margin.left + margin.right)
-	.attr("height", height + margin.top + margin.bottom)
-	.append("g")
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	//http://bl.ocks.org/mbostock/3884955
 
@@ -81,60 +79,24 @@
 	.defer(d3.json, "../static/data/test-graph-data-2.json")
 	.await(analyze);
 
-	function analyze(error, data, data2){
+	function analyze(error, data, totals){
 		color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
-		data2 = timeline_graph_data;
-
-		var nest = d3.nest()
-		.key(function (d) {
-			return d.date;
-		})
-		.entries(data);
-
-		var nest2 = d3.nest()
-		.key(function (d) {
-			return d.date;
-		})
-		.entries(data2);
-
-		var test = [{name: "total",
-		values: nest.map(function(d){
-			return {
-				date: parseDate(d.key),
-				chance: d3.mean(d.values.map(function(e){
-					return e["chance"];
-				}))
-			}
-		})}, 
-			{name: "current",
-		values: nest2.map(function(d){
-
-			return {
-				date: parseDate(d.key),
-				chance: d3.mean(d.values.map(function(e){
-					return e["chance"];
-				}))
-			}
-		})}]
+		totals = timeline_graph_data;
 
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
 		});
 
-		data2.forEach(function(d) {
+		totals.forEach(function(d) {
 			d.date = parseDate(d.date);
 		});
 
-		x.domain(d3.extent(data.concat(data2), function(d) { return d.date; }));
+		data = _.sortBy(data, 'date');
+		totals = _.sortBy(totals, 'date');
 
-		y.domain([
-			d3.min(test, function(c) { return d3.min(c.values, function(v) { return v.chance; }); }),
-			d3.max(test, function(c) { return d3.max(c.values, function(v) { return v.chance; }); })
-			]);
-
-		test[1].values= _.sortBy(test[1].values, function(a){
-			return a.date;
-		})
+		var both = data.concat(totals);
+		x.domain(d3.extent(both, function(d) { return d.date }));
+		y.domain(d3.extent(both, function(d) { return d.chance }));
 
 		svg.append("g")
 		.attr("class", "x axis")
@@ -151,27 +113,27 @@
 		.style("text-anchor", "end")
 		.text("Chance of Stop/Frisk");
 
+		var series = [{name : 'total', values : data}, {name : 'current', values : totals}];
+
 		var city = svg.selectAll(".city")
-		.data(test)
-		.enter().append("g")
-		.attr("class", "city");
+			.data(series)
+			.enter().append("g")
+			.attr("class", "city");
 
 		city.append("path")
-		.attr("class", "line")
-		.attr("d", function(d) { 
-			return line(d.values); })
-		.style("stroke", function(d) { return color(d.name); });
+			.attr("class", "line")
+			.attr("d", function(d) { return line(d.values); })
+			.style("stroke", function(d) { return color(d.name); });
 
 		city.append("text")
-		.datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-		.attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.chance) + ")"; })
-		.attr("x", 3)
-		.attr("dy", ".35em")
-		.text(function(d) { return d.name; });
+			.datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+			.attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.chance) + ")"; })
+			.attr("x", 3)
+			.attr("dy", ".35em")
+			.text(function(d) { return d.name; });
 
 	}
 </script>
-</div>
 
 </div>
 </body>

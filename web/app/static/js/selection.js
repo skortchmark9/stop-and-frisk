@@ -45,7 +45,7 @@ function createWeight(){
 //id - the id of the dropdown that was selected
 //attribute - the option that was selected
 function report(id, attribute) {
-  if (attribute=="") return; 
+  if (attribute=="") return;
 
   //create the holder to go after 'I am...'
   var holder = document.createElement("span");
@@ -63,7 +63,7 @@ function report(id, attribute) {
   cancel.onclick=function(){removeAttribute(this.name)};
 
   var attributetext = document.createTextNode(attribute);
-  
+
   //the current list of features
   var list = document.getElementById("list");
 
@@ -78,7 +78,7 @@ function report(id, attribute) {
 
   //remove the dropdown from the available selections
   dropdown.style.display='none';
-} 
+}
 
 function removeAttribute(name){
 	var dropdown = document.getElementById(name);
@@ -90,12 +90,6 @@ function removeAttribute(name){
 
 function getSelected(){
 	var list = document.getElementById("list");
-	/*var selected = "Selected Options:\n";
-	for(i=1;i<list.childNodes.length;i++){
-		var at = list.childNodes[i];
-		selected += at.getAttribute("name") + ": " + at.childNodes[0].textContent + "\n";
-		console.log(list.childNodes[i]);
-	}*/
 
   /*
   W - white
@@ -140,7 +134,7 @@ function getSelected(){
 
   $.ajax({
     url : '/alexa',
-    type : 'POST', 
+    type : 'POST',
     data : selected,
     success : function(response) {
       console.log(response);
