@@ -39,7 +39,8 @@
 }
 
 .background {
-  fill: red;
+  /*fill: red;*/
+  fill: white;
   pointer-events: all;
 }
 
@@ -185,7 +186,6 @@ keys.enter().append('li')
     .style('border-top-color', String)
     .text(function(d) {
         var r = quantize.invertExtent(d);
-        console.log(r)
         return "$"+r[0];
     });
 
