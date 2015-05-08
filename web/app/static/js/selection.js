@@ -134,5 +134,21 @@ function getSelected(){
     }
     selected[key] = value;
   }
-  return selected;
+
+  console.log(selected);
+
+
+  $.ajax({
+    url : '/alexa',
+    type : 'POST', 
+    data : selected,
+    success : function(response) {
+      console.log(response);
+    },
+    failure : function(response) {
+      console.log(response);
+    }
+  });
+
+  // return selected;
 }
