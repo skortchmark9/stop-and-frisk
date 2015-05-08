@@ -64,6 +64,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 var heatmap_data = {{ sf_data|safe }};
+console.log(heatmap_data)
 
 var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
 
