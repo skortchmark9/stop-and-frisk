@@ -9,15 +9,13 @@ from classify import get_probs_all_tracts
 
 @app.route('/')
 def main():
-    test_dict = {'time': '01012013', 'sex': 'M', 'race': 'B', 'age': '17'}
-    print(get_probs_all_tracts(test_dict))
-
     data = getSampleData(True, True)
     return render_template('layout.html', heatmap_data=json.dumps(data['heatmap_data']), timeline_graph_data=json.dumps(data['timeline_graph_data']))
 
 @app.route('/selection')
 def selection():
     return render_template("selection.html" )
+
 
 @app.route('/alexa', methods=['POST'])
 def alexa():
@@ -28,16 +26,24 @@ def alexa():
     d['time'] = '01012013'
     print d
     return jsonify(success=True, results=get_probs_all_tracts(d))
-    # {'time' : 'MMDDYYYY', 'sex' : 'F/M', 'race' : 'W/H/B/O'. 'age' : '++'}
-    # return [{'tract' : 22}]
 
+@app.route('/sf_heatmap')
+def sf_heatmap():
+    test_dict = {'time': '01012013', 'sex': 'F', 'race': 'B', 'age': '17'}
+    tracts = get_probs_all_tracts(test_dict)
 
+    return render_template('sf_heatmap.html', sf_data=tracts)
 
 @app.route('/heatmap')
 def heatmap():
     data = getSampleData(True, False)
 
     return render_template('heatmap.html', heatmap_data=json.dumps(data['heatmap_data']))
+
+@app.route('/help')
+def help():
+    data = []
+    return render_template('census_block_finder.html', heatmap_data=data)
 
 def getSampleData(heatmap=False, timeline_graph_data=False):
     sample = open('web/app/static/data/2014_sample.csv')

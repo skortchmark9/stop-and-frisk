@@ -21,4 +21,4 @@ build/tracts.shp: build/tl_2012_36_tract.zip
 	touch $@
 
 ny.json: build/tracts.shp
-	node_modules/.bin/topojson -o $@ --q0=0 --simplify=1 --projection='d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0)' --id-property=TRACTCE -- $(filter %.shp,$^)
+	node_modules/.bin/topojson -o $@ --q0=0 --simplify=1 --projection='d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0)' --id-property=GEOID -- $(filter %.shp,$^)

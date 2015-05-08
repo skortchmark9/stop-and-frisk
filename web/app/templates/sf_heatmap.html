@@ -63,26 +63,7 @@
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
-var heatmap_data = {{ heatmap_data|safe }};
-
-function point_in_polygon(point, vs) {
-    // ray-casting algorithm based on
-    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-
-    var x = point[0], y = point[1];
-
-    var inside = false;
-    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-        var xi = vs[i][0], yi = vs[i][1];
-        var xj = vs[j][0], yj = vs[j][1];
-
-        var intersect = ((yi > y) != (yj > y))
-            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        if (intersect) inside = !inside;
-    }
-
-    return inside;
-}
+var heatmap_data = {{ sf_data|safe }};
 
 var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
 
@@ -97,6 +78,7 @@ var initialTranslate = [-3816.2949087116212, -3586.0526348606345];
 //Maintain Scale & Translate for mouse
 var currentScale = initialScale;
 var currentTranslate = initialTranslate;
+var likelihood_max = 5;
 
 /*
 If projection is null, the path uses the identity transformation, where the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of already-projected geometry, or for fast rendering of the equirectangular projection.
@@ -128,20 +110,13 @@ svg
   .call(zoom.event);
 
 var nyShapefile = '../static/data/ny.json';
-var nyIncomeFile = "../static/data/ACS_13_5YR_B19013_with_ann.csv";
-var incomeByBlock = d3.map();
 
 var quantize = d3.scale.quantize()
-    .domain([0, 220000])
+    .domain([0, 5])
     .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
 
 queue()
     .defer(d3.json, nyShapefile)
-    .defer(d3.csv, nyIncomeFile, function(d) {
-      var census_block = d['GEO.id'].slice(-6);
-      var year_median_income = d['HD01_VD01'];
-      incomeByBlock.set(census_block, year_median_income);
-    })
     .await(ready);
 
 function ready(error, ny) {
@@ -157,33 +132,22 @@ function ready(error, ny) {
       .data(topojson.feature(ny, tracts).features)
     .enter().append("path")
       .attr("class", function(d) {
-        var income = incomeByBlock.get(d.id);
-        if (income == 'N' || income == '(X)' || income == '-' ) {
+        var probability = heatmap_data[d.id] || 'N';
+        if (probability == 'N' || probability == '(X)' || probability == '-' ) {
           return 'tract missing'
         } else {
-          return 'tract ' + quantize(income);
+          return 'tract ' + quantize(probability);
         }
       })
       .attr("d", path)
       .on("click", clicked)
       .append("title")
-      .text(function(d, i) { return d.id + " - " + incomeByBlock.get(d.id); });
+      .text(function(d, i) { return d.id + " - " + heatmap_data[d.id]; });
 
   g.append("path")
       .attr("class", "tract-border")
       .datum(topojson.mesh(ny, tracts, function(a, b) { return a !== b; }))
       .attr("d", path);
-
-  g.selectAll('circle')
-    .data(heatmap_data)
-    .enter()
-    .append('circle')
-    .attr('class', function(d) {
-      return 'dot ' + d.race;
-    })
-    .attr('cx', function(d) {var proj =  projection([d.lng, d.lat]); return proj[0];})
-    .attr('cy', function(d) {var proj = projection([d.lng, d.lat]); return proj[1];})
-    .attr('r', .4);
 }
 
 function getMouseCoords() {
