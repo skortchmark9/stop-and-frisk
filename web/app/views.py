@@ -43,6 +43,14 @@ def heatmap():
 @app.route('/help')
 def help():
     data = []
+    for year in range(2006, 2015):
+        csv_reader = csv.reader(open(('stop-data/clean-' + str(year) +'.csv'), 'rU'))
+        next(csv_reader, None)
+        for line in csv_reader:
+            lat, lon = state_2_lat_lng(int(line[5]), int(line[6]))
+            if lat == '':
+                continue
+            data.append((lat, lon))
     return render_template('census_block_finder.html', heatmap_data=data)
 
 def getSampleData(heatmap=False, timeline_graph_data=False):
