@@ -1,6 +1,7 @@
 var min = timestamp('January 2006');
 var max = timestamp('2015');
 var alternate = 0;
+var timepiece_months = {}
 
 function timeline_init(){
 	datePicker = document.getElementById("datePicker");
@@ -185,6 +186,8 @@ function addTimepiece(title, text, link, date){
 
 	//alert(loc)
 
+	
+
 	var middle = "65px"
 	var top = "50px"
 	var bottom = "150px"
@@ -200,8 +203,6 @@ function addTimepiece(title, text, link, date){
 		tooltip.style.top = middle;
 	}
 	alternate = (alternate + 1)%4;
-
-	tooltip.style.top = Math.random()*110 + 65 + "px";
 }
 
 // Create a list of day and monthnames.
