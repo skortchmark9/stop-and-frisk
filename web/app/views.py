@@ -17,10 +17,9 @@ def selection():
 
 @app.route('/alexa', methods=['POST'])
 def alexa():
-    print(request)
-    print(request.form['time'])
-    return jsonify(success=True)
     print('HIT')
+    print(request.form['age'])
+    return jsonify(success=True)
     # {'time' : 'MMDDYYYY', 'sex' : 'F/M', 'race' : 'W/H/B/O'. 'age' : '++'}
     # return [{'tract' : 22}]
 
