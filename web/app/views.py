@@ -5,7 +5,6 @@ import json
 from conversion import state_2_lat_lng
 from collections import Counter
 import sys
-sys.path.append('/gpfs/main/home/skortchm/course/cs1951-A/stop-and-frisk/web/app/Classifier')
 from classify import get_probs_all_tracts
 
 @app.route('/')
@@ -24,7 +23,11 @@ def selection():
 def alexa():
     print('HIT')
     print(request.form['age'])
-    return jsonify(success=True)
+
+    d = dict([(k, v[0]) for k,v in request.form.iteritems()])
+    d['time'] = '01012013'
+    print d
+    return jsonify(success=True, results=get_probs_all_tracts(d))
     # {'time' : 'MMDDYYYY', 'sex' : 'F/M', 'race' : 'W/H/B/O'. 'age' : '++'}
     # return [{'tract' : 22}]
 
