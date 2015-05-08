@@ -32,7 +32,7 @@ a.tooltip span
 
 .timepiece{
 	display: inline-block;
-	background: #6BAED6;
+	background: #4292C6;
 	width: 10px;
 	height: 10px;
 	border: #DEEBF7 solid 2px;
@@ -85,10 +85,10 @@ input[type=range]::-webkit-slider-runnable-track {
 	width: 300px;
 	height: 8px;
 	/*background: #c47b3a;*/
-	background: #6BAED6;
+	background: #2171B5;
 	border: none;
 	/*border-top: 4px solid #853f01;*/
-	border-top: 4px solid #08519C;
+	border-top: 4px solid #08306B;
 }
 
 input[type=range]::-webkit-slider-thumb {
