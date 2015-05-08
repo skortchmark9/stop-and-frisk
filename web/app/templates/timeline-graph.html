@@ -43,7 +43,7 @@
 	width = 1120 - margin.left - margin.right,
 	height = 200 - margin.top - margin.bottom;
 
-	var parseDate = d3.time.format("%d%m%Y").parse;
+	var parseDate = d3.time.format("%m%d%Y").parse;
 
 	var x = d3.time.scale()
 	.range([0, width]);
