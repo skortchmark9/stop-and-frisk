@@ -2,10 +2,25 @@
 
 html{
 	font-family: 'Open Sans';
+	background: #232323;
+	color: white;
 }
 
 .page_div{
   height: 100vh;
+}
+
+body{
+	border: none;
+	margin: 0;
+}
+
+#selection_div{
+	background: white;
+	left: 0;
+	position: relative;
+	margin: none;
+	color: black;
 }
 
 #heatmap_div{
