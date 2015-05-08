@@ -36,11 +36,11 @@
 					<option value="Other Race">Other Race</option>
 				</select>
 
-				<select name="height" id="height" onchange="report(this.id, this.value)" class="button_style">
+				<select style='display:none' name="height" id="height" onchange="report(this.id, this.value)" class="button_style">
 					<option selected="selected" value="">+ height</option>
 				</select>
 
-				<select name="weight" id="weight" onchange="report(this.id, this.value)" class="button_style">
+				<select style="display:none" name="weight" id="weight" onchange="report(this.id, this.value)" class="button_style">
 					<option selected="selected" value="">+ weight</option>
 				</select>
 
@@ -48,6 +48,10 @@
 			</fieldset>
 
 		</form>
+	</div>
+
+	<div>
+		<button type="button" class="button_style" onclick="getSelected()">Get Selected</button>
 	</div>
 	</div>
 </div>

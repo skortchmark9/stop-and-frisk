@@ -90,11 +90,49 @@ function removeAttribute(name){
 
 function getSelected(){
 	var list = document.getElementById("list");
-	var selected = "Selected Options:\n";
+	/*var selected = "Selected Options:\n";
 	for(i=1;i<list.childNodes.length;i++){
 		var at = list.childNodes[i];
 		selected += at.getAttribute("name") + ": " + at.childNodes[0].textContent + "\n";
 		console.log(list.childNodes[i]);
-	}
-	alert(selected);
+	}*/
+
+  /*
+  W - white
+  B - black
+  O - other
+  H - hispanic
+  */
+  var selected = {};
+  for(i=1;i<list.childNodes.length;i++){
+    var at = list.childNodes[i];
+    var key = at.getAttribute("name");
+    var value = at.childNodes[0].textContent;
+    if(key == "sex"){
+      if(value == "Male"){
+        value = "M"
+      }else{
+        value = "F"
+      }
+    }else if(key == "age"){
+      value = value.split(" ")[0]
+    }else if(key == "race"){
+      switch(value){
+        case "Black":
+          value = "B"
+          break;
+        case "White":
+          value = "W"
+          break;
+        case "Hispanic":
+          value = "H"
+          break;
+        default:
+          value = "O"
+          break;
+      }
+    }
+    selected[key] = value;
+  }
+  return selected;
 }
