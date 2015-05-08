@@ -29,7 +29,7 @@ def alexa():
 
 @app.route('/sf_heatmap')
 def sf_heatmap():
-    test_dict = {'time': '01012013', 'sex': 'F', 'race': 'B', 'age': '17'}
+    test_dict = {'time': '01012013', 'sex': 'M', 'race': 'B', 'age': '25'}
     tracts = get_probs_all_tracts(test_dict)
 
     return render_template('sf_heatmap.html', sf_data=tracts)
