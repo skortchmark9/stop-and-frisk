@@ -20,3 +20,9 @@ html{
 	margin-right: auto;
 	width: 87%;
 }
+
+#animate_button{
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
