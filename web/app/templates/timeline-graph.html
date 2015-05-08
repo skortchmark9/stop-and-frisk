@@ -36,6 +36,8 @@ body {
 <body onload="timeline_graph_init()">
 
 	<script>
+	var timeline_graph_data = {{ timeline_graph_data|safe }};
+	console.log(timeline_graph_data);
 
 	var margin = {top: 20, right: 80, bottom: 30, left: 50},
 	width = 960 - margin.left - margin.right,
@@ -79,6 +81,8 @@ body {
 
 	function analyze(error, data, data2){
 		color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+		console.log(data);
+		data2 = timeline_graph_data;
 
 		/*data.forEach(function(d) {
 			d.date = parseDate(d.date);
@@ -111,8 +115,6 @@ body {
 			return d.date;
 		})
 		.entries(data2);
-
-		//console.log(nest)
 
 		var test = [{name: "total",
 		values: nest.map(function(d){

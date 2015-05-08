@@ -63,8 +63,7 @@
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
-var data = {{ data|safe }};
-// var data = [];
+var heatmap_data = {{ heatmap_data|safe }};
 
 function point_in_polygon(point, vs) {
     // ray-casting algorithm based on
@@ -176,7 +175,7 @@ function ready(error, ny) {
       .attr("d", path);
 
   g.selectAll('circle')
-    .data(data)
+    .data(heatmap_data)
     .enter()
     .append('circle')
     .attr('class', function(d) {
