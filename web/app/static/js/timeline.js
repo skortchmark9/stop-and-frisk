@@ -262,17 +262,19 @@ function getCurrentlySelectedDate(){
 	var currentDateObject = new Date(+datePicker.value);
 	var date = currentDateObject.getDate();
 	var currentDate = "";
-	if(date < 10){
-		currentDate += "0";
-	}
-	currentDate += date;
 	var month = currentDateObject.getMonth();
 	month++;
 	if(month < 10){
 		currentDate+= "0";
 	}
+
 	currentDate += month; 
+
+	if(date < 10){
+		currentDate += "0";
+	}	
+	currentDate += date;
+
 	currentDate += currentDateObject.getFullYear();
-	alert(currentDate);
 	return currentDate;
 }
