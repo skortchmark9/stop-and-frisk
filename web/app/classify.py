@@ -11,7 +11,7 @@ from sklearn.linear_model import LogisticRegression
 def main():
 	
 	test_dict = {'time': '01012013', 'sex': 'M', 'race': 'B', 'age': '17'}
-	print get_probs_all_tracts(test_dict)
+	get_probs_all_tracts(test_dict)
 
 
 def get_probs_all_tracts(feature_dict):
@@ -29,21 +29,24 @@ def get_probs_all_tracts(feature_dict):
 
 	feature_dict['time'] = str_to_time(feature_dict['time'])
 	feature_dict['age'] = (int(feature_dict['age']) - 10)/70.0
+	print len(tracts)
 
 	prob_dict = {}
+
 	for tract in tracts:
+
 		tract_dict = feature_dict
-		tract_dict['tract'] = tract
+		tract_dict['tract'] = str('{0:09d}'.format(int(tract)))
 
 		features = vectorizer.transform([tract_dict])
 
 		probs = classifier.predict_proba(features)[0]
 		prob_dict[tract] = probs[1]/average
+	print prob_dict
 	return prob_dict
 
 def str_to_time(s):
 	""" Converts stop and frisk style date strings to time vector in [0, 1]"""
-	print s
 	if '-' in s: # format: 'yyyy-mm-dd' 
 		year = int(s[:4])
 		month = int(s[5:7])
