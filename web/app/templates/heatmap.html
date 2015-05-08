@@ -39,7 +39,8 @@
 }
 
 .background {
-  fill: red;
+  /*fill: red;*/
+  fill: white;
   pointer-events: all;
 }
 
@@ -55,13 +56,47 @@
 .q8-10 { fill:rgb(8,48,107); }
 .q9-10 {fill:rgb(0, 3, 6);}
 
+.q0-10-key { border-color:rgb(205, 205, 205); }
+.q1-10-key { border-color:rgb(222,235,247); }
+.q2-10-key { border-color:rgb(198,219,239); }
+.q3-10-key { border-color:rgb(158,202,225); }
+.q4-10-key { border-color:rgb(107,174,214); }
+.q5-10-key { border-color:rgb(66,146,198); }
+.q6-10-key { border-color:rgb(33,113,181); }
+.q7-10-key { border-color:rgb(8,81,156); }
+.q8-10-key { border-color:rgb(8,48,107); }
+.q9-10-key { border-color:rgb(0, 3, 6);}
+
+
+.list-inline{
+-webkit-padding-start: 0px !important;
+width: 960px;
+}
+
+li.key {
+    list-style-type: none;
+    display: inline-block;
+    border-top-width: 15px;
+    border-top-style: solid;
+    font-size: .75em;
+    width: 10%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
 </style>
+<div id="legend">
+  </div>
 <div class="heatmap">
 </div>
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+<script src="http://d3js.org/colorbrewer.v1.min.js"></script>
 <script>
 var heatmap_data = {{ heatmap_data|safe }};
 
@@ -135,10 +170,29 @@ var quantize = d3.scale.quantize()
     .domain([0, 220000])
     .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
 
+
+//Legend
+var legend = d3.select('#legend')
+  .append('ul')
+    .attr('class', 'list-inline');
+
+var keys = legend.selectAll('li.key')
+    .data(quantize.range());
+
+keys.enter().append('li')
+    .attr('class', function(d){
+      return d + "-key key";
+    })
+    .style('border-top-color', String)
+    .text(function(d) {
+        var r = quantize.invertExtent(d);
+        return "$"+r[0];
+    });
+
 queue()
     .defer(d3.json, nyShapefile)
     .defer(d3.csv, nyIncomeFile, function(d) {
-      var census_block = d['GEO.id'].slice(-6);
+      var census_block = d['GEO.id'].slice(-11);
       var year_median_income = d['HD01_VD01'];
       incomeByBlock.set(census_block, year_median_income);
     })
