@@ -41,7 +41,6 @@ if flag==0:
     c.execute(query, values)
     pdb.set_trace()
     resultset=c.fetchall()
-    print resultset
     c.close()
     #pdb.set_trace()
 
