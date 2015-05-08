@@ -38,7 +38,6 @@
 
 	<script>
 	var timeline_graph_data = {{ timeline_graph_data|safe }};
-	console.log(timeline_graph_data);
 
 	var margin = {top: 20, right: 80, bottom: 30, left: 50},
 	width = 1120 - margin.left - margin.right,
@@ -82,7 +81,6 @@
 
 	function analyze(error, data, data2){
 		color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
-		console.log(data);
 		data2 = timeline_graph_data;
 
 		var nest = d3.nest()
@@ -132,6 +130,10 @@
 			d3.max(test, function(c) { return d3.max(c.values, function(v) { return v.chance; }); })
 			]);
 
+		test[1].values= _.sortBy(test[1].values, function(a){
+			return a.date;
+		})
+
 		svg.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
@@ -155,7 +157,6 @@
 		city.append("path")
 		.attr("class", "line")
 		.attr("d", function(d) { 
-			console.log(d.values)
 			return line(d.values); })
 		.style("stroke", function(d) { return color(d.name); });
 
