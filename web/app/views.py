@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, jsonify, request
 from app import app
 import csv
 import json
@@ -14,6 +14,17 @@ def main():
 @app.route('/selection')
 def selection():
     return render_template("selection.html" )
+
+@app.route('/alexa', methods=['POST'])
+def alexa():
+    print(request)
+    print(request.form['time'])
+    return jsonify(success=True)
+    print('HIT')
+    # {'time' : 'MMDDYYYY', 'sex' : 'F/M', 'race' : 'W/H/B/O'. 'age' : '++'}
+    # return [{'tract' : 22}]
+
+
 
 @app.route('/heatmap')
 def heatmap():
