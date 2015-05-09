@@ -4,6 +4,9 @@ var alternate = 0;
 var timepiece_months = {}
 
 function timeline_init(){
+
+
+
 	datePicker = document.getElementById("datePicker");
 	datePicker.setAttribute("max", max);
 	datePicker.setAttribute("min", min);

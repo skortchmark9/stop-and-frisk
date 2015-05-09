@@ -1,4 +1,5 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans');
+/*TODO: let's get bebas neue in here for haders;*/
 
 html{
 	font-family: 'Open Sans';
@@ -6,6 +7,16 @@ html{
 	color: white;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Open Sans';
+	font-weight: 600;
+	color: white;
+}
 .page_div{
   height: 100vh;
 }
@@ -15,13 +26,13 @@ body{
 	margin: 0;
 }
 
-#selection_div{
-	background: white;
-	left: 0;
-	position: relative;
-	margin: none;
-	color: black;
+#header {
+	text-align: center;
+	font-size: 70px;
+  height: 300;
+  width: 100%;
 }
+
 
 #heatmap_div{
 	margin-left: auto;

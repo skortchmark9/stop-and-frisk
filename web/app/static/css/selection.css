@@ -44,27 +44,6 @@ button.cancel{
   cursor:pointer;
 }
 
-
-/*.button_style{
-  padding:5px;
-  margin: 2px;
-  -webkit-border-radius:4px;
-  -moz-border-radius:4px;
-  border-radius:4px;
-  -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
-  -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
-  box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
-  background: #f8f8f8;
-  color:#555;
-  border:none;
-  outline:none;
-  display: inline-block;
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
-  cursor:pointer;
-}*/
-
 select.button_style {
   padding:3px;
   margin: 5px;
@@ -76,40 +55,26 @@ select.button_style {
   position: relative;
 }
 
-/*#iam{
-  font-size: 200%;
-}*/
-
 #identity{
   font-size: 42px;
 }
-
-
-/*#to-select{
-  border-top: 1px dotted #888;
-  border-bottom: 1px dotted #888;
-}*/
-
-#selection_content{
-    padding: 150px;
-    padding-top: 200px;
-}
-
 #selectables{
   padding-left: 150px;
 }
 
-#to-select{
-  /*background: #65e3af;*/
-
+/*#to-select{
   box-shadow: 0px -3px 30px rgba(34,34,34,0.6);
+}
+*/
+#selection_div.fixed {
+  top: 0px;
+  position: fixed;
+}
 
-
-  background: #7f7f7f;
-  padding-bottom: 120px;
+#selection_div {
   position: absolute;
-  bottom: 0px;
   width: 100%;
-  left: 0px;
-  right: 0px;
+  z-index:1;
+  top:300px;
+  margin:0;
 }
