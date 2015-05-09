@@ -26,6 +26,9 @@
   fill: orange;
 }
 
+.btract:hover {
+  fill: red;
+}
 .tract-border {
   fill: none;
   stroke: #333;
@@ -101,7 +104,11 @@ body {
 
 var heatmap_data = [];
 function getID(tract) {
-  return tract.id.slice(-8);
+  if (tract.type == "Feature") {
+    return tract.id.slice(-8);
+  } else {
+    return null;
+  }
 }
 
 var width = 960;
@@ -145,7 +152,7 @@ svg
 var nyShapefile = '../static/data/ny.json';
 
 var quantize = d3.scale.quantize()
-  .domain([0, 5])
+  .domain([0, 3])
   .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
 
 //Legend
@@ -197,6 +204,18 @@ function ready(error, ny) {
     .attr("class", "tract-border")
     .datum(topojson.mesh(ny, tracts, function(a, b) { return a !== b; }))
     .attr("d", path);
+}
+
+function repaint(new_data) {
+  g.selectAll(".tract")
+  .attr('class', function(d) {
+    var probability = new_data[getID(d)] || 'N';
+    if (probability == 'N' || probability == '(X)' || probability == '-' ) {
+      return 'tract missing'
+    } else {
+      return 'tract ' + quantize(probability);
+    }
+  })
 }
 
 function clicked(d) {

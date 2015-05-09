@@ -74,7 +74,7 @@ function addTimepieces(){
 		"Some NYC politicians call for a federal probe of the NYPD's stop-and-frisk policy.",
 		"http://www.wnyc.org/blogs/wnyc-news-blog/2011/oct/19/stop_and_frisk/",
 		"Oct 19, 2011")
-	addTimepiece("Class Action Motion Filed", 
+	addTimepiece("Class Action Motion Filed",
 		"Plaintiffs in CCR case file motion for Class Certification",
 		"#",
 		"Nov 7, 2011");
@@ -118,41 +118,41 @@ function addTimepieces(){
 		"The Bronx district attorney's office says that it will no longer prosecuting people stopped and arrested for trespassing unless the arresting officer ensures the arrest is warranted.",
 		"http://www.wnyc.org/articles/wnyc-news/2012/sep/26/blog-bronx-da-no-longer-prosecutes-some-stop-and-frisk-cases/",
 		"Sept 26, 2012");
-	addTimepiece("Bloomberg Say Bronx DA Should Review Policy Change", 
+	addTimepiece("Bloomberg Say Bronx DA Should Review Policy Change",
 		"Mayor Michael Bloomberg came out against the Bronx district attorney's decision to limit stop-and-frisk prosecutions, saying, “If you want to bring crime back to New York, this is probably a good way to do it.”",
 		"http://www.wnyc.org/articles/wnyc-news/2012/sep/27/blog-bloomberg-say-bronx-da-should-review-policy-change/",
 		"Sept 27, 2012");
-	addTimepiece("Critics Challenge NYPD Clean Halls Program in Court", 
+	addTimepiece("Critics Challenge NYPD Clean Halls Program in Court",
 		"Civil rights groups began making their case in U.S. District Court to limit a citywide policy that allows the police department to patrol more than 10,000 private buildings.",
 		"http://www.wnyc.org/articles/wnyc-news/2012/oct/15/blog-clean-halls/",
 		"Oct 15, 2012");
-	addTimepiece("Federal Class Action Against NYPD Stops to Begin", 
+	addTimepiece("Federal Class Action Against NYPD Stops to Begin",
 		"A federal, class action suit challenges the practice of stop-and-frisk on the basis it is unconstitutional, posing the most comprehensive legal challenge to the tactic yet.",
 		"http://www.wnyc.org/articles/wnyc-news/2013/mar/17/federal-class-action-against-nypd-stops-begin/",
 		"March 17, 2013");
-	addTimepiece("See Where Stop-and-Frisks Fell (and Rose) in 2012", 
-		"The city has released annual data on every stop-and-frisk in 2012, revealing a 22 percent decline in stops, overall. WNYC mapped out where exactly the number of stops increased and decreased.", 
-		"http://www.wnyc.org/articles/wnyc-news/2013/apr/22/stop-and-frisk-focus/", 
+	addTimepiece("See Where Stop-and-Frisks Fell (and Rose) in 2012",
+		"The city has released annual data on every stop-and-frisk in 2012, revealing a 22 percent decline in stops, overall. WNYC mapped out where exactly the number of stops increased and decreased.",
+		"http://www.wnyc.org/articles/wnyc-news/2013/apr/22/stop-and-frisk-focus/",
 		"April 22, 2013");
-	addTimepiece("Closing Arguments End in Stop and Frisk Trial", 
-		"Lawyers complete their closing arguments in a federal case challenging the way the NYPD has been conducting the practice of stop and frisk.", 
-		"http://www.wnyc.org/articles/wnyc-news/2013/may/20/closing-arguments-underway-stop-and-frisk-trial/", 
+	addTimepiece("Closing Arguments End in Stop and Frisk Trial",
+		"Lawyers complete their closing arguments in a federal case challenging the way the NYPD has been conducting the practice of stop and frisk.",
+		"http://www.wnyc.org/articles/wnyc-news/2013/may/20/closing-arguments-underway-stop-and-frisk-trial/",
 		"May 20, 2013")
-	addTimepiece("Council Passes Sweeping Plan for NYPD Oversight", 
-		"The City Council passed with a veto-proof majority an expansive plan that imposed increased oversight on the NYPD and made it easier for people to bring profiling claims against the police.", 
-		"http://www.wnyc.org/articles/wnyc-news/2013/jun/27/council-passes-sweeping-plan-nypd-oversight/", 
+	addTimepiece("Council Passes Sweeping Plan for NYPD Oversight",
+		"The City Council passed with a veto-proof majority an expansive plan that imposed increased oversight on the NYPD and made it easier for people to bring profiling claims against the police.",
+		"http://www.wnyc.org/articles/wnyc-news/2013/jun/27/council-passes-sweeping-plan-nypd-oversight/",
 		"June 27, 2013");
-	addTimepiece("NYPD Agrees to Erase Names in Stop and Frisk Database", 
-		"According to a settlement reached between the city and the New York Civil Liberties Union, the New York Police Department must erase the hundreds of thousands of names and addresses it collected during stops and frisks.", 
-		"http://www.wnyc.org/articles/wnyc-news/2013/aug/07/nypd-erase-all-names-stop-and-frisk-database/", 
+	addTimepiece("NYPD Agrees to Erase Names in Stop and Frisk Database",
+		"According to a settlement reached between the city and the New York Civil Liberties Union, the New York Police Department must erase the hundreds of thousands of names and addresses it collected during stops and frisks.",
+		"http://www.wnyc.org/articles/wnyc-news/2013/aug/07/nypd-erase-all-names-stop-and-frisk-database/",
 		"Aug 7, 2013");
-	addTimepiece("Judge Rules NYPD Stop-and-Frisk Unconstitutional", 
-		"Judge Shira Scheindlin issues her long-awaited opinion finding that the New York City Police Department had violated the Fourth and Fourteenth Amendments in the way they have conducted stop and frisks.", 
-		"http://www.wnyc.org/articles/wnyc-news/2013/aug/12/stop-and-frisk-decision-comes-down/", 
+	addTimepiece("Judge Rules NYPD Stop-and-Frisk Unconstitutional",
+		"Judge Shira Scheindlin issues her long-awaited opinion finding that the New York City Police Department had violated the Fourth and Fourteenth Amendments in the way they have conducted stop and frisks.",
+		"http://www.wnyc.org/articles/wnyc-news/2013/aug/12/stop-and-frisk-decision-comes-down/",
 		"Aug 12, 2013");
 
 	var num = timepiece_months["eell"]
-	
+
 }
 
 function addTimepiece(title, text, link, date){
@@ -194,7 +194,7 @@ function addTimepiece(title, text, link, date){
 	//var loc = (time-min)/(max-min)*($("#timeline").width()) + 'px';
 	var month_time = months[month_num] + " " + date_obj.getFullYear()
 	var loc = (timestamp(month_time) - min)/(max-min)*($("#timeline").width()) + 'px';
-	
+
 
 	var month_arr = timepiece_months[month_key]
 	var num = 0
@@ -208,7 +208,7 @@ function addTimepiece(title, text, link, date){
 
 	var height_difference = 14
 	var start = 65
-	
+
 
 	/*var middle = "65px"
 	var top = "50px"
@@ -266,16 +266,17 @@ function formatDate ( date ) {
 
 // Write a date as a pretty value.
 function setDate( value ){
-    $(this).html(formatDate(new Date(+value)));   
+    $(this).html(formatDate(new Date(+value)));
 }
 
 // Create a new date from a string, return as a timestamp.
 function timestamp(str){
-    return new Date(str).getTime();   
+    return new Date(str).getTime();
 }
 
 function changeDate(newDate){
 	document.getElementById("dateDisplayer").innerHTML=formatDate(new Date(+newDate));
+	getSelected();
 }
 
 /*
@@ -292,11 +293,11 @@ function getCurrentlySelectedDate(){
 		currentDate+= "0";
 	}
 
-	currentDate += month; 
+	currentDate += month;
 
 	if(date < 10){
 		currentDate += "0";
-	}	
+	}
 	currentDate += date;
 
 	currentDate += currentDateObject.getFullYear();

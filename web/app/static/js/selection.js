@@ -130,9 +130,6 @@ function getSelected(){
   }
 
   selected['time'] = getCurrentlySelectedDate();
-  console.log(selected);
-
-
 
   $.ajax({
     url : '/update_heatmap',
@@ -141,6 +138,7 @@ function getSelected(){
     success : function(response) {
       console.log(response);
       analyze(response.time_series);
+      repaint(response.results);
     },
     failure : function(response) {
       console.log(response);
