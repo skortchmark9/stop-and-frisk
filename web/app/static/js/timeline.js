@@ -8,7 +8,7 @@ function timeline_init(){
 	datePicker.setAttribute("max", max);
 	datePicker.setAttribute("min", min);
 	datePicker.setAttribute("value", timestamp('July 2010'));
-	changeDate(datePicker.getAttribute("value"));
+	changeDate(datePicker.getAttribute("value"), true);
 
 	addTimepieces();
 }
@@ -274,9 +274,11 @@ function timestamp(str){
     return new Date(str).getTime();
 }
 
-function changeDate(newDate){
+function changeDate(newDate, manual){
 	document.getElementById("dateDisplayer").innerHTML=formatDate(new Date(+newDate));
-	getSelected();
+	if (!manual) {
+		getSelected();
+	}
 }
 
 /*

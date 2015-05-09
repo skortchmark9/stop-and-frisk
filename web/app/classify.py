@@ -15,7 +15,6 @@ def main():
 
 
 def get_probs_all_tracts(feature_dict):
-	print(feature_dict)
  	with open('web/app/Classifier/saved_classifier.pkl', 'rb') as fid:
 		classifier = cPickle.load(fid)
 
@@ -30,7 +29,6 @@ def get_probs_all_tracts(feature_dict):
 
 	feature_dict['time'] = str_to_time(feature_dict['time'])
 	feature_dict['age'] = (int(feature_dict['age']) - 10)/70.0
-	print len(tracts)
 
 	prob_dict = {}
 
@@ -45,7 +43,6 @@ def get_probs_all_tracts(feature_dict):
 
 		probs = classifier.predict_proba(features)[0]
 		prob_dict[tract] = probs[1]/average
-	print prob_dict
 	return prob_dict
 
 def str_to_time(s):

@@ -6,12 +6,14 @@ from conversion import state_2_lat_lng
 from collections import Counter
 import sys
 from classify import get_probs_all_tracts
+from db import get_time_series
+
 
 @app.route('/')
 def main():
-    # data = totals
-    data = getSampleData(False, True)['timeline_graph_data']
-    return render_template('layout.html', timeline_data=json.dumps(data))
+    total = json.dumps(get_time_series({}))
+
+    return render_template('layout.html', timeline_data=total)
 
 @app.route('/selection')
 def selection():
@@ -19,10 +21,11 @@ def selection():
 
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
-    #TODO: real data!
-    t = [{"date":"11122008", "chance":100}, {"date":"11122010", "chance":2},{"date":"11122008", "chance":53}, {"date":"11122009", "chance":23}]
     d = {k : v for k, v in request.form.iteritems()}
-    return jsonify(success=True, results=get_probs_all_tracts(d), time_series=t)
+    d2 = d.copy()
+    del d2['time']
+    specific = get_time_series(d2)
+    return jsonify(success=True, results=get_probs_all_tracts(d), time_series=specific)
 
 @app.route('/sf_heatmap')
 def sf_heatmap():

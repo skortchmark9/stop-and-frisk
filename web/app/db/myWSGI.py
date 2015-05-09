@@ -7,7 +7,7 @@ import sqlite3
 #return the complete information of the corresponding dataset
 #{year,frisked,searched,pct,datestop,timestop,sex,race,age,eyecolor,haircolr,build, xcoord, ycoord}
 
-#http://localhost:8000/location?year=2003 &eye=blue 
+#http://localhost:8000/location?year=2003 &eye=blue
 #return [{year,datestop,timestop,xcoord, ycoord}]
 
 #http://localhost:8000/search?datestop=0827&timestop=2333
