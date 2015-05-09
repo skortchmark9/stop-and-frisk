@@ -15,6 +15,7 @@ def main():
 
 
 def get_probs_all_tracts(feature_dict):
+	print(feature_dict)
  	with open('web/app/Classifier/saved_classifier.pkl', 'rb') as fid:
 		classifier = cPickle.load(fid)
 

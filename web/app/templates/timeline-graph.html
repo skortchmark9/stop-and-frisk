@@ -3,55 +3,31 @@
 <head>
 	<link rel="stylesheet" href="../static/css/timeline-graph.css">
 	<script src="../static/js/timeline-graph.js"></script>
-<!--	<script src="http://d3js.org/d3.v3.js"></script> -->
-	<script src="http://d3js.org/queue.v1.min.js"></script>
-
-	<style>
-
-#graph_content {
-  font: 13px 'Open Sans';
-  font-weight: 0.5em;
-  stroke: white;
-}
-
-.axis path,
-
-.axis line {
-  fill: none;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-</style>
-
 </head>
 
 <body onload="timeline_graph_init()">
 	<div id="graph_content"></div>
 
 	<script>
-	var timeline_graph_data = {{timeline_data | safe}};
+	var totals = {{timeline_data | safe}};
+	var parseDate = d3.time.format("%m%d%Y").parse;
+
+	totals.forEach(function(d) {
+		d.date = parseDate(d.date);
+	});
+
+	var totalDateExtent = d3.extent(totals, function(d) {return d.date});
+	var totalChanceExtent = d3.extent(totals, function(d) {return d.chance;});
+	totals = _.sortBy(totals, 'date');
+
+
 
 	var margin = {top: 20, right: 80, bottom: 30, left: 50};
 	var width = 1120 - margin.left - margin.right;
 	var height = 200 - margin.top - margin.bottom;
 
-	var parseDate = d3.time.format("%m%d%Y").parse;
-
 	var x = d3.time.scale().range([0, width]);
-
 	var y = d3.scale.linear().range([height, 0]);
-
-	var color = d3.scale.category10();
 
 	var xAxis = d3.svg.axis()
 		.scale(x)
@@ -73,30 +49,24 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	//http://bl.ocks.org/mbostock/3884955
-
-	queue()
-	.defer(d3.json, "../static/data/test-graph-data.json")
-	.defer(d3.json, "../static/data/test-graph-data-2.json")
-	.await(analyze);
-
-	function analyze(error, data, totals){
-		color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
-		totals = timeline_graph_data;
+	function analyze(data){
+		data = data || [];
 
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
 		});
 
-		totals.forEach(function(d) {
-			d.date = parseDate(d.date);
-		});
-
 		data = _.sortBy(data, 'date');
-		totals = _.sortBy(totals, 'date');
 
-		var both = data.concat(totals);
-		x.domain(d3.extent(both, function(d) { return d.date }));
-		y.domain(d3.extent(both, function(d) { return d.chance }));
+		var dateExtent = d3.extent(data, function(d){ return d.date; });
+		var chanceExtent = d3.extent(data, function(d) { return d.chance; });
+
+		x.domain([_.min([dateExtent[0], totalDateExtent[0]]),
+						  _.max([dateExtent[1], totalDateExtent[1]])]);
+
+		y.domain([_.min([chanceExtent[0], totalChanceExtent[0]]),
+						  _.max([chanceExtent[1], totalChanceExtent[1]])]);
+
 
 		svg.append("g")
 		.attr("class", "x axis")
@@ -113,26 +83,37 @@
 		.style("text-anchor", "end")
 		.text("Chance of Stop/Frisk");
 
-		var series = [{name : 'total', values : data}, {name : 'current', values : totals}];
+		var series = [];
+		if (!_.isEmpty(data)) {
+			series.push({name : 'current', values : data});
+		}
+
+		if (!_.isEmpty(totals)) {
+			series.push({name : 'totals', values : totals});
+		}
+
+		console.log(series);
 
 		var city = svg.selectAll(".city")
 			.data(series)
-			.enter().append("g")
+			.enter()
+			.append("g")
 			.attr("class", "city");
 
 		city.append("path")
-			.attr("class", "line")
+			.attr("class", function(d) {return 'line ' + d.name;})
 			.attr("d", function(d) { return line(d.values); })
-			.style("stroke", function(d) { return color(d.name); });
 
 		city.append("text")
-			.datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+			.datum(function(d) { return {name: d.name, value: _.last(d.values)} })
 			.attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.chance) + ")"; })
 			.attr("x", 3)
 			.attr("dy", ".35em")
 			.text(function(d) { return d.name; });
-
 	}
+
+	analyze();
+
 </script>
 
 </div>

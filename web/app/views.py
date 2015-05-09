@@ -9,8 +9,9 @@ from classify import get_probs_all_tracts
 
 @app.route('/')
 def main():
+    # data = totals
     data = getSampleData(False, True)['timeline_graph_data']
-    return render_template('layout.html', timeline_data=data)
+    return render_template('layout.html', timeline_data=json.dumps(data))
 
 @app.route('/selection')
 def selection():
@@ -18,9 +19,10 @@ def selection():
 
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
-    d = dict([(k, v[0]) for k,v in request.form.iteritems()])
-    d['time'] = '01012013'
-    return jsonify(success=True, results=get_probs_all_tracts(d))
+    #TODO: real data!
+    t = [{"date":"11122008", "chance":100}, {"date":"11122010", "chance":2},{"date":"11122008", "chance":53}, {"date":"11122009", "chance":23}]
+    d = {k : v for k, v in request.form.iteritems()}
+    return jsonify(success=True, results=get_probs_all_tracts(d), time_series=t)
 
 @app.route('/sf_heatmap')
 def sf_heatmap():

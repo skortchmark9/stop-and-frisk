@@ -129,15 +129,18 @@ function getSelected(){
     selected[key] = value;
   }
 
+  selected['time'] = getCurrentlySelectedDate();
   console.log(selected);
 
 
+
   $.ajax({
-    url : '/alexa',
+    url : '/update_heatmap',
     type : 'POST',
     data : selected,
     success : function(response) {
       console.log(response);
+      analyze(response.time_series);
     },
     failure : function(response) {
       console.log(response);

@@ -1,0 +1,24 @@
+#graph_content {
+  font: 13px 'Open Sans';
+  font-weight: 0.5em;
+  stroke: white;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+.total {
+  stroke : white;
+}
+
+.current {
+  stroke: rgb(66,146,198);
+}
