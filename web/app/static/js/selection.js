@@ -136,7 +136,6 @@ function getSelected(){
     type : 'POST',
     data : selected,
     success : function(response) {
-      console.log(response);
       analyze(response.time_series);
       repaint(response.results);
     },

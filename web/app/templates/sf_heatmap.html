@@ -145,7 +145,7 @@ svg
   .call(zoom) // delete this line to disable free zooming
   .call(zoom.event);
 
-var nyShapefile = '../static/data/ny.json';
+var nyShapefile = '../static/data/ny_cropped.json';
 
 var quantize = d3.scale.quantize()
   .domain([0, 3])
@@ -174,7 +174,7 @@ queue()
     .await(ready);
 
 function ready(error, ny) {
-  var tracts = ny.objects.tracts;
+  var tracts = ny.objects.tracts_cropped;
 
   // strip water counties
   tracts.geometries = tracts.geometries
@@ -211,10 +211,14 @@ function repaint(new_data) {
     } else {
       return 'tract ' + quantize(probability);
     }
-  })
+  }).select('title')
+  .text(function(d) {
+    return d.id + " - " + heatmap_data[getID(d)];
+  });
 }
 
 function clicked(d) {
+  console.log(getMouseCoords());
   if (active.node() === this) return reset();
   active.classed("active", false);
   active = d3.select(this).classed("active", true);

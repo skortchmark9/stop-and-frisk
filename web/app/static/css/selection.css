@@ -62,10 +62,6 @@ select.button_style {
   padding-left: 150px;
 }
 
-/*#to-select{
-  box-shadow: 0px -3px 30px rgba(34,34,34,0.6);
-}
-*/
 #selection_div.fixed {
   top: 0px;
   position: fixed;
@@ -75,6 +71,12 @@ select.button_style {
   position: absolute;
   width: 100%;
   z-index:1;
-  top:300px;
   margin:0;
+}
+
+.flex {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
 }

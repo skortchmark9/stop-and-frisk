@@ -6,7 +6,7 @@
 </head>
 <body onload="selection_init()">
 
-	<div id="selection_content">
+	<div class="flex" id="selection_content">
 
 	<div id="identity">
 		<span id="iam">I am... </span><span id="list"/>
@@ -49,11 +49,9 @@
 
 		</form>
 	</div>
+	</div>
 
-	<div>
-		<button type="button" class="button_style" onclick="getSelected()">Get Selected</button>
-	</div>
-	</div>
+		<button id="get_selected" type="button" class="button_style" onclick="getSelected()">Get Selected</button>
 </div>
 
 </body>
