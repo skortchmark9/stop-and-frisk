@@ -41,6 +41,11 @@ function createWeight(){
   }
 }
 
+
+function toggleScroller() {
+  $('#get_selected').toggle($('#list > span').length > 0);
+}
+
 //Called when dropdown option is selected
 //id - the id of the dropdown that was selected
 //attribute - the option that was selected
@@ -60,7 +65,10 @@ function report(id, attribute) {
   var x = document.createTextNode("x");
   cancel.appendChild(x);
   cancel.setAttribute("name", id);
-  cancel.onclick=function(){removeAttribute(this.name)};
+  cancel.onclick=function(){
+    removeAttribute(this.name)
+    toggleScroller();
+  };
 
   var attributetext = document.createTextNode(attribute);
 
@@ -78,6 +86,7 @@ function report(id, attribute) {
 
   //remove the dropdown from the available selections
   dropdown.style.display='none';
+  toggleScroller();
 }
 
 function removeAttribute(name){
@@ -89,6 +98,10 @@ function removeAttribute(name){
 }
 
 function getSelected(){
+  $('html,body').animate({
+    scrollTop: $('#heatmap_div').offset().top
+  }, 'slow');
+
 	var list = document.getElementById("list");
 
   /*

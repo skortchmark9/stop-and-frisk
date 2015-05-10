@@ -65,14 +65,81 @@ select.button_style {
 #selection_div.fixed {
   top: 0px;
   position: fixed;
+  /* This is a hack which enables hardware acceleration*/
+  -webkit-transform: translate3d(0,0,0);
 }
 
 #selection_div {
   position: absolute;
+  bottom: 0px;
   width: 100%;
   z-index:1;
   margin:0;
+  -webkit-transform: translate3d(0,0,0);
 }
+
+/* Fun Scrolly Arrows*/
+.arrows {
+  border-radius: 50%;
+  background: rgb(8, 48, 107);
+  width: 72px;
+  height: 72px;
+}
+
+.arrows:hover {
+  cursor: pointer;
+}
+
+.arrows path {
+  -webkit-transform: translate3d(10%,0,0);
+  stroke: #2994D1;
+  fill: transparent;
+  stroke-width: 2px;
+  shape-rendering: geometricPrecision;
+}
+
+.arrows:hover > path {
+  display: block;
+  animation: arrow 2s infinite;
+  -webkit-animation: arrow 2s infinite;
+}
+
+.a1,
+.a3 {
+  display: none;
+}
+
+@keyframes arrow
+{
+0% {opacity:0}
+40% {opacity:1}
+80% {opacity:0}
+100% {opacity:0}
+}
+
+@-webkit-keyframes arrow /*Safari and Chrome*/
+{
+0% {opacity:0}
+40% {opacity:1}
+80% {opacity:0}
+100% {opacity:0}
+}
+
+.arrows path.a1 {
+  animation-delay:-1s;
+  -webkit-animation-delay:-1s; /* Safari 和 Chrome */
+}
+
+.arrows path.a2 {
+  animation-delay:-0.5s;
+  -webkit-animation-delay:-0.5s; /* Safari 和 Chrome */
+}
+
+.arrows path.a3 {
+  animation-delay:0s;
+  -webkit-animation-delay:0s; /* Safari 和 Chrome */
+}
+/* End Fun Scrolly Arrows */
 
 .flex {
   display: -webkit-flex;

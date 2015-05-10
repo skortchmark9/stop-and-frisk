@@ -15,9 +15,11 @@
       if (y >= top) {
         // if so, ad the fixed class
         $('#selection_div').addClass('fixed');
+        $('#get_selected').hide();
       } else {
         // otherwise remove it
         $('#selection_div').removeClass('fixed');
+        toggleScroller();
       }
     });
   });
