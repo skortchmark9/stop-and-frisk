@@ -20,5 +20,5 @@ build/tracts.shp: build/tl_2012_36_tract.zip
 	rmdir $(basename $@)
 	touch $@
 
-ny.json: build/tracts_cropped.shp
-	node_modules/.bin/topojson -o $@ --q0=0 --simplify=0 --projection='d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0)' --id-property=GEOID -- $(filter %.shp,$^)
+ny.json: build2/nyct2010.shp
+	node_modules/.bin/topojson -o $@ --q0=0 --simplify=0 --projection='d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0)' --id-property=BoroCT2010 -- $(filter %.shp,$^)

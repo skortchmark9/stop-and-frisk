@@ -70,6 +70,7 @@ select.button_style {
 }
 
 #selection_div {
+  height: 100px;
   position: absolute;
   bottom: 0px;
   width: 100%;

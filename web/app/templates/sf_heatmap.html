@@ -26,6 +26,10 @@
   fill: orange;
 }
 
+.water {
+  fill: yellow;
+}
+
 .btract:hover {
   fill: red;
 }
@@ -100,11 +104,12 @@ body {
 
 var heatmap_data = [];
 function getID(tract) {
-  if (tract.type == "Feature") {
-    return tract.id.slice(-8);
-  } else {
-    return null;
-  }
+  return tract.id;
+  // if (tract.type == "Feature") {
+  //   return "0" + tract.id.slice(-8);
+  // } else {
+  //   return null;
+  // }
 }
 
 var width = 960;
@@ -113,9 +118,10 @@ var active = d3.select(null);
 
 //Focus around NYC
 var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
-var initialScale = 6.062866266041589;
-var initialTranslate = [-3816.2949087116212, -3586.0526348606345];
 
+
+var initialScale = .55;
+var initialTranslate =  [100,0];
 /*
 If projection is null, the path uses the identity transformation, where the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of already-projected geometry, or for fast rendering of the equirectangular projection.
 */
@@ -138,15 +144,15 @@ var g = svg.append('g');
 var zoom = d3.behavior.zoom()
   .translate(initialTranslate)
   .scale(initialScale)
-  .scaleExtent([1, 20])
+  .scaleExtent([.001, 40])
   .on("zoom", zoomed);
 
 svg
   .call(zoom) // delete this line to disable free zooming
   .call(zoom.event);
 
-var nyShapefile = '../static/data/ny_cropped.json';
-
+var nyShapefile = '../static/data/ny_no_water_scaled.json';
+// var nyShapefile = '../static/data/ny_cropped.json';
 var quantize = d3.scale.quantize()
   .domain([0, 3])
   .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
@@ -174,16 +180,19 @@ queue()
     .await(ready);
 
 function ready(error, ny) {
-  var tracts = ny.objects.tracts_cropped;
-
+  console.log(ny);
+  var tracts = ny.objects.nyct2010;
   // strip water counties
-  tracts.geometries = tracts.geometries
-    .filter(function(d) { return (d.id.slice(-6) / 10000 | 0) !== 99; });
+  // tracts.geometries = tracts.geometries
+  //   .filter(function(d) { return (d.id.slice(-6) / 10000 | 0) !== 99; });
 
   g.selectAll("path")
     .data(topojson.feature(ny, tracts).features)
     .enter().append("path")
     .attr("class", function(d) {
+      if ((d.id.slice(-6) / 10000 | 0) == 99) {
+        return 'tract water'
+      }
       var probability = heatmap_data[getID(d)] || 'N';
       if (probability == 'N' || probability == '(X)' || probability == '-' ) {
         return 'tract missing'
@@ -203,6 +212,7 @@ function ready(error, ny) {
 }
 
 function repaint(new_data) {
+  console.log(new_data);
   g.selectAll(".tract")
   .attr('class', function(d) {
     var probability = new_data[getID(d)] || 'N';
@@ -211,7 +221,7 @@ function repaint(new_data) {
     } else {
       return 'tract ' + quantize(probability);
     }
-  }).select('title')
+  }).selectAll('title')
   .text(function(d) {
     return d.id + " - " + heatmap_data[getID(d)];
   });
