@@ -6,7 +6,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -23,3 +24,6 @@ Temporary Items
 .apdisk
 
 Proposal.zip
+
+#Huge files
+stop_and_frisked_graph.db
