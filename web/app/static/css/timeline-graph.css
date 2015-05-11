@@ -15,6 +15,10 @@
   stroke-width: 1.5px;
 }
 
+.yaxis2{
+  stroke: rgb(66,146,198);
+}
+
 .total {
   stroke : white;
 }

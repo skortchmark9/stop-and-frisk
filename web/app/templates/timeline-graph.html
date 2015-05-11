@@ -37,6 +37,10 @@
 		.scale(y)
 		.orient("left");
 
+	var yAxis2 = d3.svg.axis()
+		.scale(y)
+		.orient("right");
+
 	var line = d3.svg.line()
 		.interpolate("basis")
 		.x(function(d) { return x(d.date); })
@@ -58,6 +62,17 @@
 		.call(yAxis)
 		.append("text")
 		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", ".71em")
+		.style("text-anchor", "end")
+		.text("Total Stop/Frisks");
+
+		svg.append("g")
+		.attr("class", "yaxis2")
+		.attr("transform", "translate("+width+",0)")
+		.call(yAxis2)
+		.append("text")
+		.attr("transform", "rotate(-90) translate(0, -20)")
 		.attr("y", 6)
 		.attr("dy", ".71em")
 		.style("text-anchor", "end")
