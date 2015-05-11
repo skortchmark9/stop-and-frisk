@@ -46,7 +46,8 @@ def get_probs_all_tracts(feature_dict):
 	return prob_dict
 
 def str_to_time(s):
-	""" Converts stop and frisk style date strings to time vector in [0, 1]"""
+	""" Converts stop and frisk style date strings to one of 108 buckets 
+	for the 9 years and 12 months """
 	if '-' in s: # format: 'yyyy-mm-dd'
 		year = int(s[:4])
 		month = int(s[5:7])
@@ -60,7 +61,10 @@ def str_to_time(s):
 
 	days = 365*(year-2003) + int(round(365.25/12*(month-1))) + (date-1)
 	time = days/(365.25*11.9918)
-	return time
+	time = time - 0.24999971746607275
+	size = (0.999998869864291-0.24999971746607275)/(9.0*12.0)
+	bucket = int(time/size)
+	return str(bucket)
 
 if __name__ == '__main__':
 	main()
