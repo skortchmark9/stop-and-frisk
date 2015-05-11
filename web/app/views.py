@@ -6,14 +6,16 @@ from conversion import state_2_lat_lng
 from collections import Counter
 import sys
 from classify import get_probs_all_tracts
-from db import get_time_series
+from db import get_time_series, get_demographics, get_income
 
 
 @app.route('/')
 def main():
     total = json.dumps(get_time_series({}))
+    demographics = get_demographics()
+    income = get_income()
 
-    return render_template('layout.html', timeline_data=total)
+    return render_template('layout.html', timeline_data=total, demographics=demographics, income=income)
 
 @app.route('/selection')
 def selection():

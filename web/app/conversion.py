@@ -31,6 +31,8 @@ def census_9_to_census_7(tract):
         first = '0' + tract[:2]
     elif len(tract) == 9:
         first = tract[:3]
+    else:
+        return None
 
     if first == '047':
         prefix = '3'
@@ -41,10 +43,10 @@ def census_9_to_census_7(tract):
 
         prefix = '2'
     elif first == '081':
-
         prefix = '4'
     elif first == '085':
         prefix = '5'
-
+    else:
+        return None
 
     return prefix + last_6

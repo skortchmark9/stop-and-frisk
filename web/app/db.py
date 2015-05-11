@@ -1,6 +1,9 @@
 from app import app
 import sqlite3
 from flask import g
+import cPickle
+import csv
+from conversion import census_9_to_census_7
 
 DATABASE = 'stop_and_frisked_graph.db'
 
@@ -20,6 +23,19 @@ def get_demographics():
     with open('web/app/static/data/demographics.pkl', 'rb') as fid:
         return cPickle.load(fid)
 
+def get_income():
+
+    reader = csv.reader(open('web/app/static/data/ACS_13_5YR_B19013_with_ann.csv', 'rU'))
+    next(reader)
+    next(reader)
+
+    income = {}
+    for line in reader:
+        tract = census_9_to_census_7(line[1][-9:])
+        if tract:
+            income[tract] = line[3]
+
+    return income
 
 def get_time_series(requir_dict=[]):
     db1 = get_db()
