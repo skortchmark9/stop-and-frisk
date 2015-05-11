@@ -31,12 +31,13 @@ def get_time_series(requir_dict=[]):
 
     if len(requir_dict)>0:
         for key in requir_dict:
-            query += key + "=? and "
+            query+= (key+"=? and ")
             value_list.append(requir_dict[key])
         values = tuple(value_list)
         query = query.strip(" and ")
         query += " group by year,datestop"
         c = db1.cursor()
+        print(query)
         c.execute(query, values)
         resultset = c.fetchall()
         c.close()
@@ -49,8 +50,9 @@ def get_time_series(requir_dict=[]):
     result_list=[]
     for item in resultset:
         issue_list =["year", "datestop", "num"]
-        date = item[1] + item[0]
-        qty = item[2]
-        result_list.append({'date' : date, 'chance' : qty})
+        if int(item[0]) >= 2006:
+            date = item[1] + item[0]
+            qty = item[2]
+            result_list.append({'date' : date, 'chance' : qty})
 
     return result_list

@@ -33,21 +33,18 @@ def census_9_to_census_7(tract):
         first = tract[:3]
 
     if first == '047':
-        print "BROOKLYN"
         prefix = '3'
     elif first == '061':
-        print "MANHATTAN"
+
         prefix = '1'
     elif first == '005':
-        print "THE BRONX"
+
         prefix = '2'
     elif first == '081':
-        print "QUEENS"
+
         prefix = '4'
     elif first == '085':
-        print "STATEN ISLAND"
         prefix = '5'
-    else:
-        print(tract)
+
 
     return prefix + last_6
