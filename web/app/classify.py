@@ -4,7 +4,7 @@ import csv
 import argparse
 import cPickle
 from collections import defaultdict
-
+from conversion import census_9_to_census_7
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
 
@@ -35,6 +35,8 @@ def get_probs_all_tracts(feature_dict):
 	for tract in tracts:
 		if len(tract) == 7:
 			tract = '0' + tract
+
+		tract = census_9_to_census_7(tract)
 
 		tract_dict = feature_dict
 		tract_dict['tract'] = str('{0:09d}'.format(int(tract)))

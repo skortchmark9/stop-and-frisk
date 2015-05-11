@@ -24,3 +24,30 @@ def us_ft_2_m(ft):
 
 def m_2_us_ft(m):
     return m / to_meter
+
+def census_9_to_census_7(tract):
+    last_6 = tract[-6:]
+    if len(tract) == 8:
+        first = '0' + tract[:2]
+    elif len(tract) == 9:
+        first = tract[:3]
+
+    if first == '047':
+        #BROOKLYN
+        prefix = '3'
+    elif first == '061':
+        #MANHATTAN
+        prefix = '1'
+    elif first == '005':
+        #THE BRONX
+        prefix = '2'
+    elif first == '081':
+        #QUEENS
+        prefix = '4'
+    elif first == '085':
+        #STATEN ISLAND
+        prefix = '5'
+    else:
+        print(tract)
+
+    return prefix + last_6

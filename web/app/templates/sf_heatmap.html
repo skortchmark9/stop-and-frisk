@@ -104,11 +104,12 @@ body {
 
 var heatmap_data = [];
 function getID(tract) {
-  if (tract.type == "Feature") {
-    return "0" + tract.id.slice(-8);
-  } else {
-    return null;
-  }
+  return tract.id;
+  // if (tract.type == "Feature") {
+  //   return "0" + tract.id.slice(-8);
+  // } else {
+  //   return null;
+  // }
 }
 
 var width = 960;
@@ -118,11 +119,9 @@ var active = d3.select(null);
 //Focus around NYC
 var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
 
-var initialScale = 6.062866266041589;
-var initialTranslate = [-3816.2949087116212, -3586.0526348606345];
 
-var initialScale = -0.004;
-var initialTranslate =  [4500.159237630007,1100.626917992233];
+var initialScale = .55;
+var initialTranslate =  [100,0];
 /*
 If projection is null, the path uses the identity transformation, where the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of already-projected geometry, or for fast rendering of the equirectangular projection.
 */
@@ -182,7 +181,6 @@ queue()
 
 function ready(error, ny) {
   console.log(ny);
-  // var tracts = ny.objects.tracts_cropped;
   var tracts = ny.objects.nyct2010;
   // strip water counties
   // tracts.geometries = tracts.geometries
@@ -223,7 +221,7 @@ function repaint(new_data) {
     } else {
       return 'tract ' + quantize(probability);
     }
-  }).select('title')
+  }).selectAll('title')
   .text(function(d) {
     return d.id + " - " + heatmap_data[getID(d)];
   });
