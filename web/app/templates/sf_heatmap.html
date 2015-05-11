@@ -95,6 +95,17 @@ body {
   background: black;
 }
 
+.map_tooltip{ background-color:rgba(68,136,187,0.5);;
+          margin: 10px;
+          height: 50px;
+          width: 150px;
+          padding-left: 10px;
+          padding-top: 10px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+}
+
 </style>
 <div id="legend">
 </div>
@@ -102,13 +113,49 @@ body {
 </div>
 <script>
 
+var heatmap_data = {};
+
+d3.helper = {};
+
+d3.helper.tooltip = function(accessor){
+    return function(selection){
+        var tooltipDiv;
+        var bodyNode = d3.select('body').node();
+        selection.on("mouseover", function(d, i){
+            // Clean up lost tooltips
+            d3.select('body').selectAll('div.tooltip').remove();
+            // Append tooltip
+            tooltipDiv = d3.select('body').append('div').attr('class', 'map_tooltip');
+            var absoluteMousePos = d3.mouse(bodyNode);
+            tooltipDiv.style('left', (absoluteMousePos[0] + 10)+'px')
+                .style('top', (absoluteMousePos[1] - 15)+'px')
+                .style('position', 'absolute')
+                .style('z-index', 1001);
+            // Add text using the accessor function
+            var tooltipText = accessor(d, i) || '';
+            // Crop text arbitrarily
+            //tooltipDiv.style('width', function(d, i){return (tooltipText.length > 80) ? '300px' : null;})
+            //    .html(tooltipText);
+        })
+        .on('mousemove', function(d, i) {
+            // Move tooltip
+            var absoluteMousePos = d3.mouse(bodyNode);
+            tooltipDiv.style('left', (absoluteMousePos[0] + 10)+'px')
+                .style('top', (absoluteMousePos[1] - 15)+'px');
+            var tooltipText = accessor(d, i) || '';
+            tooltipDiv.html(tooltipText);
+        })
+        .on("mouseout", function(d, i){
+            // Remove tooltip
+            tooltipDiv.remove();
+        });
+
+    };
+};
+
+
 function getID(tract) {
   return tract.id;
-  // if (tract.type == "Feature") {
-  //   return "0" + tract.id.slice(-8);
-  // } else {
-  //   return null;
-  // }
 }
 
 var width = 960;
@@ -116,11 +163,12 @@ var height = 700;
 var active = d3.select(null);
 
 //Focus around NYC
-var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
+ var projection = d3.geo.mercator().center([-75.819, 42.795]).scale(6193).translate([480, 350]).precision(0);
 
 
-var initialScale = .55;
-var initialTranslate =  [100,0];
+var initialScale = 11.26675381529667;
+var initialTranslate =  [-7188.913037857064, -7009.883754997407];
+
 /*
 If projection is null, the path uses the identity transformation, where the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of already-projected geometry, or for fast rendering of the equirectangular projection.
 */
@@ -150,8 +198,8 @@ svg
   .call(zoom) // delete this line to disable free zooming
   .call(zoom.event);
 
-var nyShapefile = '../static/data/ny_no_water_scaled.json';
-// var nyShapefile = '../static/data/ny_cropped.json';
+var nyShapefile = '../static/data/ny_no_water_scaled_lat_lng.json';
+
 var quantize = d3.scale.quantize()
   .domain([0, 3])
   .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
@@ -180,10 +228,7 @@ queue()
 
 function ready(error, ny) {
   console.log(ny);
-  var tracts = ny.objects.nyct2010;
-  // strip water counties
-  // tracts.geometries = tracts.geometries
-  //   .filter(function(d) { return (d.id.slice(-6) / 10000 | 0) !== 99; });
+  var tracts = ny.objects.output;
 
   g.selectAll("path")
     .data(topojson.feature(ny, tracts).features)
@@ -196,8 +241,17 @@ function ready(error, ny) {
     })
     .attr("d", path)
     .on("click", clicked)
-    .append("title")
-    .text(function(d, i) { return d.id; });
+    .call(d3.helper.tooltip(
+        function(d, i){
+          var str = "<b>Tract: "+d.id;
+          str += '</b>';
+          var prob = heatmap_data[getID(d)]
+          if (prob) {
+            str += ("<br/>Prob: "+ prob);
+          }
+          return str;
+        }
+    ))
 
   g.append("path")
     .attr("class", "tract-border")
@@ -206,7 +260,7 @@ function ready(error, ny) {
 }
 
 function repaint(new_data) {
-  console.log(new_data);
+  heatmap_data = new_data;
   g.selectAll(".tract")
   .attr('class', function(d) {
     var probability = new_data[getID(d)] || 'N';
@@ -215,9 +269,6 @@ function repaint(new_data) {
     } else {
       return 'tract ' + quantize(probability);
     }
-  }).selectAll('title')
-  .text(function(d, i) {
-    return d.id + " - " + new_data[getID(d)];
   });
 }
 

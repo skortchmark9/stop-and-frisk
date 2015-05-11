@@ -26,7 +26,6 @@ def update_heatmap():
     del d2['time']
     specific = get_time_series(d2)
     probs = get_probs_all_tracts(d)
-    print(probs)
     return jsonify(success=True, results=probs, time_series=specific)
 
 @app.route('/sf_heatmap')
