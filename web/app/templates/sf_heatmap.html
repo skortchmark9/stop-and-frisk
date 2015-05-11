@@ -102,7 +102,6 @@ body {
 </div>
 <script>
 
-var heatmap_data = [];
 function getID(tract) {
   return tract.id;
   // if (tract.type == "Feature") {
@@ -193,17 +192,12 @@ function ready(error, ny) {
       if ((d.id.slice(-6) / 10000 | 0) == 99) {
         return 'tract water'
       }
-      var probability = heatmap_data[getID(d)] || 'N';
-      if (probability == 'N' || probability == '(X)' || probability == '-' ) {
-        return 'tract missing'
-      } else {
-        return 'tract ' + quantize(probability);
-      }
+      return 'tract missing'
     })
     .attr("d", path)
     .on("click", clicked)
     .append("title")
-    .text(function(d, i) { return d.id + " - " + heatmap_data[getID(d)]; });
+    .text(function(d, i) { return d.id; });
 
   g.append("path")
     .attr("class", "tract-border")
@@ -222,8 +216,8 @@ function repaint(new_data) {
       return 'tract ' + quantize(probability);
     }
   }).selectAll('title')
-  .text(function(d) {
-    return d.id + " - " + heatmap_data[getID(d)];
+  .text(function(d, i) {
+    return d.id + " - " + new_data[getID(d)];
   });
 }
 
