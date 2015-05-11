@@ -16,6 +16,10 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+def get_demographics():
+    with open('web/app/static/data/demographics.pkl', 'rb') as fid:
+        return cPickle.load(fid)
+
 
 def get_time_series(requir_dict=[]):
     db1 = get_db()
@@ -27,14 +31,14 @@ def get_time_series(requir_dict=[]):
 
     if len(requir_dict)>0:
         for key in requir_dict:
-            query+=key+"=? and "
+            query += key + "=? and "
             value_list.append(requir_dict[key])
-        values =tuple(value_list)
+        values = tuple(value_list)
         query = query.strip(" and ")
-        query+=" group by year,datestop"
+        query += " group by year,datestop"
         c = db1.cursor()
         c.execute(query, values)
-        resultset=c.fetchall()
+        resultset = c.fetchall()
         c.close()
     else:
         c = db1.cursor()
@@ -44,7 +48,7 @@ def get_time_series(requir_dict=[]):
 
     result_list=[]
     for item in resultset:
-        issue_list=["year","datestop","num"]
+        issue_list =["year", "datestop", "num"]
         date = item[1] + item[0]
         qty = item[2]
         result_list.append({'date' : date, 'chance' : qty})
