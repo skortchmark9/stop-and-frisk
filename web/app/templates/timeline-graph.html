@@ -21,13 +21,14 @@
 	totals = _.sortBy(totals, 'date');
 
 
-
 	var margin = {top: 20, right: 80, bottom: 30, left: 50};
 	var width = 1120 - margin.left - margin.right;
 	var height = 200 - margin.top - margin.bottom;
 
 	var x = d3.time.scale().range([0, width]);
 	var y = d3.scale.linear().range([height, 0]);
+
+	var y2 = d3.scale.linear().range([height, 0]);
 
 	var xAxis = d3.svg.axis()
 		.scale(x)
@@ -38,13 +39,18 @@
 		.orient("left");
 
 	var yAxis2 = d3.svg.axis()
-		.scale(y)
+		.scale(y2)
 		.orient("right");
 
 	var line = d3.svg.line()
 		.interpolate("basis")
 		.x(function(d) { return x(d.date); })
 		.y(function(d) { return y(d.chance); });
+
+	var line2 = d3.svg.line()
+		.interpolate("basis")
+		.x(function(d) { return x(d.date); })
+		.y(function(d) { return y2(d.chance); });
 
 	var svg = d3.select("#graph_content").append("svg")
 		.attr("width", width + margin.left + margin.right)
@@ -89,6 +95,8 @@
 
 		data = _.sortBy(data, 'date');
 
+		console.log(data)
+
 		var dateExtent = d3.extent(data, function(d){ return d.date; });
 		var chanceExtent = d3.extent(data, function(d) { return d.chance; });
 
@@ -98,40 +106,64 @@
 		y.domain([_.min([chanceExtent[0], totalChanceExtent[0]]),
 						  _.max([chanceExtent[1], totalChanceExtent[1]])]);
 
+		y2.domain([chanceExtent[0], chanceExtent[1]]);
+
+
 	  if (!first_time) {
 		  var transition_svg = d3.select('#graph_content').transition();
 		  transition_svg.select('.x.axis').duration(750).call(xAxis)
 		  transition_svg.select('.y.axis').duration(750).call(yAxis)
+		  transition_svg.select('.yaxis2').duration(750).call(yAxis2)
 	  } else {
 		  svg.select('.x.axis').call(xAxis)
 		  svg.select('.y.axis').call(yAxis)
+		  svg.select('.yaxis2').call(yAxis2)
 
 	  }
 
 		var series = [];
+
+		if (!_.isEmpty(totals)) {
+			series.push({name : 'totals', values : totals});
+		}
+
+
 		if (!_.isEmpty(data)) {
 			series.push({name : 'current', values : data});
 		} else {
 			series.push({name : 'current', values : []});
 		}
 
-		if (!_.isEmpty(totals)) {
-			series.push({name : 'totals', values : totals});
-		}
-
+		
 		var lines = svg.selectAll(".line")
 		if (first_time) {
 			lines.data(series)
 				.enter()
 				.append("path")
 				.attr("class", function(d) {return 'line ' + d.name;})
-				.attr("d", function(d) { return line(d.values); });
+				.attr("d", function(d) { 
+					if(d.name == "totals") 
+						{
+							return line(d.values);
+						} 
+						else {
+							return line2(d.values);
+						}
+					});
 		} else {
 				lines = svg.selectAll('.line')
 				.data(series)
 				.transition()
 				.attr("class", function(d) { return 'line ' + d.name;})
-				.attr("d", function(d) { return line(d.values); });
+				.attr("d", function(d) { 
+					if(d.name == "totals") 
+						{
+							return line(d.values);
+						} 
+						else {
+							return line2(d.values);
+						}
+					});
 		}
 
 		// lines.append("text")
