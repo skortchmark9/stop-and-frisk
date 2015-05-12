@@ -12,7 +12,8 @@
 
 .line {
   fill: none;
-  stroke-width: 1.5px;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
 }
 
 .yaxis2{

@@ -37,6 +37,15 @@ def sf_heatmap():
 
     return render_template('sf_heatmap.html', sf_data=tracts)
 
+@app.route('/zoom', methods=['GET'])
+def zoom():
+    minlat = request.args.get('min_lat', '')
+    maxlat = request.args.get('max_lat', '')
+    minlon = request.args.get('min_lon', '')
+    maxlon = request.args.get('max_lon', '')
+    return jsonify({'sup!' : 2})
+
+
 @app.route('/help')
 def help():
     data = []
