@@ -59,7 +59,7 @@
                         <a class="page-scroll" href="#methodology">Methodology</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#download">Download</a>
+                        <a class="page-scroll" href="#results">Results</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -152,17 +152,39 @@
                 <h3>API</h3>
 
                 <h3>Web Application</h3>
-                <p>The goal with our web application was to bring a new dimension of </p>
+                <p>The goal with our web application was to bring a new dimension from the data by allowing users to interact with the classifier. Results have more impact if they can be connected to a person's own life - if you were walking down the streets of New York, would you be profiled?</p>
+
                 <h4>Structure</h4>
                 <p>Our web application consists of a series of dropdown options to select input characteristics, a map, a date slider to select any month in the range of 2006-2014, selectable press release summaries, and a timeline.</p>
+
                 <h5>Dropdown Options</h5>
                 <p>
                     The available drop down options are sex, age, and race.
                 </p>
                 <h5>Map</h5>
+                <img class="img-responsive center-block" src="img/map/map-plain.png"/>
                 <p>
                     We used d3 to display a GeoJSON file of New York City and the surrounding areas divided by census tracts. This map can be panned by clicking and dragging, and zoomed in on with the scroll wheel.
                 </p>
+                <h5>Date Slider</h5>
+                <img class="img-responsive center-block" src="img/date-slider.png"/>
+                <p>
+                   The date slider is used to select the point in time for the map to display the likelihood of being stopped and frisked at each census tract.
+                </p>
+                <h5>Press Releases</h5>
+                <img class="img-responsive center-block" src="img/timepieces.png"/>
+                <p>
+                   Press releases are displayed in small circles directly above the timeline. Police are not conducting stop-and-frisks in a vacuum - the location of the press releases provides context for the fluctionations in searches. This allows the data to begin to tell a story.
+                </p>
+                <img class="img-responsive center-block" src="img/timeline-select.png"/>
+                <p>
+                    Users can hover over the press release circles to gain more information about what it is about. Each press release contains a headline and description. Clicking on the press release will take the user to a relevant article about the event so that they can delve deeper.
+                </p>
+                <h5>Timeline</h5>
+                <p>
+                   We used d3 to create a timeline with one static white line repesenting the total number of stop-and-frisks which happened each day over time. The second blue line dynamically responds to the selected characteristics, showing how the chance of being stopped and frisked changes over time. This timeline lines up with the time slider, allowing the user to easily jump to points they might find interesting.
+                </p>
+            </div>
             </div>
     </section>
 
@@ -181,7 +203,7 @@
             </div>
     </section>
 
-<section id="results" class="container content-section text-center">
+    <section id="results" class="container content-section text-center">
         <div class="row">
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Results</h2>
@@ -240,9 +262,25 @@
                 </p>
             </div>
     </section>
+
+     <section id="proposal" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Original Proposal Review</h2>
+               
+            </div>
+    </section>
+
+    <section id="future" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>What Now?</h2>
+               
+            </div>
+    </section>
     
     <!-- Download Section -->
-    <section id="download" class="content-section text-center">
+    <section id="contact" class="content-section text-center">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
