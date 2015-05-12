@@ -157,6 +157,15 @@
                 <h3>Web Application</h3>
                 <p>The goal with our web application was to bring a new dimension of </p>
                 <h4>Structure</h4>
+                <p>Our web application consists of a series of dropdown options to select input characteristics, a map, a date slider to select any month in the range of 2006-2014, selectable press release summaries, and a timeline.</p>
+                <h5>Dropdown Options</h5>
+                <p>
+                    The available drop down options are sex, age, and race.
+                </p>
+                <h5>Map</h5>
+                <p>
+                    We used d3 to display a GeoJSON file of New York City and the surrounding areas divided by census tracts. This map can be panned by clicking and dragging, and zoomed in on with the scroll wheel.
+                </p>
             </div>
     </section>
 
@@ -180,6 +189,9 @@
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Results</h2>
                 <h3>Classifier Output</h3>
+                <p>
+                    The following table was created by averaging out the likelihoods for adults (ages 18-60) on 10 random dates from every year in 2006-2014.
+                </p>
                 <table class="table">
                     <tr>
                         <th>Race/Sex</th>
@@ -214,15 +226,18 @@
                 <p>
                     After the user interacts with the drop down options, the map will automatically be populated with a variety of related information.
                 </p>
-                <img class="img-center full-map" src="img/map/map-plain-19-white-male.png"/>
+                <img class="img-responsive center-block" src="img/map/map-plain-19-white-male.png"/>
+                <h12>Male, 19 Years Old, White</h12>
                 <p>
                     Individual census tracts will be colored to reflect the likelihood with which an individual with the selected characteristics would be stopped and frisked by an officer in relation to the average person, in the month selected on the timeline below. The darker the color, the more likely a stop, as shown by the key to the right of the map.
                 </p>
-                <img class="img-center small-map" src="img/map/map-tooltip.png"/>
+                <img class="img-responsive center-block" src="img/map/map-tooltip.png"/>
+                <h12>Male, 19 Years Old, White</h12>
                 <p>
                     Users can explore individual census tracts by hovering over them, which will bring up a tooltip explaining where the tract is, what the exact likelihood is, the average income of the tract, the number of stop and frisk complaints against NYPD for that year, and the racial distribution of the tract. They can also click to zoom in and focus on the tract.
                 </p>
-                 <img class="img-center small-map" src="img/map/map-arrests-24-black-male.png"/>    
+                 <img class="img-responsive center-block" src="img/map/map-arrests-24-black-male.png"/>    
+                <h12>Male, 24 Years Old, Black</h12>
                 <p>
                     Actual stop and frisk incidents from the NYPD database in the selected month will be displayed on the map in the form of dots. Red dots represent an arrest, and yellow dots represent an unfruitful stop and frisk. 
                 </p>

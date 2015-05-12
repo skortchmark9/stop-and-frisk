@@ -373,16 +373,3 @@ body {
 }
 
 /* CUSTOM CHANGES */
-
-.full-map{
-    width: 700px;
-}
-
-.small-map{
-    width: 500px;
-}
-
-.img-center{
-    margin-left: auto;
-    margin-right: auto;
-}
