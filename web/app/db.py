@@ -89,20 +89,29 @@ def get_time_series(requir_dict=[]):
 
 def count_zoom(year,date,minlat,maxlat,minlon,maxlon):
     db1 = get_db_1()
-    qualities = ['xcoord', 'ycoord', 'race']
-    # query = "select xcoord,ycoord,race from stop_and_frisked where year=? and datestop=? and xcoord between ? and ? and ycoord between ? and ?"
-    query = "select {0} from stop_and_frisked where year=? and datestop=?".format(','.join(qualities))
+    qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
     c = db1.cursor()
-    # value_list=[year,date,minlon,maxlon,minlat,maxlat]
-    value_list=[year, date]
-    values = tuple(value_list)
 
     result_list=[]
-    c.execute(query, values)
+    query = "select {0} from stop_and_frisked where year={1} and datestop='{2}' and xcoord between {3} and {4} and ycoord between {5} and {6}"
+    query = query.format(','.join(qualities), year, date, minlat, maxlat, maxlon, minlon)
+    print(query)
+    c.execute(query)
     resultset = c.fetchall()
     c.close()
 
+
+    #This is hackery b/c they are encoded backwards in the db.
+    qualities = ['lat', 'lon', 'race', 'arstmade']
     for item in resultset:
-        result_list.append(dict(zip(qualities, item)))
+        result_list.append(dict(zip(qualities, format_item(item))))
 
     return result_list
+
+def format_item(item):
+    formatted = []
+    formatted.append(float(item[0]))
+    formatted.append(float(item[1]))
+    formatted.append(format_race(item[2]))
+    formatted.append(arstmade === 'Y')
+    return format_item

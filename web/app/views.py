@@ -23,9 +23,7 @@ def selection():
 
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
-    print(request.form)
     d = {k : v for k, v in request.form.iteritems()}
-    print(d)
     d2 = d.copy()
     del d2['time']
     specific = get_time_series(d2)
