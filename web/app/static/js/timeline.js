@@ -1,5 +1,5 @@
 var min = timestamp('January 2006');
-var max = timestamp('2015');
+var max = timestamp('December 30, 2014');
 var alternate = 0;
 var timepiece_months = {}
 
