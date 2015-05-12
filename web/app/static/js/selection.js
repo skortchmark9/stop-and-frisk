@@ -151,6 +151,11 @@ function getSelected(){
     success : function(response) {
       analyze(response.time_series);
       repaint(response.results);
+      var sum = _.reduce(response.results, function(m, n) {
+        return m + n;
+      }, 0);
+      var avg = sum / _.keys(response.results).length;
+      $('#likelihood').text(avg.toFixed(2));
     },
     failure : function(response) {
       console.log(response);
