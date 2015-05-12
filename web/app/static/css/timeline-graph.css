@@ -12,7 +12,8 @@
 
 .line {
   fill: none;
-  stroke-width: 1.5px;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
 }
 
 .yaxis2{
@@ -21,6 +22,18 @@
 
 .total {
   stroke : white;
+}
+
+.tick text {
+  fill: white;
+  stroke: none;
+  text-anchor: end;
+}
+
+.tick_text {
+  fill: white;
+  stroke: none;
+  text-anchor: end;
 }
 
 .current {
