@@ -24,16 +24,16 @@ def count_zoom(year,date,minlat,maxlat,minlon,maxlon):
 	c = db1.cursor()
 	value_list=[year,date,minlon,maxlon,minlat,maxlat]
 	values = tuple(value_list)
-	
+
 	result_list=[]
 	c.execute(query, values)
 	resultset = c.fetchall()
 	c.close()
 
-    for item in resultset:
-    	lng = item[13]
-    	lat = item[14]
-    	race = item[8]
-    	result_list.append({'lng' : lng, 'lat' : lat, 'race':race})
+	for item in resultset:
+		lng = item[13]
+		lat = item[14]
+		race = item[8]
+		result_list.append({'lng' : lng, 'lat' : lat, 'race':race})
 
-    return result_list
+	return result_list
