@@ -36,7 +36,22 @@ def update_heatmap():
     all_probs = get_probs_all_tracts(d)
     probs = all_probs[1]
     avg_prob = all_probs[0]
-    return jsonify(success=True, results=probs, avg_prob=avg_prob, time_series=specific, matches=matches)
+    return jsonify(results=probs, avg_prob=avg_prob)
+
+@app.route('/update_timeline', methods=['POST'])
+def update_timeline():
+    d2 = {k : v for k, v in request.form.iteritems()}.copy()
+    del d2['time']
+    specific = get_time_series(d2)
+    return jsonify(time_series=specific)
+
+@app.route('/update_stops', methods=['POST'])
+def update_stops():
+    d = {k : v for k, v in request.form.iteritems()}
+    date = d['time'][:4]
+    year = int(d['time'][-4:])
+    matches = count_total(year, date, d['age'], d['race'], d['sex'])
+    return jsonify(matches=matches)
 
 @app.route('/sf_heatmap')
 def sf_heatmap():

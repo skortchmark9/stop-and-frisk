@@ -143,16 +143,19 @@ function getSelected(){
   }
 
   selected['time'] = getCurrentlySelectedDate();
+  updateHeatmap(selected);
+  updateTimeline(selected);
+  updateStops(selected);
+}
 
+
+function updateHeatmap(selected) {
   $.ajax({
     url : '/update_heatmap',
     type : 'POST',
     data : selected,
     success : function(response) {
-      analyze(response.time_series);
       repaint(response.results);
-      console.log(response);
-      paintStops(response.matches);
       var avg = response.avg_prob;
       $('#likelihood').text(avg.toFixed(2));
     },
@@ -160,6 +163,32 @@ function getSelected(){
       console.log(response);
     }
   });
+}
 
-  // return selected;
+function updateTimeline(selected) {
+  $.ajax({
+    url : '/update_timeline',
+    type : 'POST',
+    data : selected,
+    success : function(response) {
+      analyze(response.time_series);
+    },
+    failure : function(response) {
+      console.log(response);
+    }
+  });
+}
+
+function updateStops(selected) {
+  $.ajax({
+    url : '/update_stops',
+    type : 'POST',
+    data : selected,
+    success : function(response) {
+      paintStops(response.matches);
+    },
+    failure : function(response) {
+      console.log(response);
+    }
+  });
 }
