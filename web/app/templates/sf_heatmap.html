@@ -108,7 +108,7 @@ body {
 }
 
 .map_tooltip.large {
-  height: 140px;
+  height: 235px;
 }
 
 .demo {
@@ -135,6 +135,14 @@ body {
   color:  #9d9fd5;
 }
 
+/*#legend {
+  -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+*/
 </style>
 <div id="legend">
 </div>
@@ -219,8 +227,8 @@ function getID(tract) {
   return tract.id;
 }
 
-var width = 960;
-var height = 700;
+var width = 900;
+var height = 500;
 var active = d3.select(null);
 
 //Focus around NYC
@@ -307,12 +315,12 @@ function ready(error, ny) {
           str += '</b>';
           var prob = heatmap_data[getID(d)]
           if (prob) {
-            str += ("<br/>Prob: "+ prob);
+            str += ("<br/>Prob: "+ prob.toFixed(3));
           }
 
           var income = income_map[getID(d)];
           if (income && (income != 'N') && (income != '(X)') && (income != '-' )) {
-            str += "<br>Income: " + income;
+            str += "<br>Income: $" + income;
           }
 
           var demogs = demographics[getID(d)];
