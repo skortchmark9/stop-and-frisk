@@ -33,11 +33,17 @@ body{
   width: 100%;
 }
 
+#map_section {
+	display: inline-block;
+}
+
+.wrapper {
+	text-align: center;
+}
 
 #heatmap_div{
 	margin-left: auto;
 	margin-right: auto;
-	width: 960px;
 	margin-top: 50px;
 }
 

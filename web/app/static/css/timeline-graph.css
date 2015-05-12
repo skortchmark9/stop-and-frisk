@@ -23,6 +23,18 @@
   stroke : white;
 }
 
+.tick text {
+  fill: white;
+  stroke: none;
+  text-anchor: end;
+}
+
+.tick_text {
+  fill: white;
+  stroke: none;
+  text-anchor: end;
+}
+
 .current {
   stroke: rgb(66,146,198);
 }

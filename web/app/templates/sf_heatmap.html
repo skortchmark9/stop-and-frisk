@@ -60,35 +60,10 @@
 .q6-10 { fill:rgb(33,113,181); }
 .q7-10 { fill:rgb(8,81,156); }
 .q8-10 { fill:rgb(8,48,107); }
-.q9-10 {fill:rgb(0, 3, 6);}
+.q9-10 { fill:rgb(50, 3, 40);}
 
-.q0-10-key { border-color:rgb(205, 205, 205); }
-.q1-10-key { border-color:rgb(222,235,247); }
-.q2-10-key { border-color:rgb(198,219,239); }
-.q3-10-key { border-color:rgb(158,202,225); }
-.q4-10-key { border-color:rgb(107,174,214); }
-.q5-10-key { border-color:rgb(66,146,198); }
-.q6-10-key { border-color:rgb(33,113,181); }
-.q7-10-key { border-color:rgb(8,81,156); }
-.q8-10-key { border-color:rgb(8,48,107); }
-.q9-10-key { border-color:rgb(0, 3, 6);}
-
-li.key {
-    list-style-type: none;
-    display: inline-block;
-    border-top-width: 15px;
-    border-top-style: solid;
-    font-size: .75em;
-    width: 10%;
-    padding-left: 0;
-    padding-right: 0;
-    text-align: center;
-    color: white;
-}
-
-.list-inline{
--webkit-padding-start: 0px !important;
-width: 960px;
+.legend-text {
+  fill: white;
 }
 
 body {
@@ -135,18 +110,20 @@ body {
   color:  #9d9fd5;
 }
 
-/*#legend {
-  -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
+#legend {
+  margin: 0px 10px;
 }
-*/
+
 </style>
-<div id="legend">
-</div>
-<div id="heatmap_svg">
+<div class="wrapper">
+  <div id="map_section">
+    <div id="map_wrapper" class="flex">
+      <div id="heatmap_svg">
+      </div>
+      <div id="legend">
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 
@@ -274,18 +251,32 @@ var quantize = d3.scale.quantize()
   .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
 
 //Legend
-var legend = d3.select('#legend')
-  .append('ul')
-  .attr('class', 'list-inline');
 
-var keys = legend.selectAll('li.key')
+var legendWidth = 40;
+var legendHeight = height;
+var legend = d3.select('#legend')
+  .append('svg')
+  .attr('width', legendWidth * 2)
+  .attr('height', legendHeight);
+
+
+var keys = legend.selectAll('g')
   .data(quantize.range());
 
-keys.enter().append('li')
+keys.enter().append('rect')
+  .attr('x', 0)
+  .attr('y', function(d, i) {return (legendHeight / 10) * i;})
+  .attr('height', legendHeight / 10)
+  .attr('width', legendWidth)
   .attr('class', function(d){
-    return d + "-key key";
+    return d + " key";
   })
-  .style('border-top-color', String)
+
+keys.enter()
+  .append('text')
+  .attr('x', 45)
+  .attr('y', function(d, i) {return ((legendHeight / 10) * i) + 20;})
+  .attr('class', 'legend-text')
   .text(function(d) {
       var r = quantize.invertExtent(d);
       return r[0];
