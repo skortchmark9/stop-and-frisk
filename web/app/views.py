@@ -43,7 +43,10 @@ def zoom():
     maxlat = request.args.get('max_lat', '')
     minlon = request.args.get('min_lon', '')
     maxlon = request.args.get('max_lon', '')
-    return jsonify({'sup!' : 2})
+
+    data = [{'lng' : -73.96685693441715, 'lat' : 40.77753859151113, 'race' : 'B'}, {'lng' : -73.95337578871113, 'lat' : 40.79365558877373, 'race' : 'H'}]
+
+    return jsonify(success=True, data=data)
 
 
 @app.route('/help')

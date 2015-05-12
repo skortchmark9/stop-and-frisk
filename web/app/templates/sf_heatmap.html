@@ -344,6 +344,7 @@ function repaint(new_data) {
 }
 
 function clicked(d) {
+  console.log(getMouseCoords());
   if (active.node() === this) return reset();
   active.classed("active", false);
   active = d3.select(this).classed("active", true);
@@ -372,7 +373,23 @@ function clicked(d) {
     url : url,
     type : 'GET',
     success : function(response) {
-      console.log(response);
+      console.log('rec');
+      if (!response  || !response.success) {
+        return;
+      }
+      console.log('pass');
+      console.log(response.data);
+      g.selectAll('circle')
+        .data(response.data)
+        .enter()
+        .append('circle')
+        .attr('class', function(d) {
+          console.log('hey');
+          return 'dot ' + d.race;
+        })
+        .attr('cx', function(d) {var proj =  projection([d.lng, d.lat]); return proj[0];})
+        .attr('cy', function(d) {var proj = projection([d.lng, d.lat]); return proj[1];})
+        .attr('r', .4);
     },
     failure : function(response) {
       console.log(response);
@@ -391,6 +408,8 @@ function getMouseCoords() {
 }
 
 function reset() {
+  g.selectAll('circle').remove()
+
   active.classed("active", false);
   active = d3.select(null);
 
