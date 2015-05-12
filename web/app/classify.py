@@ -27,8 +27,17 @@ def get_probs_all_tracts(feature_dict):
 	with open('web/app/Classifier/tracts.pkl', 'rb') as fid:
 		tracts = cPickle.load(fid)
 
-	feature_dict['time'] = str_to_time(feature_dict['time'])
-	feature_dict['age'] = (int(feature_dict['age']) - 10)/70.0
+	if 'time' in feature_dict:
+		feature_dict['time'] = str_to_time(feature_dict['time'])
+	if 'age' in feature_dict:
+		feature_dict['age'] = (int(feature_dict['age']) - 10)/70.0
+
+	tract_dict = feature_dict
+	features = vectorizer.transform([tract_dict])
+
+	probs = classifier.predict_proba(features)[0]
+	overall = probs[1]/average
+
 
 	prob_dict = {}
 
@@ -44,7 +53,7 @@ def get_probs_all_tracts(feature_dict):
 
 		tract = census_9_to_census_7(tract)
 		prob_dict[tract] = probs[1]/average
-	return prob_dict
+	return (overall, prob_dict)
 
 def str_to_time(s):
 	""" Converts stop and frisk style date strings to one of 108 buckets 
