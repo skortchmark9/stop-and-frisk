@@ -6,7 +6,7 @@ from conversion import state_2_lat_lng
 from collections import Counter
 import sys
 from classify import get_probs_all_tracts
-from db import get_time_series, get_demographics, get_income
+from db import get_time_series, get_demographics, get_income, count_zoom
 
 
 @app.route('/')
@@ -23,7 +23,9 @@ def selection():
 
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
+    print(request.form)
     d = {k : v for k, v in request.form.iteritems()}
+    print(d)
     d2 = d.copy()
     del d2['time']
     specific = get_time_series(d2)
@@ -44,7 +46,11 @@ def zoom():
     minlon = request.args.get('min_lon', '')
     maxlon = request.args.get('max_lon', '')
 
-    data = [{'lng' : -73.96685693441715, 'lat' : 40.77753859151113, 'race' : 'B'}, {'lng' : -73.95337578871113, 'lat' : 40.79365558877373, 'race' : 'H'}]
+    year = int(request.args.get('year', ''))
+    date = request.args.get('date', '')
+
+    data = count_zoom(year, date, minlat, maxlat, minlon, maxlon)
+
 
     return jsonify(success=True, data=data)
 

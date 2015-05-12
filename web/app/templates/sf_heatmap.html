@@ -204,6 +204,16 @@ function getID(tract) {
   return tract.id;
 }
 
+function getBorough(tract) {
+  switch (tract.id.slice(0, 1)) {
+    case '1': return 'Manhattan';
+    case '2': return 'The Bronx';
+    case '3': return 'Brooklyn';
+    case '4': return 'Queens';
+    case '5': return 'Staten Island';
+  }
+}
+
 var width = 900;
 var height = 500;
 var active = d3.select(null);
@@ -302,22 +312,25 @@ function ready(error, ny) {
     .on("click", clicked)
     .call(d3.helper.tooltip(
         function(d, i){
-          var str = "<b>Tract: "+d.id;
-          str += '</b>';
-          var prob = heatmap_data[getID(d)]
+          var str = '';
+          var boro = getBorough(d);
+          if (boro) {
+            str += boro + "<br>";
+          }
+
+          var prob = heatmap_data[getID(d)];
           if (prob) {
-            str += ("<br/>Prob: "+ prob.toFixed(3));
+            str += ("Prob: "+ prob.toFixed(3) + "<br>");
           }
 
           var income = income_map[getID(d)];
           if (income && (income != 'N') && (income != '(X)') && (income != '-' )) {
-            str += "<br>Income: $" + income;
+            str += "Income: $" + income;
           }
 
           var demogs = demographics[getID(d)];
           if (demogs) {
-            str += "<br>Demographics:<br>";
-            str += "<span class='demo_key'><span class='demo_0'>White:" + demogs[0] + "%</span><br><span class='demo_1'>Black:" + demogs[1] + "%</span><br><span class='demo_2'>Hispanic:" + demogs[2] + "%</span> <br><span class='demo_3'>Other:" + demogs[3] + "%</span></span>";
+            str += "<br><span class='demo_key'><span class='demo_0'>White:" + demogs[0] + "%</span><br><span class='demo_1'>Black:" + demogs[1] + "%</span><br><span class='demo_2'>Hispanic:" + demogs[2] + "%</span> <br><span class='demo_3'>Other:" + demogs[3] + "%</span></span>";
           }
 
           return str;
@@ -362,17 +375,22 @@ function clicked(d) {
     'max_lat=' : projection.invert(bounds[0])[1],
     'min_lon=' : projection.invert(bounds[0])[0],
     'max_lon=' : projection.invert(bounds[1])[0],
+    'date=' : getCurrentlySelectedDate().slice(0, 4),
+    'year=' : getCurrentlySelectedDate().slice(-4)
   };
+
 
   var url = '/zoom?';
   _.each(query, function(val, key, idx) {
     url += key + val + '&';
   });
+  console.log(url);
 
   $.ajax({
     url : url,
     type : 'GET',
     success : function(response) {
+      console.log(response);
       console.log('rec');
       if (!response  || !response.success) {
         return;

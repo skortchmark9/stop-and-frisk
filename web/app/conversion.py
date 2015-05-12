@@ -35,16 +35,19 @@ def census_9_to_census_7(tract):
         return None
 
     if first == '047':
+        #Brooklyn
         prefix = '3'
     elif first == '061':
-
+        #Manhattan
         prefix = '1'
     elif first == '005':
-
+        #The Bronx
         prefix = '2'
     elif first == '081':
+        #Queens
         prefix = '4'
     elif first == '085':
+        #Staten Island
         prefix = '5'
     else:
         return None

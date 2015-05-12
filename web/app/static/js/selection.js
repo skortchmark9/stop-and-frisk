@@ -111,7 +111,7 @@ function getSelected(){
   H - hispanic
   */
   var selected = {};
-  for(i=1;i<list.childNodes.length;i++){
+  for(i=0;i<list.childNodes.length;i++){
     var at = list.childNodes[i];
     var key = at.getAttribute("name");
     var value = at.childNodes[0].textContent;
