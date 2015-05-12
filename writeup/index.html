@@ -56,6 +56,9 @@
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
+                        <a class="page-scroll" href="#methodology">Methodology</a>
+                    </li>
+                    <li>
                         <a class="page-scroll" href="#download">Download</a>
                     </li>
                     <li>
@@ -104,7 +107,7 @@
 
                 <a href="http://www.nyc.gov/html/nypd/html/analysis_and_planning/stop_question_and_frisk_report.shtml"> <h3>NYPD | Stop, Question and Frisk Report Database</h3></a>
                 <p>
-                    The stop and frisk dataset is rich and comprehensive, and contains over 5 million individual stop and frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprised 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
+                    The stop-and-frisk dataset is rich and comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprised 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
                 </p>
 
                 <h3>Census</h3>
@@ -128,6 +131,43 @@
                     This database provides police complaints by precinct from 2003-2013. 
                 </br>
                     We converted precinct information to census tract using <a href="http://johnkeefe.net/nyc-police-precinct-and-census-data">multiple conversion files</a>.
+                </p>
+            </div>
+    </section>
+
+    <section id="methodology" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Methodology</h2>
+                <h3>Data Cleaning Pipeline</h3>
+
+                <h3>Classifier</h3>
+                <p>
+                    We used logistic regression on our input data to give the most viable prediction of chance of stop-and-frisk given a set of input characteristics chosen by the user. Dates are separated by month so that there will be a sufficient number of stop-and-frisk incidents for the classifier to create accurate inferences, while still retaining the ability to analyze a relatively fine-grained period of time. Age is treated as a vector, allowing for general trends to become prominent without overfitting to the specific ages of the people who were stopped in a narrow range of time, given that age can vary across a large range.
+                </p>
+                <p>
+                    If a feature is unspecified,the classifier is prompted to average out the probabilities of all values for that feature. Thus, if no features are selected, then the
+                </p>
+
+                <h3>API</h3>
+
+                <h3>Web Application</h3>
+                <p>The goal with our web application was to bring a new dimension of </p>
+                <h4>Structure</h4>
+            </div>
+    </section>
+
+    <section id="challenges" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Challenges</h2>
+                <h3>Data Wrangling</h3>
+
+                <h3>Coordinate Conversion</h3>
+
+                <h3>Performance</h3>
+                <p>
+                    With several million points of data within our stop-and-frisk database contributing to an interactive classification and visualization and being sent to and from the browser, performance was key.
                 </p>
             </div>
     </section>
