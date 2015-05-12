@@ -7,6 +7,7 @@ from collections import Counter
 import sys
 from classify import get_probs_all_tracts
 from db import get_time_series, get_demographics, get_income, count_zoom, count_total
+from complaints import get_complaints
 
 
 @app.route('/')
@@ -14,8 +15,9 @@ def main():
     total = json.dumps(get_time_series({}))
     demographics = get_demographics()
     income = get_income()
+    complaints = get_complaints()
 
-    return render_template('layout.html', timeline_data=total, demographics=demographics, income=income)
+    return render_template('layout.html', timeline_data=total, demographics=demographics, income=income, complaints=complaints)
 
 @app.route('/selection')
 def selection():
