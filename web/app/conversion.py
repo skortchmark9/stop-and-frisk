@@ -25,6 +25,17 @@ def us_ft_2_m(ft):
 def m_2_us_ft(m):
     return m / to_meter
 
+def format_race(r):
+    """ Converts race string to one of 4 standard options """
+    if r == 'W':
+        return r
+    if r == 'B':
+        return r
+    if r in ['P', 'Q']:
+        return 'H'
+    else:
+        return 'O'
+
 def census_9_to_census_7(tract):
     last_6 = tract[-6:]
     if len(tract) == 8:
