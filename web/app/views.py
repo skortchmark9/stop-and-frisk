@@ -24,20 +24,22 @@ def selection():
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
     d = {k : v for k, v in request.form.iteritems()}
-    print(d)
     d2 = d.copy()
     del d2['time']
     specific = get_time_series(d2)
-    probs = get_probs_all_tracts(d)
     date = d['time'][:4]
     year = int(d['time'][-4:])
     matches = count_total(year, date, d['age'], d['race'], d['sex'])
-    return jsonify(success=True, results=probs, time_series=specific, matches=matches)
+
+    all_probs = get_probs_all_tracts(d)
+    probs = all_probs[1]
+    avg_prob = all_probs[0]
+    return jsonify(success=True, results=probs, avg_prob=avg_prob, time_series=specific, matches=matches)
 
 @app.route('/sf_heatmap')
 def sf_heatmap():
     test_dict = {'time': '01012013', 'sex': 'M', 'race': 'O', 'age': '21'}
-    tracts = get_probs_all_tracts(test_dict)
+    tracts = (get_probs_all_tracts(test_dict))[1]
 
     return render_template('sf_heatmap.html', sf_data=tracts)
 

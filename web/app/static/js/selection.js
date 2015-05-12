@@ -8,7 +8,7 @@ function selection_init(){
 //Populates the age dropdown
 function createAge(){
   var age = document.getElementById("age");
-  for(i=1;i<=100;i++){
+  for(i=10; i<=100; i++){
     var as = document.createElement("option");
     as.setAttribute("value", i+" years old");
     as.appendChild(document.createTextNode(i));
@@ -151,11 +151,8 @@ function getSelected(){
     success : function(response) {
       analyze(response.time_series);
       repaint(response.results);
-      paintStops(response.matches)
-      var sum = _.reduce(response.results, function(m, n) {
-        return m + n;
-      }, 0);
-      var avg = sum / _.keys(response.results).length;
+      paintStops(response.matches);
+      var avg = response.avg_prob;
       $('#likelihood').text(avg.toFixed(2));
     },
     failure : function(response) {
