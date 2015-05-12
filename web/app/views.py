@@ -6,7 +6,8 @@ from conversion import state_2_lat_lng
 from collections import Counter
 import sys
 from classify import get_probs_all_tracts
-from db import get_time_series, get_demographics, get_income, count_zoom
+from db import get_time_series, get_demographics, get_income, count_zoom, count_total
+from complaints import get_complaints
 
 
 @app.route('/')
@@ -14,8 +15,9 @@ def main():
     total = json.dumps(get_time_series({}))
     demographics = get_demographics()
     income = get_income()
+    complaints = get_complaints()
 
-    return render_template('layout.html', timeline_data=total, demographics=demographics, income=income)
+    return render_template('layout.html', timeline_data=total, demographics=demographics, income=income, complaints=complaints)
 
 @app.route('/selection')
 def selection():
@@ -23,16 +25,18 @@ def selection():
 
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
-    print(request.form)
     d = {k : v for k, v in request.form.iteritems()}
-    print(d)
     d2 = d.copy()
     del d2['time']
     specific = get_time_series(d2)
+    date = d['time'][:4]
+    year = int(d['time'][-4:])
+    matches = count_total(year, date, d['age'], d['race'], d['sex'])
+
     all_probs = get_probs_all_tracts(d)
     probs = all_probs[1]
     avg_prob = all_probs[0]
-    return jsonify(success=True, results=probs, avg_prob=avg_prob, time_series=specific)
+    return jsonify(success=True, results=probs, avg_prob=avg_prob, time_series=specific, matches=matches)
 
 @app.route('/sf_heatmap')
 def sf_heatmap():

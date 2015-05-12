@@ -151,6 +151,8 @@ function getSelected(){
     success : function(response) {
       analyze(response.time_series);
       repaint(response.results);
+      console.log(response);
+      paintStops(response.matches);
       var avg = response.avg_prob;
       $('#likelihood').text(avg.toFixed(2));
     },

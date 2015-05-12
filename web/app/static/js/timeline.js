@@ -1,5 +1,5 @@
 var min = timestamp('January 2006');
-var max = timestamp('2015');
+var max = timestamp('December 30, 2014');
 var alternate = 0;
 var timepiece_months = {}
 
@@ -10,7 +10,7 @@ function timeline_init(){
 	datePicker = document.getElementById("datePicker");
 	datePicker.setAttribute("max", max);
 	datePicker.setAttribute("min", min);
-	datePicker.setAttribute("value", timestamp('July 2010'));
+	datePicker.setAttribute("value", timestamp('July 10, 2010'));
 	changeDate(datePicker.getAttribute("value"), true);
 
 	addTimepieces();
@@ -263,7 +263,7 @@ function formatDate ( date ) {
         date.getDate() + nth(date.getDate()) + " " +
         months[date.getMonth()] + " " +
         date.getFullYear();*/
-    return  months[date.getMonth()] + " " + date.getDate() + nth(date.getDate()) + ", " +
+    return  months[date.getMonth()] + " "/* + date.getDate() + nth(date.getDate()) + ", " */+
         date.getFullYear();
 }
 
