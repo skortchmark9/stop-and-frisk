@@ -56,6 +56,9 @@
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
+                        <a class="page-scroll" href="#methodology">Methodology</a>
+                    </li>
+                    <li>
                         <a class="page-scroll" href="#download">Download</a>
                     </li>
                     <li>
@@ -91,9 +94,82 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>About</h2>
-                <p> For our final project for Brown University's <a href="http://cs.brown.edu/courses/csci1951-a/">cs1951a: Introduction to Data Science</a>, we chose to aggregate and analyze data relating to New York City's controversal practice of police searching citizens on the street without reason, known widely as "stop-and-frisk." 
+                <p> For our final project for Brown University's <a href="http://cs.brown.edu/courses/csci1951-a/">cs1951a: Introduction to Data Science</a>, we chose to aggregate and analyze data relating to New York City's controversal practice of police searching citizens on the street without reason, known widely as "stop-and-frisk." </p>
+                <p>We analyzed and visualized NY stop-and-frisk data to illuminate patterns and correlations between events across different factors and times.</p>
             </div>
         </div>
+    </section>
+
+    <section id="datasets" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Datasets</h2>
+
+                <a href="http://www.nyc.gov/html/nypd/html/analysis_and_planning/stop_question_and_frisk_report.shtml"> <h3>NYPD | Stop, Question and Frisk Report Database</h3></a>
+                <p>
+                    The stop-and-frisk dataset is rich and comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprised 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
+                </p>
+
+                <h3>Census</h3>
+                <p>
+                    Census data was divided into separate tables for race, age, and sex. It provided fine-grained location information, splitting New York into 2,168 individual census tracts.
+                </p>
+
+                <h3>Coordinate Translation Sets</h3>
+                <a href="http://www.gdal.org/ogr2ogr.html"><h4>ogr2ogr</h4></a>
+                <p>
+                   ogr2ogr is a useful program which facilitates the conversion of one coordinate system into another. 
+                </p>
+                <a href="http://spatialreference.org/ref/epsg/nad83-new-york-long-island-ftus/"><h4>Spatial Projection of New York and Long Island</h4></a>
+                <p>
+                    This was used to provide ogr2ogr with the necessary projection to convert New York state coordinates into latitude/longitude, enabling it to be used with our other data and visualization system.</p>
+                <h4>Shapefile</h4>
+                <h4>Latitude/Longitude to Census Tract</h4>
+
+                <a href="http://www.nyc.gov/html/ccrb/html/news/statistics.shtml"> <h3>NYC Civilian Complaint Review Board</h3></a>
+                <p>
+                    This database provides police complaints by precinct from 2003-2013. 
+                </br>
+                    We converted precinct information to census tract using <a href="http://johnkeefe.net/nyc-police-precinct-and-census-data">multiple conversion files</a>.
+                </p>
+            </div>
+    </section>
+
+    <section id="methodology" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Methodology</h2>
+                <h3>Data Cleaning Pipeline</h3>
+
+                <h3>Classifier</h3>
+                <p>
+                    We used logistic regression on our input data to give the most viable prediction of chance of stop-and-frisk given a set of input characteristics chosen by the user. Dates are separated by month so that there will be a sufficient number of stop-and-frisk incidents for the classifier to create accurate inferences, while still retaining the ability to analyze a relatively fine-grained period of time. Age is treated as a vector, allowing for general trends to become prominent without overfitting to the specific ages of the people who were stopped in a narrow range of time, given that age can vary across a large range.
+                </p>
+                <p>
+                    If a feature is unspecified,the classifier is prompted to average out the probabilities of all values for that feature. Thus, if no features are selected, then the
+                </p>
+
+                <h3>API</h3>
+
+                <h3>Web Application</h3>
+                <p>The goal with our web application was to bring a new dimension of </p>
+                <h4>Structure</h4>
+            </div>
+    </section>
+
+    <section id="challenges" class="container content-section text-center">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Challenges</h2>
+                <h3>Data Wrangling</h3>
+
+                <h3>Coordinate Conversion</h3>
+
+                <h3>Performance</h3>
+                <p>
+                    With several million points of data within our stop-and-frisk database contributing to an interactive classification and visualization and being sent to and from the browser, performance was key.
+                </p>
+            </div>
     </section>
 
     <!-- Download Section -->
@@ -112,20 +188,24 @@
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact Start Bootstrap</h2>
-                <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new templates and themes, or to just say hello!</p>
-                <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
-                </p>
-                <ul class="list-inline banner-social-buttons">
+            <div class="col-lg-9 col-lg-offset-2">
+                <h2>The Team</h2>
+                <ul class="list-inline">
                     <li>
-                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                        <p>Alexa Van Hattum</br>
+                        CS login: </p>
                     </li>
                     <li>
-                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                        <p>Eden Weizman</br>
+                        CS login: eweizman</p>
                     </li>
                     <li>
-                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                        <p>Samuel Kortchmar</br>
+                        CS login: </p>
+                    </li>
+                    <li>
+                       <p> Wenyi Lu</br>
+                        CS login: </p>
                     </li>
                 </ul>
             </div>
