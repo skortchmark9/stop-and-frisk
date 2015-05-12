@@ -278,7 +278,9 @@ function timestamp(str){
 }
 
 function changeDate(newDate, manual){
-	document.getElementById("dateDisplayer").innerHTML=formatDate(new Date(+newDate));
+	var date = formatDate(new Date(+newDate));
+	document.getElementById("dateDisplayer").innerHTML = date;
+	$('#the_date').text(date);
 	if (!manual) {
 		getSelected();
 	}

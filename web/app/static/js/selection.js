@@ -1,8 +1,9 @@
 function selection_init(){
-  //populate dropdowns
+  //populate dropdown
 	createAge();
-  createHeight();
-  createWeight();
+  $('#likelihood').click(function() {
+    getSelected();
+  });
 }
 
 //Populates the age dropdown
@@ -10,7 +11,7 @@ function createAge(){
   var age = document.getElementById("age");
   for(i=10; i<=100; i++){
     var as = document.createElement("option");
-    as.setAttribute("value", i+" years old");
+    as.setAttribute("value", i);
     as.appendChild(document.createTextNode(i));
     age.appendChild(as);
   }
@@ -41,60 +42,17 @@ function createWeight(){
   }
 }
 
-
-function toggleScroller() {
-  $('#get_selected').toggle($('#list > span').length > 0);
-}
-
 //Called when dropdown option is selected
 //id - the id of the dropdown that was selected
 //attribute - the option that was selected
-function report(id, attribute) {
-  if (attribute=="") return;
+function report(elt) {
+  $elt = $(elt);
+  $elt.addClass('demo_activated');
+  $elt.children()[0].remove();
 
-  //create the holder to go after 'I am...'
-  var holder = document.createElement("span");
-  holder.setAttribute("class", "selection button_style");
-  holder.setAttribute("name", id);
-  holder.setAttribute("id", id+"holder");
-
-  //create the x button
-  var cancel = document.createElement("button");
-  cancel.setAttribute("class", "cancel");
-  cancel.setAttribute("type", "button");
-  var x = document.createTextNode("x");
-  cancel.appendChild(x);
-  cancel.setAttribute("name", id);
-  cancel.onclick=function(){
-    removeAttribute(this.name)
-    toggleScroller();
-  };
-
-  var attributetext = document.createTextNode(attribute);
-
-  //the current list of features
-  var list = document.getElementById("list");
-
-  //the dropdown that was selected
-  var dropdown = document.getElementById(id);
-
-  holder.appendChild(attributetext);
-  holder.appendChild(cancel);
-
-  //add the new feature to the list of features
-  list.appendChild(holder);
-
-  //remove the dropdown from the available selections
-  dropdown.style.display='none';
-  toggleScroller();
-}
-
-function removeAttribute(name){
-	var dropdown = document.getElementById(name);
-  	dropdown.style.display='inline-block';
-  	dropdown.selectedIndex = 0;
-
-  	document.getElementById(name+"holder").remove();
+  if ($('.demo_activated').length === 3) {
+    getSelected();
+  }
 }
 
 function getSelected(){
@@ -102,47 +60,12 @@ function getSelected(){
     scrollTop: $('#heatmap_div').offset().top
   }, 'slow');
 
-	var list = document.getElementById("list");
-
-  /*
-  W - white
-  B - black
-  O - other
-  H - hispanic
-  */
   var selected = {};
-  for(i=0;i<list.childNodes.length;i++){
-    var at = list.childNodes[i];
-    var key = at.getAttribute("name");
-    var value = at.childNodes[0].textContent;
-    if(key == "sex"){
-      if(value == "Male"){
-        value = "M"
-      }else{
-        value = "F"
-      }
-    }else if(key == "age"){
-      value = value.split(" ")[0]
-    }else if(key == "race"){
-      switch(value){
-        case "Black":
-          value = "B"
-          break;
-        case "White":
-          value = "W"
-          break;
-        case "Hispanic":
-          value = "H"
-          break;
-        default:
-          value = "O"
-          break;
-      }
-    }
-    selected[key] = value;
-  }
-
+  selected['age'] = $('#age').val();
+  selected['race'] = $('#race').val();
+  selected['sex'] = $('#sex').val();
   selected['time'] = getCurrentlySelectedDate();
+
   updateHeatmap(selected);
   updateTimeline(selected);
   updateStops(selected);

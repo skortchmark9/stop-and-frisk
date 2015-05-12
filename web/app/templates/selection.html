@@ -1,71 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<link rel="stylesheet" href="../static/css/selection.css">
-	<script src="../static/js/selection.js"></script>
+    <link rel="stylesheet" href="../static/css/selection.css">
+    <script src="../static/js/selection.js"></script>
 </head>
+
 <body onload="selection_init()">
-
-	<div id="full_selection">
-
-		<div class="flex" id="selection_content">
-
-			<div id="identity">
-				<span class="identitext" id="iam">As a </span>
-				<span id="list"></span>
-				<span class="identitext"> I am </span>
-				<a href="#heatmap_div"><span id="likelihood">How many</span></a>
-				<span class="identitext"> times as likely to be stopped & frisked</span>
-			</div>
-			<div id="to-select">
-				<div id="selectables">
-					<form action="#">
-
-						<fieldset>
-							<select name="sex" id="sex" onchange="report(this.id, this.value)" class="button_style">
-								<option selected="selected" value="">+ sex</option>
-								<option value="Female">Female</option>
-								<option value="Male">Male</option>
-							</select>
-
-							<select name="age" id="age" onchange="report(this.id, this.value)" class="button_style">
-								<option selected="selected" value="">+ age</option>
-							</select>
-
-							<select name="race" id="race" onchange="report(this.id, this.value)" class="button_style">
-								<option selected="selected" value="">+ race</option>
-								<option value="American Indian">American Indian</option>
-								<option value="Asian/Pacific Islander">Asian/Pacific Islander</option>
-								<option value="Black">Black</option>
-								<option value="White">White</option>
-								<option value="Hispanic">Hispanic</option>
-								<option value="Other Race">Other Race</option>
-							</select>
-
-							<select style='display:none' name="height" id="height" onchange="report(this.id, this.value)" class="button_style">
-								<option selected="selected" value="">+ height</option>
-							</select>
-
-							<select style="display:none" name="weight" id="weight" onchange="report(this.id, this.value)" class="button_style">
-								<option selected="selected" value="">+ weight</option>
-							</select>
-
-
-						</fieldset>
-
-					</form>
-				</div>
-			</div>
-			<div>
-
-				<svg style="display:none;" id="get_selected" class="arrows" onClick="getSelected()">
-					<path class="a1" d="M0 0 L30 32 L60 0"></path>
-					<path class="a2" d="M0 20 L30 52 L60 20"></path>
-					<path class="a3" d="M0 40 L30 72 L60 40"></path>
-				</svg>
-			</div>
-		</div>
-	</div>
-
+    <div id="full_selection">
+        <div class="flex" id="selection_content">
+            <div id="identity" class="identitext">
+                As a
+                <select name="age" id="age" onchange="report(this)" class="demo_info_select">
+                    <option selected="selected">your age</option>
+                </select>
+                year old
+                <select name="race" id="race" onchange="report(this)" class="demo_info_select">
+                    <option selected="selected">your ethnicity</option>
+                    <option value="O">American Indian</option>
+                    <option value="O">Asian/Pacific Islander</option>
+                    <option value="B">Black</option>
+                    <option value="W">White</option>
+                    <option value="H">Hispanic</option>
+                    <option value="O">Other Race</option>
+                </select>
+                <select name="sex" id="sex" onchange="report(this)" class="demo_info_select">
+                    <option selected="selected">your gender</option>
+                    <option value="F">Female</option>
+                    <option value="M">Male</option>
+                </select>
+                <span class="important identitext">I was
+                <span id="likelihood">how many</span>
+                times as likely to be stopped & frisked as the average New Yorker in <span id="the_date"></span></span>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

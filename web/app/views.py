@@ -26,13 +26,6 @@ def selection():
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
     d = {k : v for k, v in request.form.iteritems()}
-    d2 = d.copy()
-    del d2['time']
-    specific = get_time_series(d2)
-    date = d['time'][:4]
-    year = int(d['time'][-4:])
-    matches = count_total(year, date, d['age'], d['race'], d['sex'])
-
     all_probs = get_probs_all_tracts(d)
     probs = all_probs[1]
     avg_prob = all_probs[0]

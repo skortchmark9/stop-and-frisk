@@ -1,65 +1,6 @@
-fieldset {
-  border: 0;
-}
-
-label {
-  margin: 30px 0 0 0;
-}
-
-button.cancel{
-  background:#ffc671;
-  border:none;
-  margin-left:8px;
-  padding:0;
-  color:#ec6319;
-  font-size: 30px;
-  font-weight: bold;
-
-  height: 25px;
-  width: 23px;
-
-  padding-bottom: 35px;
-}
-
-.button_style{
-  padding:5px;
-  padding-left: 8px;
-  padding-right: 8px;
-  margin: 2px;
-  margin-left: 8px;
-  margin-right: 10px;
-  margin-bottom: 15px;
-
-  -webkit-box-shadow: 0 7px 0 #ffc771;
-  -moz-box-shadow: 0 7px 0 #ffc771;
-  box-shadow: 0 7px 0 #ffc771;
- /* border-bottom: thick solid #ffc771;*/
-  background: #fff59c;
-  border:none;
-  outline:none;
-  display: inline-block;
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
-  cursor:pointer;
-}
-
-select.button_style {
-  padding:3px;
-  margin: 5px;
-
-  -webkit-box-shadow: 0 4px 0 #ffc771;
-  -moz-box-shadow: 0 4px 0 #ffc771;
-  box-shadow: 0 4px 0 #ffc771;
-
-  position: relative;
-}
 
 #identity{
   font-size: 42px;
-}
-#selectables{
-  padding-left: 150px;
 }
 
 #selection_div.fixed {
@@ -72,75 +13,12 @@ select.button_style {
 #selection_div {
   height: 100px;
   position: absolute;
-  bottom: 0px;
+  bottom: 100px;
   width: 100%;
   z-index:1;
   margin:0;
   -webkit-transform: translate3d(0,0,0);
 }
-
-/* Fun Scrolly Arrows*/
-.arrows {
-  border-radius: 50%;
-  background: rgb(8, 48, 107);
-  width: 72px;
-  height: 72px;
-}
-
-.arrows:hover {
-  cursor: pointer;
-}
-
-.arrows path {
-  -webkit-transform: translate3d(10%,0,0);
-  stroke: #2994D1;
-  fill: transparent;
-  stroke-width: 2px;
-  shape-rendering: geometricPrecision;
-}
-
-.arrows:hover > path {
-  display: block;
-  animation: arrow 2s infinite;
-  -webkit-animation: arrow 2s infinite;
-}
-
-.a1,
-.a3 {
-  display: none;
-}
-
-@keyframes arrow
-{
-0% {opacity:0}
-40% {opacity:1}
-80% {opacity:0}
-100% {opacity:0}
-}
-
-@-webkit-keyframes arrow /*Safari and Chrome*/
-{
-0% {opacity:0}
-40% {opacity:1}
-80% {opacity:0}
-100% {opacity:0}
-}
-
-.arrows path.a1 {
-  animation-delay:-1s;
-  -webkit-animation-delay:-1s; /* Safari 和 Chrome */
-}
-
-.arrows path.a2 {
-  animation-delay:-0.5s;
-  -webkit-animation-delay:-0.5s; /* Safari 和 Chrome */
-}
-
-.arrows path.a3 {
-  animation-delay:0s;
-  -webkit-animation-delay:0s; /* Safari 和 Chrome */
-}
-/* End Fun Scrolly Arrows */
 
 .flex {
   display: -webkit-flex;
