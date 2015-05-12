@@ -96,14 +96,43 @@ body {
 }
 
 .map_tooltip{
-    background-color:rgba(68,136,187,0.5);;
+    background-color:rgba(68,136,187,0.7);;
     margin: 10px;
     width: 150px;
+    height: 180px;
     padding-left: 10px;
     padding-top: 10px;
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
+}
+
+.map_tooltip.large {
+  height: 140px;
+}
+
+.demo {
+  z-index: 1002;
+}
+
+.demo_0 {
+  fill: #2a242d;
+  color: #2a242d;
+}
+
+.demo_1 {
+  fill: #342d3e;
+  color: #342d3e;
+}
+
+.demo_2 {
+  fill: #2530c3;
+  color: #2530c3;
+}
+
+.demo_3 {
+  fill:   #9d9fd5;
+  color:  #9d9fd5;
 }
 
 </style>
@@ -116,6 +145,7 @@ body {
 var heatmap_data = {};
 var demographics = {{ demographics|safe }};
 var income_map = {{ income|safe }};
+var map_max_prob = 2.5;
 d3.helper = {};
 
 d3.helper.tooltip = function(accessor){
@@ -126,12 +156,15 @@ d3.helper.tooltip = function(accessor){
             // Clean up lost tooltips
             d3.select('body').selectAll('div.tooltip').remove();
             // Append tooltip
-            tooltipDiv = d3.select('body').append('div').attr('class', 'map_tooltip');
+            tooltipDiv = d3.select('body').append('div').attr('class', function() {
+              return _.isEmpty(heatmap_data) ? 'map_tooltip' : 'map_tooltip large';
+            });
             var absoluteMousePos = d3.mouse(bodyNode);
             tooltipDiv.style('left', (absoluteMousePos[0] + 10)+'px')
                 .style('top', (absoluteMousePos[1] - 15)+'px')
                 .style('position', 'absolute')
                 .style('z-index', 1001);
+
             // Add text using the accessor function
             var tooltipText = accessor(d, i) || '';
             // Crop text arbitrarily
@@ -139,12 +172,39 @@ d3.helper.tooltip = function(accessor){
             //    .html(tooltipText);
         })
         .on('mousemove', function(d, i) {
+            var tip_width = 140;
+
             // Move tooltip
             var absoluteMousePos = d3.mouse(bodyNode);
             tooltipDiv.style('left', (absoluteMousePos[0] + 10)+'px')
                 .style('top', (absoluteMousePos[1] - 15)+'px');
             var tooltipText = accessor(d, i) || '';
             tooltipDiv.html(tooltipText);
+            var tract_demographics = demographics[getID(d)];
+            var tooltip_svg = tooltipDiv.append('svg')
+              .attr('width', tip_width)
+              .attr('height', 200)
+              .selectAll('rect')
+              .data(tract_demographics)
+
+            tooltip_svg
+              .enter()
+              .append('rect')
+              .attr('x', function(d, i) {
+                var x = 0;
+                for(var j = 0; j < i; j++) {
+                    x += tract_demographics[j];
+                }
+                x = (x / 100) * tip_width;
+                return x;
+              })
+              .attr('y', 10)
+              .attr('height', 12)
+              .attr('width', function(d, i) {return (d / 100) * tip_width})
+              .attr('class', function(d, i) {
+                return 'demo demo_' + i;
+              });
+
         })
         .on("mouseout", function(d, i){
             // Remove tooltip
@@ -202,7 +262,7 @@ svg
 var nyShapefile = '../static/data/ny_no_water_scaled_lat_lng.json';
 
 var quantize = d3.scale.quantize()
-  .domain([0, 3])
+  .domain([0, map_max_prob])
   .range(d3.range(10).map(function(i) { return "q" + i + "-10"; }));
 
 //Legend
@@ -228,7 +288,6 @@ queue()
     .await(ready);
 
 function ready(error, ny) {
-  console.log(ny);
   var tracts = ny.objects.output;
 
   g.selectAll("path")
@@ -251,19 +310,17 @@ function ready(error, ny) {
             str += ("<br/>Prob: "+ prob);
           }
 
-          var demogs = demographics[getID(d)];
-          if (demogs) {
-            str += "<br>Demographics:<br>";
-            str += "<b>White:</b>" + demogs[0];
-            str += "<br><b>Black:</b>" + demogs[1];
-            str += "<br><b>Hispanic:</b>" + demogs[2];
-            str += "<br><b>Other:</b>" + demogs[3];
-          }
-
           var income = income_map[getID(d)];
           if (income && (income != 'N') && (income != '(X)') && (income != '-' )) {
             str += "<br>Income: " + income;
           }
+
+          var demogs = demographics[getID(d)];
+          if (demogs) {
+            str += "<br>Demographics:<br>";
+            str += "<span class='demo_key'><span class='demo_0'>White:" + demogs[0] + "%</span><br><span class='demo_1'>Black:" + demogs[1] + "%</span><br><span class='demo_2'>Hispanic:" + demogs[2] + "%</span> <br><span class='demo_3'>Other:" + demogs[3] + "%</span></span>";
+          }
+
           return str;
         }
     ))
