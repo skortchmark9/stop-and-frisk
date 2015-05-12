@@ -151,6 +151,7 @@ function getSelected(){
     success : function(response) {
       analyze(response.time_series);
       repaint(response.results);
+      paintStops(response.matches)
       var sum = _.reduce(response.results, function(m, n) {
         return m + n;
       }, 0);

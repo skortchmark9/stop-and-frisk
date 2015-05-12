@@ -6,7 +6,7 @@ from conversion import state_2_lat_lng
 from collections import Counter
 import sys
 from classify import get_probs_all_tracts
-from db import get_time_series, get_demographics, get_income, count_zoom
+from db import get_time_series, get_demographics, get_income, count_zoom, count_total
 
 
 @app.route('/')
@@ -24,11 +24,15 @@ def selection():
 @app.route('/update_heatmap', methods=['POST'])
 def update_heatmap():
     d = {k : v for k, v in request.form.iteritems()}
+    print(d)
     d2 = d.copy()
     del d2['time']
     specific = get_time_series(d2)
     probs = get_probs_all_tracts(d)
-    return jsonify(success=True, results=probs, time_series=specific)
+    date = d['time'][:4]
+    year = int(d['time'][-4:])
+    matches = count_total(year, date, d['age'], d['race'], d['sex'])
+    return jsonify(success=True, results=probs, time_series=specific, matches=matches)
 
 @app.route('/sf_heatmap')
 def sf_heatmap():

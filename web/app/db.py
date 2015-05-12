@@ -3,7 +3,7 @@ import sqlite3
 from flask import g
 import cPickle
 import csv
-from conversion import census_9_to_census_7
+from conversion import census_9_to_census_7, format_race
 
 DATABASE = 'stop_and_frisked_graph.db'
 DATABASE_1 = 'stop_and_frisked_v01.db'
@@ -87,6 +87,21 @@ def get_time_series(requir_dict=[]):
 
     return result_list
 
+def count_total(year, date, age, race, sex):
+    db1 = get_db_1()
+    c = db1.cursor()
+    qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
+    query = "select {0} from stop_and_frisked where year={1} and datestop='{2}' and age={3} and race='{4}' and sex='{5}'"
+    query = query.format(','.join(qualities), year, date, age, race, sex)
+    print(query)
+    c.execute(query)
+    resultset = c.fetchall()
+    c.close()
+
+    qualities = ['lat', 'lon', 'race', 'arstmade']
+    return [dict(zip(qualities, format_item(item))) for item in resultset]
+
+
 def count_zoom(year,date,minlat,maxlat,minlon,maxlon):
     db1 = get_db_1()
     qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
@@ -95,7 +110,6 @@ def count_zoom(year,date,minlat,maxlat,minlon,maxlon):
     result_list=[]
     query = "select {0} from stop_and_frisked where year={1} and datestop='{2}' and xcoord between {3} and {4} and ycoord between {5} and {6}"
     query = query.format(','.join(qualities), year, date, minlat, maxlat, maxlon, minlon)
-    print(query)
     c.execute(query)
     resultset = c.fetchall()
     c.close()
@@ -113,5 +127,5 @@ def format_item(item):
     formatted.append(float(item[0]))
     formatted.append(float(item[1]))
     formatted.append(format_race(item[2]))
-    formatted.append(arstmade === 'Y')
-    return format_item
+    formatted.append(item[3] == 'Y')
+    return formatted

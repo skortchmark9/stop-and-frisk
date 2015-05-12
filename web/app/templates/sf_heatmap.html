@@ -22,6 +22,10 @@
   fill: #00ff00;
 }
 
+.arrested {
+  fill: red;
+}
+
 .tract:hover {
   fill: orange;
 }
@@ -395,19 +399,7 @@ function clicked(d) {
       if (!response  || !response.success) {
         return;
       }
-      console.log('pass');
-      console.log(response.data);
-      g.selectAll('circle')
-        .data(response.data)
-        .enter()
-        .append('circle')
-        .attr('class', function(d) {
-          console.log('hey');
-          return 'dot ' + d.race;
-        })
-        .attr('cx', function(d) {var proj =  projection([d.lng, d.lat]); return proj[0];})
-        .attr('cy', function(d) {var proj = projection([d.lng, d.lat]); return proj[1];})
-        .attr('r', .4);
+      paintStops(response.data)
     },
     failure : function(response) {
       console.log(response);
@@ -418,6 +410,19 @@ function clicked(d) {
   svg.transition()
     .duration(750)
     .call(zoom.translate(translate).scale(scale).event);
+}
+
+function paintStops(data) {
+  g.selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('class', function(d) {
+      return 'dot ' + d.race + (d.arstmade ? ' arrested' : '');
+    })
+    .attr('cx', function(d) {var proj =  projection([d.lon, d.lat]); return proj[0];})
+    .attr('cy', function(d) {var proj = projection([d.lon, d.lat]); return proj[1];})
+    .attr('r', .1);
 }
 
 function getMouseCoords() {
