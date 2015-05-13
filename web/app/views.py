@@ -13,7 +13,6 @@ from complaints import get_complaints
 @app.route('/')
 def main():
     total = json.dumps(get_time_series({}))
-    print(total)
     demographics = get_demographics()
     income = get_income()
     complaints = get_complaints()
