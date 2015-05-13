@@ -1,19 +1,22 @@
 
 #identity{
-  font-size: 42px;
+  font-size: 30px;
 /*  font-family:
 */}
 
 #selection_div.fixed {
   top: 0px;
   position: fixed;
+  padding:10px;
   /* This is a hack which enables hardware acceleration*/
   -webkit-transform: translate3d(0,0,0);
 }
 
 #selection_div {
   background: rgb(43, 62, 87);
-  height: 120px;
+
+  padding:10px;
+  
   position: absolute;
   bottom: 0px;
   width: 100%;
