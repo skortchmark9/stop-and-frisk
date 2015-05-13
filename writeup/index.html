@@ -110,9 +110,19 @@
                     The stop-and-frisk dataset is rich, comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprising of 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
                 </p>
 
-                <h3>Census</h3>
+                <a href="http://www.census.gov/"><h3>Census Data</h3></a>
                 <p>
-                    Census data was divided into separate tables for race, age, and sex. It provided fine-grained location information, splitting New York into 2,168 individual census tracts.
+                    The census data provided fine-grained location information, splitting New York into 2,168 individual census tracts.
+                </p>
+
+                <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_DP05&prodType=table"><h4>Census Demographic and Housing Estimates</h4></a>
+                <p>
+                    Census data was divided into separate tables for race, age, and sex. 
+                </p>
+
+                <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_B19013&prodType=table"><h4>Census Medium Household Income</h4></a>
+                <p>
+                    This data was used to determine the income for each census tract.
                 </p>
 
                 <h3>Coordinate Translation Sets</h3>
@@ -178,7 +188,7 @@
                 </p>
                 <img class="img-responsive center-block" src="img/timeline-select.png"/>
                 <p>
-                    Users can hover over the press release circles to gain more information about what it is about. Each press release contains a headline and description. Clicking on the press release will take the user to a relevant article about the event so that they can delve deeper.
+                    Users can hover over the press release circles to gain more information about what it is about. Each press release contains a headline and description. Clicking on the press release will take the user to a relevant article about the event so that they can delve deeper on the course of events.
                 </p>
                 <h5>Timeline</h5>
                 <p>
@@ -272,11 +282,19 @@
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Looking Back</h2>
                 <h3>Proposal Review</h3>
+                <h4>Implementation Plan</h4>
                 <p>
                     We narrowed down our features to age, sex, race and location. The decision to remove height, weight, build, and hair/eye color was made due to the lack of negative sample data. The average values for these features could certainly be found and assumed independant across the entire New York population, but we felt this would be too far of a misrepresentation, detracting from the overall purpose of our web application which is so tied to identity. 
                 </p>
                 <p>
                     We realize we were highly optimistic, thinking that we would have time to integrate Twitter sentiment to hit our 125% goal.
+                </p>
+                <h4>Timeline</h4>
+                <p>
+                    Our timeline ended up being being inaccurate in a variety of ways. Some aspects of the project, such as the heatmap of stop-and-frisks, could not be begun until much later, due to unforseen difficulties in coordinates. We did not realize how much data wrangling would have to be done until it could be used in some useful way, despite believing ourselves to be good, cautious data scientists.
+                </p>
+                <p>
+                    Because of these holdups, other members of the group began completing other, independant portions of the project. These sections, such as timeline information, were integrated quite early despite initially being planned for the end.
                 </p>
                 <h3>What Worked?</h3>
                 <h3>What Didn't Work?</h3>
