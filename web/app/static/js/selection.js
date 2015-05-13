@@ -62,9 +62,14 @@ function getSelected(){
 
   var selected = {};
   selected['age'] = $('#age').val();
+  if (!selected['age']) return;
   selected['race'] = $('#race').val();
+  if (!selected['race']) return;
   selected['sex'] = $('#sex').val();
+  if (!selected['sex']) return;
   selected['time'] = getCurrentlySelectedDate();
+
+
 
   updateHeatmap(selected);
   updateTimeline(selected);
@@ -73,6 +78,8 @@ function getSelected(){
 
 
 function updateHeatmap(selected) {
+  $('#likelihood').hide();
+  $('.loader').show();
   $.ajax({
     url : '/update_heatmap',
     type : 'POST',
@@ -81,6 +88,9 @@ function updateHeatmap(selected) {
       repaint(response.results);
       var avg = response.avg_prob;
       $('#likelihood').addClass(quantize(avg)).text(avg.toFixed(2));
+      $('#likelihood').show();
+      $('.loader').hide();
+
     },
     failure : function(response) {
       console.log(response);
@@ -115,4 +125,5 @@ function updateStops(selected) {
       console.log(response);
     }
   });
+
 }

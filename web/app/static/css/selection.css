@@ -57,3 +57,9 @@
 .selectboxit-default-arrow {
   border-top: 4px solid white !important;
 }
+
+.loader {
+  width: 25px;
+  height: 25px;
+
+}
