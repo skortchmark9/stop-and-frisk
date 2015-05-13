@@ -149,7 +149,12 @@
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Methodology</h2>
                 <h3>Data Cleaning Pipeline</h3>
-
+                <p>
+                    For this project, data cleaning was an iterative process. We began by scraping the massive stop and frisk data files down to the relevant attributes. In that same process, we also noticed that some attributes had unrealist values - for example, an 'age' of '999'. We removed any such data points from consideration.
+                </p>
+                <p>
+                    From there, much of the data cleaning involved integrating data from multiple sources. A Census tract, for example, was represented in different sources as a 6-character string, 7-character string, 9-character string, or 15-character string. Combing such data involved thoroughly researching various New York City and Census Borough representation practices. 
+                </p>
                 <h3>Classifier</h3>
                 <p>
                     We used logistic regression on our input data to give the most viable prediction of chance of stop-and-frisk given a set of input characteristics chosen by the user. Dates are separated by month so that there will be a sufficient number of stop-and-frisk incidents for the classifier to create accurate inferences, while still retaining the ability to analyze a relatively fine-grained period of time. Age is treated as a vector, allowing for general trends to become prominent without overfitting to the specific ages of the people who were stopped in a narrow range of time, given that age can vary across a large range.
@@ -206,7 +211,7 @@
                     One difficult challenge was figuring out how to apply machine learning techniques to a dataset with only positive samples. That is, in standard supervised machine learning algorithms, it is assumed that you have samples labeled as both the "positive" and "negative" classes. However, in considering the probability of being stopped or not, we only had direct access to positive data. Though the NYPD stop-and-frisk dataset has an extensive set of features, the exact relationship between these features and the general population is unknown. 
                 </p>
                 <p>
-                    After researching approaches to similar problems (such as recommendation engines where only "liked" data is known), we decided to generate samples to approximate realistic negative data. We used various data from New York City's censys to generate representative negative samples. Unfortunately, census data is limited. Tables are seperate for race and age/sex, for example, and there are no tables for many of the features we origionally intended to examine. In addition, the census data was formatted completely differently, down to how each census tract was identified. When our picture remained incomplete, we assumed independence between the features of age/sex and gender. 
+                    After researching approaches to similar problems (such as recommendation engines where only "liked" data is known), we decided to generate samples to approximate realistic negative data. We used various data from New York City's census to generate representative negative samples. Unfortunately, census data is limited. Tables are separate for race and age/sex, for example, and there are no tables for many of the features we originally intended to examine. In addition, the census data was formatted completely differently, down to how each census tract was identified. When our picture remained incomplete, we assumed independence between the features of age/sex and gender.
                 </p>
                 <h3>Coordinate Conversion</h3>
                 <p>
