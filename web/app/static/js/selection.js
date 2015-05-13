@@ -57,7 +57,7 @@ function report(elt) {
 
 function getSelected(){
   $('html,body').animate({
-    scrollTop: $('#heatmap_div').offset().top
+    scrollTop: $('.wrapper').offset().top - 120
   }, 'slow');
 
   var selected = {};
@@ -80,7 +80,7 @@ function updateHeatmap(selected) {
     success : function(response) {
       repaint(response.results);
       var avg = response.avg_prob;
-      $('#likelihood').text(avg.toFixed(2));
+      $('#likelihood').addClass(quantize(avg)).text(avg.toFixed(2));
     },
     failure : function(response) {
       console.log(response);
@@ -103,6 +103,7 @@ function updateTimeline(selected) {
 }
 
 function updateStops(selected) {
+  clearStops();
   $.ajax({
     url : '/update_stops',
     type : 'POST',

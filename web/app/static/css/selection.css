@@ -1,7 +1,8 @@
 
 #identity{
   font-size: 42px;
-}
+/*  font-family:
+*/}
 
 #selection_div.fixed {
   top: 0px;
@@ -11,13 +12,15 @@
 }
 
 #selection_div {
-  height: 100px;
+  background: rgb(43, 62, 87);
+  height: 120px;
   position: absolute;
-  bottom: 100px;
+  bottom: 0px;
   width: 100%;
   z-index:1;
   margin:0;
   -webkit-transform: translate3d(0,0,0);
+  box-shadow: 0 .2em 0 0 #d4d4d5;
 }
 
 .flex {
@@ -25,4 +28,32 @@
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
+}
+
+
+.selectboxit-container {
+  vertical-align: middle !important;
+  font-family: 'Open Sans' !important;
+}
+
+.selectboxit {
+  border-radius: 0px !important;
+  background: none !important;
+  color: white !important;
+  border: none !important ;
+  border-bottom: 1px solid white !important;
+  padding-bottom: 2px !important;
+}
+
+.selectboxit-text {
+  font-size: 2em !important;
+  color: rgb(198, 219, 239) !important;
+}
+
+.selectboxit-list {
+  border-radius: 0px !important;
+}
+
+.selectboxit-default-arrow {
+  border-top: 4px solid white !important;
 }
