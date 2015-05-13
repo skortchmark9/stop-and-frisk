@@ -61,8 +61,12 @@ def get_time_series(requir_dict=[]):
 
     if len(requir_dict)>0:
         for key in requir_dict:
-            query+= (key+"=? and ")
-            value_list.append(requir_dict[key])
+            if key == 'race':
+                query += (key+"in ? and ")  
+                value_list.append(str(tuple(convert_races(requir_dict[key]))))
+            else: 
+                query += (key+"=? and ")
+                value_list.append(requir_dict[key])
         values = tuple(value_list)
         query = query.strip(" and ")
         query += " group by year,datestop"
@@ -91,11 +95,13 @@ def count_total(year, date, age, race, sex):
     db1 = get_db_1()
     c = db1.cursor()
     qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
-    query = "select {0} from stop_and_frisked where year={1} and datestop='{2}' and age={3} and race='{4}' and sex='{5}'"
-    query = query.format(','.join(qualities), year, date, age, race, sex)
+    resultset = []
+    races = convert_races(race)
+    query = "select {0} from stop_and_frisked where year={1} and datestop='{2}' and age={3} and sex='{4}' and race in {5}"
+    query = query.format(','.join(qualities), year, date, age, sex, str(tuple(races)))
     print(query)
     c.execute(query)
-    resultset = c.fetchall()
+    resultset += c.fetchall()
     c.close()
 
     qualities = ['lat', 'lon', 'race', 'arstmade']
@@ -121,6 +127,10 @@ def count_zoom(year,date,minlat,maxlat,minlon,maxlon):
         result_list.append(dict(zip(qualities, format_item(item))))
 
     return result_list
+
+def convert_races(r):
+    races = {'W':['W'],'B':['B'],'H':['P','Q'],'O':['A','I','X','Z']}
+    return races[r]
 
 def format_item(item):
     formatted = []
