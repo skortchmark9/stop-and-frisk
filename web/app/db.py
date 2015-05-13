@@ -51,35 +51,25 @@ def get_income():
 
     return income
 
-def get_time_series(requir_dict=[]):
-    db1 = get_db()
-    #table num_graph
-    #create table num_graph as select year,datestop,count(year) as num from stop_and_frisked group by year,datestop
-    query = "select year,datestop,count(year) as num from stop_and_frisked where "
-    query1 = "select * from num_graph"
-    value_list=[]
+def get_time_series(requir_dict={}):
 
-    if len(requir_dict)>0:
-        for key in requir_dict:
-            if key == 'race':
-                query += (key+"in ? and ")  
-                value_list.append(tuple(convert_races(requir_dict[key])))
-            else: 
-                query += (key+"=? and ")
-                value_list.append(requir_dict[key])
-        values = tuple(value_list)
-        query = query.strip(" and ")
-        query += " group by year,datestop"
-        c = db1.cursor()
-        print(query)
-        c.execute(query, values)
-        resultset = c.fetchall()
-        c.close()
+    db = get_db()
+
+    if not requir_dict:
+        query = "select year,datestop, num from num_graph group by year, datestop"
     else:
-        c = db1.cursor()
-        c.execute(query1)
-        resultset=c.fetchall()
-        c.close()
+        races = convert_races(requir_dict['race'])
+        if len(races) > 1:
+            raceString = "race in {0}".format(tuple(races))
+        else:
+            raceString = "race='{0}'".format(races[0])
+
+        query = "select year,datestop,count(datestop) as num from stop_and_frisked where age={0} and sex='{1}' and {2} group by year, datestop".format(requir_dict['age'], requir_dict['sex'], raceString)
+
+    c = db.cursor()
+    print '***************', query
+    c.execute(query)
+    resultset = c.fetchall()
 
     result_list=[]
     for item in resultset:
@@ -88,6 +78,7 @@ def get_time_series(requir_dict=[]):
             date = item[1] + item[0]
             qty = item[2]
             result_list.append({'date' : date, 'chance' : qty})
+
 
     return result_list
 
@@ -100,9 +91,16 @@ def count_total(year, date, age, race, sex):
 
     start_date = date[:2] + "00"
     end_date = date[:2] + "32"
-    query = "select {0} from stop_and_frisked where year={1} and datestop between '{2}' and '{3}' and age={4} and race in {5} and sex='{6}'"
-    query = query.format(','.join(qualities), year, start_date, end_date, age, tuple(races), sex)
-    print '***************', query
+    if len(races) > 1:
+        query = "select {0} from stop_and_frisked where year={1} and datestop between '{2}' and '{3}' and age={4} and race in {5} and sex='{6}'"
+
+        query = query.format(','.join(qualities), year, start_date, end_date, age, tuple(races), sex)
+
+    else:
+        query = "select {0} from stop_and_frisked where year={1} and datestop between '{2}' and '{3}' and age={4} and race='{5}' and sex='{6}'"
+        query = query.format(','.join(qualities), year, start_date, end_date, age, races[0], sex)
+
+        print '***************', query
     c.execute(query)
     resultset = c.fetchall()
 
