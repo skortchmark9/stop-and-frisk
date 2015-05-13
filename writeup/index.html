@@ -109,8 +109,7 @@
                 <p>
                     The stop-and-frisk dataset is rich, comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprising of 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
                 </p>
-
-                <a href="http://www.census.gov/"><h3>Census Data</h3></a>
+                <a href="http://www.nyc.gov/html/dcp/html/census/demo_tables_2010.shtml"><h3>NYC Census Tables</h3></a>
                 <p>
                     The census data provided fine-grained location information, splitting New York into 2,168 individual census tracts.
                 </p>
@@ -204,7 +203,10 @@
                 <h2>Challenges</h2>
                 <h3>Data Wrangling</h3>
                 <p>
-                    One difficult challenge was figuring out how to apply machine learning to a dataset with only positive samples. Though the NYPD stop-and-frisk dataset has an extensive set of features, the relationship between these features and the general population is unknown. In the end, we had to generate representative negative samples using the census information, which was formatted differently and missing many interesting features. Wherever our picture remained incomplete, feature independance was assumed.
+                    One difficult challenge was figuring out how to apply machine learning techniques to a dataset with only positive samples. That is, in standard supervised machine learning algorithms, it is assumed that you have samples labeled as both the "positive" and "negative" classes. However, in considering the probability of being stopped or not, we only had direct access to positive data. Though the NYPD stop-and-frisk dataset has an extensive set of features, the exact relationship between these features and the general population is unknown. 
+                </p>
+                <p>
+                    After researching approaches to similar problems (such as recommendation engines where only "liked" data is known), we decided to generate samples to approximate realistic negative data. We used various data from New York City's censys to generate representative negative samples. Unfortunately, census data is limited. Tables are seperate for race and age/sex, for example, and there are no tables for many of the features we origionally intended to examine. In addition, the census data was formatted completely differently, down to how each census tract was identified. When our picture remained incomplete, we assumed independence between the features of age/sex and gender. 
                 </p>
                 <h3>Coordinate Conversion</h3>
                 <p>
@@ -272,7 +274,7 @@
                  <img class="img-responsive center-block" src="img/map/map-arrests-24-black-male.png"/>    
                 <h12 class="center-block text-center">Male, 24 Years Old, Black</h12>
                 <p>
-                    Actual stop and frisk incidents from the NYPD database in the selected month will be displayed on the map in the form of dots. Red dots represent an arrest, and yellow dots represent an unfruitful stop and frisk. 
+                    Actual stop and frisk incidents from the NYPD database in the selected month will be displayed on the map in the form of dots. Red dots represent an arrest, and yellow dots represent a stop that did not lead to an arrest. 
                 </p>
             </div>
     </section>
@@ -282,6 +284,7 @@
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Looking Back</h2>
                 <h3>Proposal Review</h3>
+
                 <h4>Implementation Plan</h4>
                 <p>
                     We narrowed down our features to age, sex, race and location. The decision to remove height, weight, build, and hair/eye color was made due to the lack of negative sample data. The average values for these features could certainly be found and assumed independant across the entire New York population, but we felt this would be too far of a misrepresentation, detracting from the overall purpose of our web application which is so tied to identity. 
