@@ -292,11 +292,11 @@ var quantize = d3.scale.quantize()
 //Legend
 
 var legendWidth = 40;
-var legendHeight = height;
+var legendHeight = height - 60;
 var legend = d3.select('#legend')
   .append('svg')
   .attr('width', legendWidth * 2)
-  .attr('height', legendHeight);
+  .attr('height', legendHeight + 60);
 
 
 var keys = legend.selectAll('g')
@@ -320,6 +320,32 @@ keys.enter()
       var r = quantize.invertExtent(d);
       return r[0];
   });
+
+var dot_key = legend.selectAll("g .dot_key")
+  .data([1, 2]);
+  dot_key
+  .enter()
+  .append('circle')
+  .attr('cy', function(d, i) {
+    return legendHeight + 20 + (i * 20);
+  })
+  .attr('cx', 5)
+  .attr('r', 5)
+  .attr('class', function(d, i) {return i ? 'dot arrested' : 'dot'});
+
+  dot_key
+  .enter()
+  .append('text')
+  .attr('y', function(d, i) {
+    return legendHeight + 25 + (i * 20);
+  })
+  .attr('fill', 'white')
+  .attr('x', 15)
+  .text(function(d, i) {return i ? 'arrested' : 'stopped'});
+
+
+
+
 
 queue()
     .defer(d3.json, nyShapefile)
