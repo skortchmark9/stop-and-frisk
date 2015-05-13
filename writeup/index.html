@@ -159,7 +159,7 @@
 
                 <h5>Dropdown Options</h5>
                 <p>
-                    The available drop down options are sex, age, and race.
+                    The available drop down options are sex, age, and race. All 3 must be selected before the rest of the page is updated.
                 </p>
                 <h5>Map</h5>
                 <img class="img-responsive center-block" src="img/map/map-plain.png"/>
@@ -193,9 +193,13 @@
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Challenges</h2>
                 <h3>Data Wrangling</h3>
-
+                <p>
+                    One difficult challenge was figuring out how to apply machine learning to a dataset with only positive samples. Though the NYPD stop-and-frisk dataset has an extensive set of features, the relationship between these features and the general population is unknown. In the end, we had to generate representative negative samples using the census information, which was formatted differently and missing many interesting features. Wherever our picture remained incomplete, feature independance was assumed.
+                </p>
                 <h3>Coordinate Conversion</h3>
-
+                <p>
+                    Our location data was coming from multiple sources in multiple formats, and needed to be made compatible with our visualization setup. We had originally assumed that the NYPD stop-and-frisk database was in latitude/longitude format - this was not the case. We had to normalize the location and quantile data, sending it through a TIGER shapefile, ogr2ogr, GeoJSON, TopoJSON, SVG, and Latitude/Longitude. 
+                </p>
                 <h3>Performance</h3>
                 <p>
                     With several million points of data within our stop-and-frisk database contributing to an interactive classification and visualization and being sent to and from the browser, performance was key.
@@ -263,18 +267,26 @@
             </div>
     </section>
 
-     <section id="proposal" class="container content-section text-center">
+     <section id="review" class="container content-section text-center">
         <div class="row">
              <div class="col-lg-8 col-lg-offset-2">
-                <h2>Original Proposal Review</h2>
-               
+                <h2>Looking Back</h2>
+                <h3>Proposal Review</h3>
+                <p>
+                    We narrowed down our features to age, sex, race and location. The decision to remove height, weight, build, and hair/eye color was made due to the lack of negative sample data. The average values for these features could certainly be found and assumed independant across the entire New York population, but we felt this would be too far of a misrepresentation, detracting from the overall purpose of our web application which is so tied to identity. 
+                </p>
+                <p>
+                    We realize we were highly optimistic, thinking that we would have time to integrate Twitter sentiment to hit our 125% goal.
+                </p>
+                <h3>What Worked?</h3>
+                <h3>What Didn't Work?</h3>
             </div>
     </section>
 
     <section id="future" class="container content-section text-center">
         <div class="row">
              <div class="col-lg-8 col-lg-offset-2">
-                <h2>What Now?</h2>
+                <h2>Looking Forward</h2>
                
             </div>
     </section>
