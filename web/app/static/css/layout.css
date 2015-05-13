@@ -1,5 +1,9 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans');
 /*TODO: let's get bebas neue in here for haders;*/
+@font-face {
+    font-family: bebas;
+    src: url("../bebas/TTF's/BebasNeue Regular.ttf");
+}
 
 html{
 	font-family: 'Open Sans';
@@ -12,11 +16,13 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: 'Open Sans';
+	font-family: 'bebas';
 	font-weight: 600;
 	background: none;
 	color: white;
+	margin: 10px;
 }
+
 .page_div{
   height: 100vh;
 }
@@ -28,7 +34,7 @@ body{
 
 #header {
 	text-align: center;
-	font-size: 70px;
+	font-size: 100px;
   height: 300;
   width: 100%;
 }
@@ -58,4 +64,8 @@ body{
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
+}
+
+#logo {
+
 }

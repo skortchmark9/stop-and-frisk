@@ -1,9 +1,9 @@
   $(document).ready(function() {
-    $('#selection_div').onePageNav({
-      currentClass: 'current',
-      changeHash: false,
-      scrollSpeed: 750
-    });
+    // $('#selection_div').onePageNav({
+    //   currentClass: 'current',
+    //   changeHash: false,
+    //   scrollSpeed: 750
+    // });
 
     var top = $('#selection_div').offset().top - parseFloat($('#selection_div').css('margin-top').replace(/auto/, 0));
 
@@ -19,7 +19,6 @@
       } else {
         // otherwise remove it
         $('#selection_div').removeClass('fixed');
-        toggleScroller();
       }
     });
   });

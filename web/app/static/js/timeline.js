@@ -163,6 +163,7 @@ function addTimepiece(title, text, link, date){
 
 	var tooltip = document.createElement("a");
 	tooltip.setAttribute("href", link);
+	tooltip.setAttribute('target', "_blank");
 	tooltip.setAttribute("class", "tooltip");
 
 	var timepiece = document.createElement("div");
