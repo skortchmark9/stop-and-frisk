@@ -96,8 +96,6 @@ def count_total(year, date, age, race, sex):
     #c.execute(query)
     #resultset = c.fetchall()
 
-    print "Start count total!", type(date)
-
     qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
     resultset = []
 
@@ -109,8 +107,6 @@ def count_total(year, date, age, race, sex):
     resultset.extend(c.fetchall())
 
     c.close()
-
-    print "end count total"
 
     qualities = ['lat', 'lon', 'race', 'arstmade']
     return [dict(zip(qualities, format_item(item))) for item in resultset]

@@ -1,6 +1,6 @@
 
 #identity{
-  font-size: 42px;
+  font-size: 30px;
 /*  font-family:
 */}
 
@@ -13,7 +13,7 @@
 
 #selection_div {
   background: rgb(43, 62, 87);
-  height: 120px;
+  
   position: absolute;
   bottom: 0px;
   width: 100%;
