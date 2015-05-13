@@ -136,7 +136,7 @@
                 <p>
                     This was used to provide ogr2ogr with the necessary projection to convert New York state coordinates into latitude/longitude, enabling it to be used with our other data and visualization system.</p>
                 <h4>Shapefile</h4>
-                <h4>Latitude/Longitude to Census Tract</h4>t
+                <h4>Latitude/Longitude to Census Tract</h4>
 
                 <a href="http://www.nyc.gov/html/ccrb/html/news/statistics.shtml"> <h3>NYC Civilian Complaint Review Board</h3></a>
                 <p>
@@ -176,6 +176,14 @@
                 </p>
 
                 <h3>API</h3>
+                <p><b>route('/'):</b> information presented in the “layout.html”,timeline information,demographics,income are included.</br>
+                <b>route('/selection'):</b> refers to the page 'selection.html', offers the button to select your age,ethnicity and gender.</br>
+                <b>route('/update_heatmap'):</b> gets the probability of each tract and the average probability of all tracts given the age and race, the probability is given using the machine learning method</br>
+                <b>route('/update_timeline'):</b> adding the timeline with the number of stop and frisks through the whole time.</br>
+                <b>route('/update_stops'):</b> returns the stops that meet the requirement of specific year,date,age,race and sex</br>
+                <b>route('/sf_heatmap'):</b> renders the 'sf_heatmap.html' page with data of counts over all tracts.</br>
+                <b>route('/zoom'):</b> returns the collection of data within this section when selected a square section on the map.</br>
+                <b>route('/help'):</b> renders the page 'census_block_finder.html' with datas on the heat map(namely a point of data is marked on the map), each data has the form like {'lat' : lat, 'lng' : lng, 'race' : row['race']} in the program.</p>
 
                 <h3>Web Application</h3>
                 <p>The goal with our web application was to bring a new dimension from the data by allowing users to interact with the classifier. Results have more impact if they can be connected to a person's own life - if you were walking down the streets of New York, would you be profiled?</p>
