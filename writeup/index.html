@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Grayscale - Start Bootstrap Theme</title>
+    <title>Stop & Frisk</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +59,7 @@
                         <a class="page-scroll" href="#methodology">Methodology</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#download">Download</a>
+                        <a class="page-scroll" href="#results">Results</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -94,25 +94,34 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>About</h2>
-                <p> For our final project for Brown University's <a href="http://cs.brown.edu/courses/csci1951-a/">cs1951a: Introduction to Data Science</a>, we chose to aggregate and analyze data relating to New York City's controversal practice of police searching citizens on the street without reason, known widely as "stop-and-frisk." </p>
+                <p> For our final project for Brown University's <a href="http://cs.brown.edu/courses/csci1951-a/">cs1951a: Introduction to Data Science</a>, we chose to aggregate data relating to New York City's controversal practice of police searching citizens on the street without reason, widely known as "stop-and-frisk." </p>
                 <p>We analyzed and visualized NY stop-and-frisk data to illuminate patterns and correlations between events across different factors and times.</p>
             </div>
         </div>
     </section>
 
-    <section id="datasets" class="container content-section text-center">
+    <section id="datasets" class="container content-section">
         <div class="row">
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Datasets</h2>
 
                 <a href="http://www.nyc.gov/html/nypd/html/analysis_and_planning/stop_question_and_frisk_report.shtml"> <h3>NYPD | Stop, Question and Frisk Report Database</h3></a>
                 <p>
-                    The stop-and-frisk dataset is rich and comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprised 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
+                    The stop-and-frisk dataset is rich, comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprising of 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
+                </p>
+                <a href="http://www.nyc.gov/html/dcp/html/census/demo_tables_2010.shtml"><h3>NYC Census Tables</h3></a>
+                <p>
+                    The census data provided fine-grained location information, splitting New York into 2,168 individual census tracts.
                 </p>
 
-                <h3>Census</h3>
+                <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_DP05&prodType=table"><h4>Census Demographic and Housing Estimates</h4></a>
                 <p>
-                    Census data was divided into separate tables for race, age, and sex. It provided fine-grained location information, splitting New York into 2,168 individual census tracts.
+                    Census data was divided into separate tables for race, age, and sex. 
+                </p>
+
+                <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_B19013&prodType=table"><h4>Census Medium Household Income</h4></a>
+                <p>
+                    This data was used to determine the income for each census tract.
                 </p>
 
                 <h3>Coordinate Translation Sets</h3>
@@ -135,7 +144,7 @@
             </div>
     </section>
 
-    <section id="methodology" class="container content-section text-center">
+    <section id="methodology" class="container content-section">
         <div class="row">
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Methodology</h2>
@@ -152,19 +161,57 @@
                 <h3>API</h3>
 
                 <h3>Web Application</h3>
-                <p>The goal with our web application was to bring a new dimension of </p>
+                <p>The goal with our web application was to bring a new dimension from the data by allowing users to interact with the classifier. Results have more impact if they can be connected to a person's own life - if you were walking down the streets of New York, would you be profiled?</p>
+
                 <h4>Structure</h4>
+                <p>Our web application consists of a series of dropdown options to select input characteristics, a map, a date slider to select any month in the range of 2006-2014, selectable press release summaries, and a timeline.</p>
+
+                <h5>Dropdown Options</h5>
+                <p>
+                    The available drop down options are sex, age, and race. All 3 must be selected before the rest of the page is updated.
+                </p>
+                <h5>Map</h5>
+                <img class="img-responsive center-block" src="img/map/map-plain.png"/>
+                <p>
+                    We used d3 to display a GeoJSON file of New York City and the surrounding areas divided by census tracts. This map can be panned by clicking and dragging, and zoomed in on with the scroll wheel.
+                </p>
+                <h5>Date Slider</h5>
+                <img class="img-responsive center-block" src="img/date-slider.png"/>
+                <p>
+                   The date slider is used to select the point in time for the map to display the likelihood of being stopped and frisked at each census tract.
+                </p>
+                <h5>Press Releases</h5>
+                <img class="img-responsive center-block" src="img/timepieces.png"/>
+                <p>
+                   Press releases are displayed in small circles directly above the timeline. Police are not conducting stop-and-frisks in a vacuum - the location of the press releases provides context for the fluctionations in searches. This allows the data to begin to tell a story.
+                </p>
+                <img class="img-responsive center-block" src="img/timeline-select.png"/>
+                <p>
+                    Users can hover over the press release circles to gain more information about what it is about. Each press release contains a headline and description. Clicking on the press release will take the user to a relevant article about the event so that they can delve deeper on the course of events.
+                </p>
+                <h5>Timeline</h5>
+                <p>
+                   We used d3 to create a timeline with one static white line repesenting the total number of stop-and-frisks which happened each day over time. The second blue line dynamically responds to the selected characteristics, showing how the chance of being stopped and frisked changes over time. This timeline lines up with the time slider, allowing the user to easily jump to points they might find interesting.
+                </p>
+            </div>
             </div>
     </section>
 
-    <section id="challenges" class="container content-section text-center">
+    <section id="challenges" class="container content-section">
         <div class="row">
              <div class="col-lg-8 col-lg-offset-2">
                 <h2>Challenges</h2>
                 <h3>Data Wrangling</h3>
-
+                <p>
+                    One difficult challenge was figuring out how to apply machine learning techniques to a dataset with only positive samples. That is, in standard supervised machine learning algorithms, it is assumed that you have samples labeled as both the "positive" and "negative" classes. However, in considering the probability of being stopped or not, we only had direct access to positive data. Though the NYPD stop-and-frisk dataset has an extensive set of features, the exact relationship between these features and the general population is unknown. 
+                </p>
+                <p>
+                    After researching approaches to similar problems (such as recommendation engines where only "liked" data is known), we decided to generate samples to approximate realistic negative data. We used various data from New York City's censys to generate representative negative samples. Unfortunately, census data is limited. Tables are seperate for race and age/sex, for example, and there are no tables for many of the features we origionally intended to examine. In addition, the census data was formatted completely differently, down to how each census tract was identified. When our picture remained incomplete, we assumed independence between the features of age/sex and gender. 
+                </p>
                 <h3>Coordinate Conversion</h3>
-
+                <p>
+                    Our location data was coming from multiple sources in multiple formats, and needed to be made compatible with our visualization setup. We had originally assumed that the NYPD stop-and-frisk database was in latitude/longitude format - this was not the case. We had to normalize the location and quantile data, sending it through a TIGER shapefile, ogr2ogr, GeoJSON, TopoJSON, SVG, and Latitude/Longitude. 
+                </p>
                 <h3>Performance</h3>
                 <p>
                     With several million points of data within our stop-and-frisk database contributing to an interactive classification and visualization and being sent to and from the browser, performance was key.
@@ -172,53 +219,195 @@
             </div>
     </section>
 
+    <section id="results" class="container content-section">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Results</h2>
+                <h3>Classifier Output</h3>
+                <p>
+                    The following table was created by averaging out the likelihoods for adults (ages 18-60) on 10 random dates from every year in 2006-2014.
+                </p>
+                <table class="table">
+                    <tr>
+                        <th>Race/Sex</th>
+                        <th>Female</th>
+                        <th>Male</th>
+                    </tr>
+                    <tr>
+                        <th>Black</th>
+                        <td>0.619</td>
+                        <td>2.652</td>
+                    </tr>
+                    <tr>
+                        <th>White</th>
+                        <td>0.108</td>
+                        <td>0.910</td>
+                    </tr>
+                    <tr>
+                        <th>Hispanic</th>
+                        <td>0.291</td>
+                        <td>1.782</td>
+                    </tr>
+                    <tr>
+                        <th>Other</th>
+                        <td>0.122</td>
+                        <td>0.998</td>
+                    </tr>
+
+                </table>
+
+                <h3>Visualization</h3>
+                <h4>Map</h4>
+                <p>
+                    After the user interacts with the drop down options, the map will automatically be populated with a variety of related information.
+                </p>
+                <img class="img-responsive center-block" src="img/map/map-plain-19-white-male.png"/>
+                <h12 class="center-block text-center">Male, 19 Years Old, White</h12>
+                <p>
+                    Individual census tracts will be colored to reflect the likelihood with which an individual with the selected characteristics would be stopped and frisked by an officer in relation to the average person, in the month selected on the timeline below. The darker the color, the more likely a stop, as shown by the key to the right of the map.
+                </p>
+                <img class="img-responsive center-block" src="img/map/map-tooltip.png"/>
+                <h12 class="center-block text-center">Male, 19 Years Old, White</h12>
+                <p>
+                    Users can explore individual census tracts by hovering over them, which will bring up a tooltip explaining where the tract is, what the exact likelihood is, the average income of the tract, the number of stop and frisk complaints against NYPD for that year, and the racial distribution of the tract. They can also click to zoom in and focus on the tract.
+                </p>
+                 <img class="img-responsive center-block" src="img/map/map-arrests-24-black-male.png"/>    
+                <h12 class="center-block text-center">Male, 24 Years Old, Black</h12>
+                <p>
+                    Actual stop and frisk incidents from the NYPD database in the selected month will be displayed on the map in the form of dots. Red dots represent an arrest, and yellow dots represent a stop that did not lead to an arrest. 
+                </p>
+            </div>
+    </section>
+
+     <section id="review" class="container content-section">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Looking Back</h2>
+                <h3>Proposal Review</h3>
+
+                <h4>Implementation Plan</h4>
+                <p>
+                    We narrowed down our features to age, sex, race and location. The decision to remove height, weight, build, and hair/eye color was made due to the lack of negative sample data. The average values for these features could certainly be found and assumed independant across the entire New York population, but we felt this would be too far of a misrepresentation, detracting from the overall purpose of our web application which is so tied to identity. 
+                </p>
+                <p>
+                    We realize we were highly optimistic, thinking that we would have time to integrate Twitter sentiment to hit our 125% goal.
+                </p>
+                <h4>Timeline</h4>
+                <p>
+                    Our timeline ended up being being inaccurate in a variety of ways. Some aspects of the project, such as the heatmap of stop-and-frisks, could not be begun until much later, due to unforseen difficulties in coordinates. We did not realize how much data wrangling would have to be done until it could be used in some useful way, despite believing ourselves to be good, cautious data scientists.
+                </p>
+                <p>
+                    Because of these holdups, other members of the group began completing other, independant portions of the project. These sections, such as timeline information, were integrated quite early despite initially being planned for the end.
+                </p>
+                <h4>UI Mockup</h4>
+                <p>
+                    We initially believed that 
+                </p>
+                <p>
+                    We also intended to give little profiles for the blend of characteristics which were overall most and least likely to be stopped. However, we felt as though this might be a bit contentious, and might make the user jump to assumptions that we didn't necessarily want them to make about our analysis. In addition to this, these profiles would not be very interesting once we shrunk our feature set.
+                </p>
+                <h3>What Worked?</h3>
+                <h3>What Didn't Work?</h3>
+                <p>
+                    We initially believed we would use a Naive Bayes classifier.
+                </p>
+                <p>
+                    We initally treated time as a vector, instead of separating it into buckets by month. For a while we believed this to be an effective strategy, but once more visualiztion components were complete, we realized that this was overgeneralizing trendlines, and underfitting to our data. It completely missed more subtle trends, prompting us to change how time was treated.
+                </p>
+            </div>
+    </section>
+
+    <section id="future" class="container content-section">
+        <div class="row">
+             <div class="col-lg-8 col-lg-offset-2">
+                <h2>Looking Forward</h2>
+               
+            </div>
+    </section>
+    
     <!-- Download Section -->
-    <section id="download" class="content-section text-center">
+    <section id="contact" class="content-section">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Download Grayscale</h2>
-                    <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-                    <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+                    <h2>The Team</h2>
+                <ul class="list-inline">
+                    <li>
+                        <p><b>Alexa Van Hattum</b></br>
+                        login: avanhatt</br>
+                        focus: data cleaning</br>
+                        & machine learning
+                        </p>
+                    </li>
+                    <li>
+                        <p><b>Eden Weizman</b></br>
+                        login: eweizman</br>
+                        focus: front end</br>
+                        developement
+                        </p>
+                    </li>
+                    <li>
+                        <p><b>Samuel Kortchmar</b></br>
+                        login: skortchm</br>
+                        focus: app framework</br>
+                        & visualizations</p>
+                    </li>
+                    <li>
+                       <p><b>Wenyi Lu</b></br>
+                        login: wl58</br>
+                        focus: SQL </br>
+                        database</p>
+                    </li>
+                </ul>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="container content-section text-center">
+    <!-- <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-9 col-lg-offset-2">
                 <h2>The Team</h2>
                 <ul class="list-inline">
                     <li>
                         <p>Alexa Van Hattum</br>
-                        CS login: </p>
+                        login: avanhatt</br>
+                        focus: data cleaning</br>
+                        & machine learning
+                        </p>
                     </li>
                     <li>
                         <p>Eden Weizman</br>
-                        CS login: eweizman</p>
+                        login: eweizman</br>
+                        focus: front end</br>
+                        developement
+                        </p>
                     </li>
                     <li>
                         <p>Samuel Kortchmar</br>
-                        CS login: </p>
+                        login: skortchm</br>
+                        focus: app framework</br>
+                        & visualizations</p>
                     </li>
                     <li>
                        <p> Wenyi Lu</br>
-                        CS login: </p>
+                        login: wl58</br>
+                        focus: database</br>
+                        & API</p>
                     </li>
                 </ul>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Map Section -->
-    <div id="map"></div>
+<!--     <div id="map"></div> -->
 
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>Copyright &copy; Your Website 2014</p>
+            <p>Final Project Report, Spring 2015</p>
         </div>
     </footer>
 
