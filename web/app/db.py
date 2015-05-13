@@ -63,7 +63,7 @@ def get_time_series(requir_dict=[]):
         for key in requir_dict:
             if key == 'race':
                 query += (key+"in ? and ")  
-                value_list.append(str(tuple(convert_races(requir_dict[key]))))
+                value_list.append(tuple(convert_races(requir_dict[key])))
             else: 
                 query += (key+"=? and ")
                 value_list.append(requir_dict[key])
@@ -83,7 +83,7 @@ def get_time_series(requir_dict=[]):
 
     result_list=[]
     for item in resultset:
-        issue_list =["year", "datestop", "num"]
+        issue_list = ["year", "datestop", "num"]
         if int(item[0]) >= 2006:
             date = item[1] + item[0]
             qty = item[2]
@@ -94,18 +94,15 @@ def get_time_series(requir_dict=[]):
 def count_total(year, date, age, race, sex):
     db1 = get_db_1()
     c = db1.cursor()
-   # qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
-    #query = "select {0} from stop_and_frisked where year={1} and datestop='{2}' and age={3} and race='{4}' and sex='{5}'"
-    #query = query.format(','.join(qualities), year, date, age, race, sex)
-    #c.execute(query)
-    #resultset = c.fetchall()
 
     qualities = ['xcoord', 'ycoord', 'race', 'arstmade']
+    races = convert_races(race)
 
     start_date = date[:2] + "00"
     end_date = date[:2] + "32"
-    query = "select {0} from stop_and_frisked where year={1} and datestop between '{2}' and '{3}' and age={4} and race in '{5}' and sex='{6}'"
-    query = query.format(','.join(qualities), year, start_date, end_date, age, str(tuple(races)), sex)
+    query = "select {0} from stop_and_frisked where year={1} and datestop between '{2}' and '{3}' and age={4} and race in {5} and sex='{6}'"
+    query = query.format(','.join(qualities), year, start_date, end_date, age, tuple(races), sex)
+    print '***************', query
     c.execute(query)
     resultset = c.fetchall()
 
