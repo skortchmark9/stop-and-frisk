@@ -109,7 +109,7 @@
 
                 <a href="http://www.nyc.gov/html/nypd/html/analysis_and_planning/stop_question_and_frisk_report.shtml"> <h3>NYPD | Stop, Question and Frisk Report Database</h3></a>
                 <p>
-                    The stop-and-frisk dataset is rich, comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprising of 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic. 
+                    The stop-and-frisk dataset is rich, comprehensive, and contains over 5 million individual stop-and-frisk incidents from 2002 to 2014, in CSV format. We focused on the data from 2006-2014  (comprising of 4,157,770 data points) because during this period, the exact location of the stop was available, allowing us to create fine-grained visualizations. This location data is stored in NY state coordinates, which had to be converted to be usable with our other data (using methods described below). This dataset required more cleaning than originally thought, as upon further inspection, some values were missing or unrealistic.
                 </p>
                 <a href="http://www.nyc.gov/html/dcp/html/census/demo_tables_2010.shtml"><h3>NYC Census Tables</h3></a>
                 <p>
@@ -118,7 +118,7 @@
 
                 <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_DP05&prodType=table"><h4>Census Demographic and Housing Estimates</h4></a>
                 <p>
-                    Census data was divided into separate tables for race, age, and sex. 
+                    Census data was divided into separate tables for race, age, and sex.
                 </p>
 
                 <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_B19013&prodType=table"><h4>Census Medium Household Income</h4></a>
@@ -129,11 +129,16 @@
                 <h3>Coordinate Translation Sets</h3>
                 <a href="http://www.gdal.org/ogr2ogr.html"><h4>ogr2ogr</h4></a>
                 <p>
-                   ogr2ogr is a useful program which facilitates the conversion of one coordinate system into another. 
+                   ogr2ogr is a useful program which facilitates the conversion of one coordinate system into another.
                 </p>
                 <a href="http://spatialreference.org/ref/epsg/nad83-new-york-long-island-ftus/"><h4>Spatial Projection of New York and Long Island</h4></a>
                 <p>
                     This was used to provide ogr2ogr with the necessary projection to convert New York state coordinates into latitude/longitude, enabling it to be used with our other data and visualization system.</p>
+                <h4>Shapefile</h4>
+                We went through several shapefiles before we achieved our final result. We started with a map of New York State but found that the there were census tracts that were partially underwater and marred the otherwise-familiar NYC profile. Finally, we found one which combined a census shapefile with an aerial flyover view.
+                <h4>Latitude/Longitude to Census Tract</h4>
+                We used polygon-in-polygon matching to identify the census tract in which a given latitude/longitude pair matched.
+
                 <a href="http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml"><h4>Shapefile</h4></a>
                 <p>
                     Fine-grained, census tract shapefile from Bytes of the Big Apple. 
@@ -144,7 +149,7 @@
                 </p>
                 <a href="http://www.nyc.gov/html/ccrb/html/news/statistics.shtml"> <h3>NYC Civilian Complaint Review Board</h3></a>
                 <p>
-                    This database provides police complaints by precinct from 2003-2013. 
+                    This database provides police complaints by precinct from 2003-2013.
                 </br>
                     We converted precinct information to census tract using <a href="http://johnkeefe.net/nyc-police-precinct-and-census-data">multiple conversion files</a>.
                 </p>
@@ -160,23 +165,23 @@
                     For this project, data cleaning was an iterative process. We began by scraping the massive stop and frisk data files down to the relevant attributes. In that same process, we also noticed that some attributes had unrealistic values - for example, an 'age' of '999'. We removed any such data points from consideration.
                 </p>
                 <p>
-                    From there, much of the data cleaning involved integrating data from multiple sources. A Census tract, for example, was represented in different sources as a 6-character string, 7-character string, 9-character string, or 15-character string. Combining such data involved thoroughly researching various New York City and Census Borough representation practices. 
+                    From there, much of the data cleaning involved integrating data from multiple sources. A Census tract, for example, was represented in different sources as a 6-character string, 7-character string, 9-character string, or 15-character string. Combining such data involved thoroughly researching various New York City and Census Borough representation practices.
                 </p>
                 <h3>Machine Learning</h3>
                 <p>
-                    One way to determine the probability of a person with certain characteristics to be stopped would be to count the number of such instances on that particular day, and compare that to the population of NYC. However, this approach would be highly susceptible to noise - looking at each day and characteristic individually may not reveal many trends. Instead, we decided to use machine learning to generate a classifier that could predict the probability of a given person being stopped. 
+                    One way to determine the probability of a person with certain characteristics to be stopped would be to count the number of such instances on that particular day, and compare that to the population of NYC. However, this approach would be highly susceptible to noise - looking at each day and characteristic individually may not reveal many trends. Instead, we decided to use machine learning to generate a classifier that could predict the probability of a given person being stopped.
                 </p>
                 <p>
-                    That being decided, we needed to manipulate our data into a format conducive to standard machine learning algorithms. See the “Challenges: Data Wrangling” section on the difficulty of deciding the best way to do this.  
+                    That being decided, we needed to manipulate our data into a format conducive to standard machine learning algorithms. See the “Challenges: Data Wrangling” section on the difficulty of deciding the best way to do this.
                 </p>
                 <p>
-                    After researching similar problems, we ultimately decided to generate a representative sample of the NYC population to use as “negative” data points to weigh against the “positive” data points in the stop-and-frisk database. We combined one census table of sex and age by census tract and another of race by census tract, assuming the two were independently distributed. We used solely the 2010 census information and randomly scattered the negative data points throughout the relevant timeframe.  
+                    After researching similar problems, we ultimately decided to generate a representative sample of the NYC population to use as “negative” data points to weigh against the “positive” data points in the stop-and-frisk database. We combined one census table of sex and age by census tract and another of race by census tract, assuming the two were independently distributed. We used solely the 2010 census information and randomly scattered the negative data points throughout the relevant timeframe.
                 </p>
                 <p>
-                   We then used logistic regression on our input data to give the most viable prediction of the probability of stop-and-frisk given a set of input characteristics chosen by the user. The classifier is trained on five attributes - year/month, age, race, sex, and census tract. However, we treated every vector but age as a series of binary indicator features. Dates are bucketed approximately by month so that there will be a sufficient number of stop-and-frisk incidents for the classifier to create accurate inferences, while still retaining the ability to analyze a relatively fine-grained period of time. Age is treated as a vector, allowing for general trends to become prominent without overfitting to the specific ages of the people who were stopped in a narrow range of time, given that age can vary across a large range. We used the DictVectorizer and LinearRegression modules of python's scikit-learn toolkit. 
+                   We then used logistic regression on our input data to give the most viable prediction of the probability of stop-and-frisk given a set of input characteristics chosen by the user. The classifier is trained on five attributes - year/month, age, race, sex, and census tract. However, we treated every vector but age as a series of binary indicator features. Dates are bucketed approximately by month so that there will be a sufficient number of stop-and-frisk incidents for the classifier to create accurate inferences, while still retaining the ability to analyze a relatively fine-grained period of time. Age is treated as a vector, allowing for general trends to become prominent without overfitting to the specific ages of the people who were stopped in a narrow range of time, given that age can vary across a large range. We used the DictVectorizer and LinearRegression modules of python's scikit-learn toolkit.
                 </p>
                 <p>
-                    To make the resulting probabilities the most meaningful to viewers, we represented the probabilities as a likelihood given by the ratio of that person to the “average” New Yorker. This average was determined by comparing the number of negative and positive samples our classifier was trained on. For example, a likelihood of ‘2.5’ indicated that the probability of that individual being stopped is 2.5 times the probability of an average New Yorker being stopped. 
+                    To make the resulting probabilities the most meaningful to viewers, we represented the probabilities as a likelihood given by the ratio of that person to the “average” New Yorker. This average was determined by comparing the number of negative and positive samples our classifier was trained on. For example, a likelihood of ‘2.5’ indicated that the probability of that individual being stopped is 2.5 times the probability of an average New Yorker being stopped.
                 </p>
 
                 <h3>API</h3>
@@ -241,14 +246,14 @@
                 <h2>Challenges</h2>
                 <h3>Data Wrangling</h3>
                 <p>
-                    One difficult challenge was figuring out how to apply machine learning techniques to a dataset with only positive samples. That is, in standard supervised machine learning algorithms, it is assumed that you have samples labeled as both the "positive" and "negative" classes. However, in considering the probability of being stopped or not, we only had direct access to positive data. Though the NYPD stop-and-frisk dataset has an extensive set of features, the exact relationship between these features and the general population is unknown. 
+                    One difficult challenge was figuring out how to apply machine learning techniques to a dataset with only positive samples. That is, in standard supervised machine learning algorithms, it is assumed that you have samples labeled as both the "positive" and "negative" classes. However, in considering the probability of being stopped or not, we only had direct access to positive data. Though the NYPD stop-and-frisk dataset has an extensive set of features, the exact relationship between these features and the general population is unknown.
                 </p>
                 <p>
                     After researching approaches to similar problems (such as recommendation engines where only "liked" data is known), we decided to generate samples to approximate realistic negative data. We used various data from New York City's census to generate representative negative samples. Unfortunately, census data is limited. Tables are separate for race and age/sex, for example, and there are no tables for many of the features we originally intended to examine. In addition, the census data was formatted completely differently, down to how each census tract was identified. When our picture remained incomplete, we assumed independence between the features of age/sex and gender.
                 </p>
                 <h3>Coordinate Conversion</h3>
                 <p>
-                    Our location data was coming from multiple sources in multiple formats, and needed to be made compatible with our visualization setup. We had originally assumed that the NYPD stop-and-frisk database was in latitude/longitude format - this was not the case. We had to normalize the location and quantile data, sending it through a TIGER shapefile, ogr2ogr, GeoJSON, TopoJSON, SVG, and Latitude/Longitude. 
+                    Our location data was coming from multiple sources in multiple formats, and needed to be made compatible with our visualization setup. We had originally assumed that the NYPD stop-and-frisk database was in latitude/longitude format - this was not the case. We had to normalize the location and quantile data, sending it through a TIGER shapefile, ogr2ogr, GeoJSON, TopoJSON, SVG, and Latitude/Longitude.
                 </p>
                 <h3>Performance</h3>
                 <p>
@@ -309,10 +314,10 @@
                 <p>
                     Users can explore individual census tracts by hovering over them, which will bring up a tooltip explaining where the tract is, what the exact likelihood is, the average income of the tract, the number of stop and frisk complaints against NYPD for that year, and the racial distribution of the tract. They can also click to zoom in and focus on the tract.
                 </p>
-                 <img class="img-responsive center-block" src="img/map/map-arrests-24-black-male.png"/>    
+                 <img class="img-responsive center-block" src="img/map/map-arrests-24-black-male.png"/>
                 <h12 class="center-block text-center">Male, 24 Years Old, Black</h12>
                 <p>
-                    Actual stop and frisk incidents from the NYPD database in the selected month will be displayed on the map in the form of dots. Red dots represent an arrest, and yellow dots represent a stop that did not lead to an arrest. 
+                    Actual stop and frisk incidents from the NYPD database in the selected month will be displayed on the map in the form of dots. Red dots represent an arrest, and yellow dots represent a stop that did not lead to an arrest.
                 </p>
             </div>
     </section>
@@ -325,7 +330,7 @@
 
                 <h4>Implementation Plan</h4>
                 <p>
-                    We narrowed down our features to age, sex, race and location. The decision to remove height, weight, build, and hair/eye color was made due to the lack of negative sample data. The average values for these features could certainly be found and assumed independant across the entire New York population, but we felt this would be too far of a misrepresentation, detracting from the overall purpose of our web application which is so tied to identity. 
+                    We narrowed down our features to age, sex, race and location. The decision to remove height, weight, build, and hair/eye color was made due to the lack of negative sample data. The average values for these features could certainly be found and assumed independant across the entire New York population, but we felt this would be too far of a misrepresentation, detracting from the overall purpose of our web application which is so tied to identity.
                 </p>
                 <p>
                     We realize we were highly optimistic, thinking that we would have time to integrate Twitter sentiment to hit our 125% goal.
@@ -367,7 +372,7 @@
                <p>Another option would be to focus on marketing rather than extend the project. We could discuss how to increase the visibility of our analysis, and use our web app to promote awareness about the problem of racial profiling. Users could be directed to our site, and be encouraged to explore and draw their own conclusions about what's happening to produce the classification results.</p>
             </div>
     </section>
-    
+
     <!-- Download Section -->
     <section id="contact" class="content-section">
         <div class="download-section">
